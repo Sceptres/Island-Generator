@@ -1,8 +1,10 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 import java.util.Random;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
@@ -40,6 +42,33 @@ public class DotGen {
         }
 
         return Mesh.newBuilder().addAllVertices(verticesWithColors).build();
+    }
+
+    /**
+     *
+     * @param properties The properties of the element to extract the color of
+     * @return The {@link Color} of the element
+     */
+    private Color extractColor(List<Property> properties) {
+        String val = null;
+
+        // Get color property value
+        for(Property p: properties) {
+            if (p.getKey().equals("rgb_color")) {
+                System.out.println(p.getValue());
+                val = p.getValue();
+            }
+        }
+
+        if (val == null) // No color?
+            return Color.BLACK;
+
+        // Get color from property
+        String[] raw = val.split(",");
+        int red = Integer.parseInt(raw[0]);
+        int green = Integer.parseInt(raw[1]);
+        int blue = Integer.parseInt(raw[2]);
+        return new Color(red, green, blue);
     }
 
 }
