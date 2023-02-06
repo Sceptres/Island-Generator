@@ -1,6 +1,6 @@
 # Assignment A2: Mesh Generator
 
-  - Author #1 [email@mcmaster.ca]
+  - Omar Shehada [shehadao@mcmaster.ca]
   - Abdallah Alqashqish [alqashqa@mcmaster.ca]
   - Beshoy Hezky [hezkyb@mcmaster.ca]
 
