@@ -10,6 +10,7 @@ import java.util.Random;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 
 public class DotGen {
 
@@ -88,6 +89,31 @@ public class DotGen {
         Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
 
         return Vertex.newBuilder().setX(x).setY(y).addProperties(color).build();
+    }
+
+    /**
+     *
+     * @param v1 The {@link Vertex} on the left side of the segment
+     * @param v2 The {@link Vertex} on the right side of the segment
+     * @param v1Idx The index of v1
+     * @param v2Idx The index of v2
+     * @return The {@link Segment} connecting v1 and v2 with color of the average of the colors of the vertices
+     */
+    private Segment getSegmentWithColor(Vertex v1, Vertex v2, int v1Idx, int v2Idx) {
+        // Get vertex 1 and vertex 2 colors
+        Color v1Color = extractColor(v1.getPropertiesList());
+        Color v2Color = extractColor(v2.getPropertiesList());
+
+        // Generate segment color RGB values
+        int red = (v1Color.getRed() + v2Color.getRed()) / 2;
+        int green = (v1Color.getGreen() + v2Color.getGreen()) / 2;
+        int blue = (v1Color.getBlue() + v2Color.getBlue()) / 2;
+
+        // Segment color property
+        String colorCode = red + "," + green + "," + blue;
+        Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
+
+        return Segment.newBuilder().setV1Idx(v1Idx).setV2Idx(v2Idx).addProperties(color).build();
     }
 
 }
