@@ -71,4 +71,23 @@ public class DotGen {
         return new Color(red, green, blue);
     }
 
+    /**
+     *
+     * @param x The x position of the {@link Vertex}
+     * @param y The y position of the {@link Vertex}
+     * @return The {@link Vertex} instance
+     */
+    private Vertex getVertexWithColor(int x, int y) {
+        Random bag = new Random();
+        int red = bag.nextInt(255);
+        int green = bag.nextInt(255);
+        int blue = bag.nextInt(255);
+        String colorCode = red + "," + green + "," + blue;
+
+        // Create color property
+        Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
+
+        return Vertex.newBuilder().setX(x).setY(y).addProperties(color).build();
+    }
+
 }
