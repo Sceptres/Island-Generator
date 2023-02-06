@@ -2,10 +2,8 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
@@ -17,32 +15,41 @@ public class DotGen {
     private final int width = 500;
     private final int height = 500;
     private final int square_size = 20;
+    private final int num_dots_row = (width / square_size) + 1; // number of dots per row
 
     public Mesh generate() {
-        Set<Vertex> vertices = new HashSet<>();
-        // Create all the vertices
-        for(int x = 0; x < width; x += square_size) {
-            for(int y = 0; y < height; y += square_size) {
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());
-                vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y).build());
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y+square_size).build());
-                vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y+square_size).build());
+        List<Vertex> vertices = new ArrayList<>();
+        List<Segment> segments = new ArrayList<>();
+
+        // Counters to keep track of the indices of the vertices
+        int xIndex = 0;
+        int yIndexCount = 0;
+
+        // Create all the vertices and segments
+        for (int y = 0; y <= height; y += square_size) {
+            for (int x = 0; x <= width; x += square_size) {
+                Vertex v = getVertexWithColor(x, y);
+
+                // Add vertex
+                vertices.add(v);
+
+                // Add segments in row
+                if(xIndex%num_dots_row >= 1) { // Has there been at least 1 vertex added to this row?
+                    segments.add(getSegmentWithColor(vertices.get(xIndex-1), v, xIndex-1, xIndex));
+                }
+
+                // Add segments in column
+                if(xIndex >= num_dots_row) { // Is there at least 1 row added?
+                    int yIndex = ((yIndexCount-1)*num_dots_row) + (xIndex%num_dots_row);
+                    segments.add(getSegmentWithColor(v, vertices.get(yIndex), xIndex, yIndex));
+                }
+
+                xIndex++;
             }
-        }
-        // Distribute colors randomly. Vertices are immutable, need to enrich them
-        Set<Vertex> verticesWithColors = new HashSet<>();
-        Random bag = new Random();
-        for(Vertex v: vertices){
-            int red = bag.nextInt(255);
-            int green = bag.nextInt(255);
-            int blue = bag.nextInt(255);
-            String colorCode = red + "," + green + "," + blue;
-            Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-            Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
-            verticesWithColors.add(colored);
+            yIndexCount++;
         }
 
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).build();
+        return Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).build();
     }
 
     /**
