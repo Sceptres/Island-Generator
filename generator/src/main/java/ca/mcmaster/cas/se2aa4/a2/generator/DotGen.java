@@ -15,7 +15,7 @@ public class DotGen {
     private final int width = 500;
     private final int height = 500;
     private final int square_size = 20;
-    private final int num_dots_row = (width / square_size) + 1; // number of dots per row
+    private final int num_dots_ro = (width / square_size) + 1; // number of dots per row
 
     public Mesh generate() {
         List<Vertex> vertices = new ArrayList<>();
