@@ -16,7 +16,8 @@
         <module>generator</module>
         <module>io</module>
         <module>visualizer</module>
-    </modules>
+		<module>mesh</module>
+	</modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
