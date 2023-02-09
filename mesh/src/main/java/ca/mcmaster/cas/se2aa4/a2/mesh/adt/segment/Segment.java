@@ -29,4 +29,27 @@ public class Segment {
         this.segment = segment;
     }
 
+    /**
+     *
+     * @return The index of the first {@link Structs.Vertex} of the segment
+     */
+    public int getV1Idx() {
+        return this.segment.getV1Idx();
+    }
+
+    /**
+     *
+     * @return The index of the second {@link Structs.Vertex} of the segment
+     */
+    public int getV2Idx() {
+        return this.segment.getV2Idx();
+    }
+
+    /**
+     *
+     * @return The {@link List} of properties associated with this segment
+     */
+    public List<Structs.Property> getProperties() {
+        return this.segment.getPropertiesList();
+    }
 }
