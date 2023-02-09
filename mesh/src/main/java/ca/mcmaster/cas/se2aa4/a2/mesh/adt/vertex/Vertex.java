@@ -1,6 +1,7 @@
-package ca.mcmaster.cas.se2aa4.a2.mesh.adt;
+package ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 public class Vertex {
     private Structs.Vertex vertex;
@@ -73,6 +74,21 @@ public class Vertex {
         return finalValue;
     }
 
+    /**
+     *
+     * @param o object
+     * @return true if its the same object false if its not
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vertex vertex1 = (Vertex) o;
+        return Objects.equals(vertex, vertex1.vertex);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(vertex);
+    }
 }
