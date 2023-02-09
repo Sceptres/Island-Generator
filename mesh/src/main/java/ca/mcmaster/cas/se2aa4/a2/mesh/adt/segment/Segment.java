@@ -1,6 +1,8 @@
-package ca.mcmaster.cas.se2aa4.a2.mesh.adt;
+package ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+
+import java.util.List;
 
 public class Segment {
 
