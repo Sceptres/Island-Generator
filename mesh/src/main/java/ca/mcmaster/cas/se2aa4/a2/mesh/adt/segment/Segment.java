@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.util.List;
+import java.util.Optional;
 
 public class Segment {
 
@@ -51,6 +52,16 @@ public class Segment {
      */
     public List<Structs.Property> getProperties() {
         return this.segment.getPropertiesList();
+    }
+
+    /**
+     *
+     * @param key The key of the {@link Structs.Property} to get
+     * @return The {@link Structs.Property} with the given key
+     */
+    public Structs.Property getProperty(String key) {
+        Optional<Structs.Property> property = this.getProperties().stream().filter(p -> p.getKey().equals(key)).findFirst();
+        return property.orElse(null);
     }
 
     /**
