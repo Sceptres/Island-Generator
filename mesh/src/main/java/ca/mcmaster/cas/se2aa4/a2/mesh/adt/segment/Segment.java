@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Segment {
@@ -94,5 +95,13 @@ public class Segment {
      */
     public void addAllProperties(Iterable<? extends Structs.Property> properties) {
         this.segment = Structs.Segment.newBuilder(this.segment).addAllProperties(properties).build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Segment segment1 = (Segment) o;
+        return Objects.equals(segment, segment1.segment);
     }
 }
