@@ -52,4 +52,36 @@ public class Segment {
     public List<Structs.Property> getProperties() {
         return this.segment.getPropertiesList();
     }
+
+    /**
+     *
+     * @param v1Idx The new index of the first {@link Structs.Vertex} for the segment
+     */
+    public void setV1Idx(int v1Idx) {
+        this.segment = Structs.Segment.newBuilder(this.segment).setV1Idx(v1Idx).build();
+    }
+
+    /**
+     *
+     * @param v2Idx The new index of the second {@link Structs.Vertex} for the segment
+     */
+    public void setV2Idx(int v2Idx) {
+        this.segment = Structs.Segment.newBuilder(this.segment).setV2Idx(v2Idx).build();
+    }
+
+    /**
+     *
+     * @param p The {@link Structs.Property} to add to this segment
+     */
+    public void addProperty(Structs.Property p) {
+        this.segment = Structs.Segment.newBuilder(this.segment).addProperties(p).build();
+    }
+
+    /**
+     *
+     * @param properties All the {@link Structs.Property} to add
+     */
+    public void addAllProperties(Iterable<? extends Structs.Property> properties) {
+        this.segment = Structs.Segment.newBuilder(this.segment).addAllProperties(properties).build();
+    }
 }
