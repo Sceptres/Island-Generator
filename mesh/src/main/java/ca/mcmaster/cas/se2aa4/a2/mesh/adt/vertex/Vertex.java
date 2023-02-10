@@ -1,10 +1,13 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
+
 import java.text.DecimalFormat;
 import java.util.Objects;
 
-public class Vertex {
+public class Vertex implements Indexable {
     private Structs.Vertex vertex;
+    private int index;
 
     /**
      * regular vertex builder
@@ -32,6 +35,15 @@ public class Vertex {
 
     /**
      *
+     * @param index The index of this vertex in the list of vertices
+     */
+    @Override
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    /**
+     *
      * @param x x coordinate of vertex
      */
     public void setX(double x){
@@ -44,6 +56,15 @@ public class Vertex {
      */
     public void setY(double y){
        this.vertex = Structs.Vertex.newBuilder(this.vertex).setY(precision(y)).build();
+    }
+
+    /**
+     *
+     * @return The index of this vertex in the list of vertices
+     */
+    @Override
+    public int getIndex() {
+        return this.index;
     }
 
     /**
