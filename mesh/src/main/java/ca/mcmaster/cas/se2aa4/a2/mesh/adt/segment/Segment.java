@@ -7,6 +7,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.util.*;
+import java.util.List;
 
 public class Segment implements Indexable {
 
@@ -17,13 +18,30 @@ public class Segment implements Indexable {
 
     /**
      *
-     * @param v1Idx Index of the first {@link Structs.Vertex} of the {@link Segment}
-     * @param v2Idx Index of the second {@link Structs.Vertex} of the {@link Segment}
+     * @param v1 The first vertex of the segment. It is the vertex on the left side of the segment
+     * @param v2 The second vertex of the segment. It is the vertex on the right side of the segment.
      */
     public Segment(Vertex v1, Vertex v2) {
         this.v1 = v1;
         this.v2 = v2;
         this.properties = new Properties();
+    }
+
+    /**
+     *
+     * @param segment The {@link Structs.Segment} instance to wrap
+     * @param v1 The left vertex of the segment
+     * @param v2 The right vertex of the segment
+     */
+    public Segment(Structs.Segment segment, Structs.Vertex v1, Structs.Vertex v2) {
+        this.v1 = new Vertex(v1);
+        this.v2 = new Vertex(v2);
+        this.properties = new Properties();
+
+        List<Property> properties = segment.getPropertiesList().stream().map(Property::new).toList();
+        this.addAllProperties(properties);
+
+        this.index = -1;
     }
 
     @Override

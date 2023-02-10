@@ -6,6 +6,7 @@ public class Segments extends UniqueList<Segment> {
     @Override
     public boolean add(Segment t) {
         t.setIndex(super.size());
+        t.calculateColor();
         return super.add(t);
     }
 }
