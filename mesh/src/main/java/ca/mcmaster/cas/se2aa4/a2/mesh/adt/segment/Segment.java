@@ -97,6 +97,14 @@ public class Segment {
         this.segment = Structs.Segment.newBuilder(this.segment).addAllProperties(properties).build();
     }
 
+    /**
+     *
+     * @return Get the {@link Structs.Segment} instance that stores all segment data
+     */
+    public Structs.Segment getSegment() {
+        return this.segment;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
