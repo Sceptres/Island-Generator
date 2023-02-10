@@ -18,6 +18,15 @@ public class Property {
 
     /**
      *
+     * @param property The {@link Structs.Property} to wrap into this class
+     */
+    public Property(Structs.Property property) {
+        this.key = property.getKey();
+        this.value = property.getValue();
+    }
+
+    /**
+     *
      * @return the key of this property
      */
     public String getKey(){
