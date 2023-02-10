@@ -36,7 +36,7 @@ public class GraphicRenderer {
         }
 
         // Add segments
-        for(Segment segment : segments) {
+        /*for(Segment segment : segments) {
             // Get vertices assigned to this segment
             Vertex v1 = vertices.get(segment.getV1Idx());
             Vertex v2 = vertices.get(segment.getV2Idx());
@@ -46,7 +46,7 @@ public class GraphicRenderer {
             canvas.setColor(extractColor(segment.getPropertiesList()));
             canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
             canvas.setColor(old);
-        }
+        }*/
     }
 
 
