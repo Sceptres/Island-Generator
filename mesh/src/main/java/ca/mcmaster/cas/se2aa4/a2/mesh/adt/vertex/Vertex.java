@@ -33,10 +33,6 @@ public class Vertex implements Indexable {
         this.vertex = vertex;
     }
 
-    /**
-     *
-     * @param index The index of this vertex in the list of vertices
-     */
     @Override
     public void setIndex(int index) {
         this.index = index;
@@ -58,10 +54,6 @@ public class Vertex implements Indexable {
        this.vertex = Structs.Vertex.newBuilder(this.vertex).setY(precision(y)).build();
     }
 
-    /**
-     *
-     * @return The index of this vertex in the list of vertices
-     */
     @Override
     public int getIndex() {
         return this.index;
