@@ -1,14 +1,16 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Segment {
+public class Segment implements Indexable {
 
     private Structs.Segment segment;
+    private int index;
 
     public Segment() {
         this.segment = Structs.Segment.newBuilder().build();
@@ -29,6 +31,11 @@ public class Segment {
      */
     public Segment(Structs.Segment segment) {
         this.segment = segment;
+    }
+
+    @Override
+    public int getIndex() {
+        return this.index;
     }
 
     /**
@@ -63,6 +70,11 @@ public class Segment {
     public Structs.Property getProperty(String key) {
         Optional<Structs.Property> property = this.getProperties().stream().filter(p -> p.getKey().equals(key)).findFirst();
         return property.orElse(null);
+    }
+
+    @Override
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     /**
