@@ -1,36 +1,29 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class Segment implements Indexable {
 
-    private Structs.Segment segment;
+    private final Vertex v1;
+    private final Vertex v2;
+    private final Properties properties;
     private int index;
-
-    public Segment() {
-        this.segment = Structs.Segment.newBuilder().build();
-    }
 
     /**
      *
      * @param v1Idx Index of the first {@link Structs.Vertex} of the {@link Segment}
      * @param v2Idx Index of the second {@link Structs.Vertex} of the {@link Segment}
      */
-    public Segment(int v1Idx, int v2Idx) {
-        this.segment = Structs.Segment.newBuilder().setV1Idx(v1Idx).setV2Idx(v2Idx).build();
-    }
-
-    /**
-     *
-     * @param segment Create a {@link Segment} from a {@link Structs.Segment}
-     */
-    public Segment(Structs.Segment segment) {
-        this.segment = segment;
+    public Segment(Vertex v1, Vertex v2) {
+        this.v1 = v1;
+        this.v2 = v2;
+        this.properties = new Properties();
     }
 
     @Override
@@ -42,24 +35,26 @@ public class Segment implements Indexable {
      *
      * @return The index of the first {@link Structs.Vertex} of the segment
      */
-    public int getV1Idx() {
-        return this.segment.getV1Idx();
+    public Vertex getV1() {
+        return this.v1;
     }
 
     /**
      *
      * @return The index of the second {@link Structs.Vertex} of the segment
      */
-    public int getV2Idx() {
-        return this.segment.getV2Idx();
+    public Vertex getV2() {
+        return this.v2;
     }
 
     /**
      *
      * @return The {@link List} of properties associated with this segment
      */
-    public List<Structs.Property> getProperties() {
-        return this.segment.getPropertiesList();
+    public List<Property> getProperties() {
+        List<Property> properties = new Properties();
+        Collections.copy(properties, this.properties);
+        return properties;
     }
 
     /**
@@ -67,8 +62,8 @@ public class Segment implements Indexable {
      * @param key The key of the {@link Structs.Property} to get
      * @return The {@link Structs.Property} with the given key
      */
-    public Structs.Property getProperty(String key) {
-        Optional<Structs.Property> property = this.getProperties().stream().filter(p -> p.getKey().equals(key)).findFirst();
+    public Property getProperty(String key) {
+        Optional<Property> property = this.getProperties().stream().filter(p -> p.getKey().equals(key)).findFirst();
         return property.orElse(null);
     }
 
@@ -79,34 +74,18 @@ public class Segment implements Indexable {
 
     /**
      *
-     * @param v1Idx The new index of the first {@link Structs.Vertex} for the segment
-     */
-    public void setV1Idx(int v1Idx) {
-        this.segment = Structs.Segment.newBuilder(this.segment).setV1Idx(v1Idx).build();
-    }
-
-    /**
-     *
-     * @param v2Idx The new index of the second {@link Structs.Vertex} for the segment
-     */
-    public void setV2Idx(int v2Idx) {
-        this.segment = Structs.Segment.newBuilder(this.segment).setV2Idx(v2Idx).build();
-    }
-
-    /**
-     *
      * @param p The {@link Structs.Property} to add to this segment
      */
-    public void addProperty(Structs.Property p) {
-        this.segment = Structs.Segment.newBuilder(this.segment).addProperties(p).build();
+    public void addProperty(Property p) {
+        this.properties.add(p);
     }
 
     /**
      *
      * @param properties All the {@link Structs.Property} to add
      */
-    public void addAllProperties(Iterable<? extends Structs.Property> properties) {
-        this.segment = Structs.Segment.newBuilder(this.segment).addAllProperties(properties).build();
+    public void addAllProperties(Iterable<? extends Property> properties) {
+        properties.forEach(this.properties::add);
     }
 
     /**
@@ -114,14 +93,16 @@ public class Segment implements Indexable {
      * @return Get the {@link Structs.Segment} instance that stores all segment data
      */
     public Structs.Segment getSegment() {
-        return this.segment;
+        List<Structs.Property> properties = this.properties.stream().map(Property::getProperty).toList();
+        return Structs.Segment.newBuilder().setV1Idx(this.v1.getIndex()).setV2Idx(this.v2.getIndex())
+                .addAllProperties(properties).build();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Segment segment1 = (Segment) o;
-        return Objects.equals(segment, segment1.segment);
+        Segment segment = (Segment) o;
+        return Objects.equals(v1, segment.v1) && Objects.equals(v2, segment.v2) && Objects.equals(properties, segment.properties);
     }
 }
