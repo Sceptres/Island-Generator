@@ -11,7 +11,7 @@ public class Property {
      * @param key pass in key
      * @param value pass in value
      */
-    public Property(String key, String value) {
+    protected Property(String key, String value) {
         this.key = key;
         this.value = value;
     }
