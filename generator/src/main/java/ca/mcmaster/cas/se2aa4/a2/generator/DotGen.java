@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
 public class DotGen {
 
@@ -20,9 +22,10 @@ public class DotGen {
     public Mesh generate() {
         List<Vertex> vertices = new ArrayList<>();
         List<Segment> segments = new ArrayList<>();
+        List<Polygon> polygons = new ArrayList<>();
 
         // Counters to keep track of the indices of the vertices
-        int xIndex = 0;
+        /*int xIndex = 0;
         int yIndexCount = 0;
 
         // Create all the vertices and segments
@@ -49,7 +52,88 @@ public class DotGen {
             yIndexCount++;
         }
 
-        return Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).build();
+        return Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).build();*/
+
+        // Create all the vertices
+        for (int y = 0; y <= height; y += square_size) {
+            for (int x = 0; x <= width; x += square_size) {
+                Vertex v = getVertexWithColor(x, y);
+
+                // Add vertex
+                vertices.add(v);
+
+            }
+        }
+
+        List<Vertex> anchors = new ArrayList<>();
+        int nonAnchor = 25;
+        /*for(int i = 0; i < 625; i++){
+            if(i != nonAnchor && i < 650){
+                anchors.add(i, vertices.get(i));
+                nonAnchor += 26;
+            }
+        }*/
+
+        int xIndex = 0;
+        int yIndexCount = 0;
+
+        int polygonCount = 0;
+
+        int firstRowCount = 1;
+
+        for(int i = 0; i < vertices.size(); i++){
+            if(i == 0){
+                Vertex v0 = vertices.get(0);
+                Vertex v1 = vertices.get(1);
+                Segment seg0 = getSegmentWithColor(v0,v1,0,1);
+                segments.add(0,seg0);
+
+                Vertex v5 = vertices.get(5);
+                Segment seg1 = getSegmentWithColor(v1,v5,1,5);
+                segments.add(1,seg1);
+
+                Vertex v4 = vertices.get(4);
+                Segment seg2 = getSegmentWithColor(v5,v4,5,4);
+                segments.add(2,seg2);
+
+                Segment seg3 = getSegmentWithColor(v4,v0,4,0);
+                segments.add(3,seg3);
+
+                Polygon polygon = Polygon.newBuilder().addSegmentIdxs(0).addSegmentIdxs(1).addSegmentIdxs(2).addSegmentIdxs(3).addNeighborIdxs(1).addNeighborIdxs(26).build();
+                polygons.add(0,polygon);
+            }
+            else if(i > 0 && i < 25){
+                Vertex v0 = vertices.get(i);
+                Vertex v1 = vertices.get(i+1);
+                Segment seg0 = getSegmentWithColor(v0,v1,i,i+1);
+                int segmentIndx = 3+(firstRowCount-1)*2;
+                segments.add(segmentIndx,seg0);
+
+                Vertex v2 = vertices.get(i+27);
+                Segment seg1 = getSegmentWithColor(v1,v2,i+1,i+27);
+                segments.add(segmentIndx+1,seg1);
+
+                Vertex v3 = vertices.get(i+26);
+                Segment seg2 = getSegmentWithColor(v2,v3,i+27,i+26);
+                segments.add(segmentIndx+2,seg2);
+
+                Polygon polygon = Polygon.newBuilder().addSegmentIdxs(segmentIndx).addSegmentIdxs(segmentIndx+1).addSegmentIdxs(segmentIndx+2).addNeighborIdxs(i-1).addSegmentIdxs(i+1).addNeighborIdxs(i+26).build();
+                polygons.add(firstRowCount,polygon);
+
+            }
+            else if(i%26 == 0){
+
+            }
+            else if(i == nonAnchor || i >= 650){
+                nonAnchor += 26;
+            }
+            else{
+
+            }
+
+        }
+
+        return Mesh.newBuilder().addAllVertices(anchors).build();
     }
 
     /**
