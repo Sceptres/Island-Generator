@@ -24,6 +24,9 @@ public interface IProperties {
      */
     Property getProperty(String key);
 
-
+    /**
+     *
+     * @return All the properties
+     */
     List<Property> getProperties();
 }
