@@ -5,10 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Colorable;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.IProperties;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.*;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.awt.*;
@@ -80,7 +77,7 @@ public class Segment implements Indexable, IProperties, Colorable, Converter<Str
 
     @Override
     public Property getProperty(String key) {
-        Optional<Property> property = this.getProperties().stream().filter(p -> p.getKey().equals(key)).findFirst();
+        Optional<Property> property = this.properties.stream().filter(p -> p.getKey().equals(key)).findFirst();
         return property.orElse(null);
     }
 
