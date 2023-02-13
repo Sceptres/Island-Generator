@@ -3,6 +3,8 @@ package ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 
+import java.util.Objects;
+
 public class Property implements Converter<Structs.Property> {
     private final String key;
     private final String value;
@@ -47,5 +49,11 @@ public class Property implements Converter<Structs.Property> {
         return Structs.Property.newBuilder().setKey(this.key).setValue(this.value).build();
     }
 
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Property property = (Property) o;
+        return Objects.equals(key, property.key) && Objects.equals(value, property.value);
+    }
 }
