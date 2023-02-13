@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.IProperties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
@@ -12,7 +13,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class Segment implements Indexable {
+public class Segment implements Indexable, IProperties {
 
     private final Vertex v1;
     private final Vertex v2;
@@ -68,21 +69,14 @@ public class Segment implements Indexable {
         return this.v2;
     }
 
-    /**
-     *
-     * @return The {@link List} of properties associated with this segment
-     */
+    @Override
     public List<Property> getProperties() {
         List<Property> properties = new Properties();
         Collections.copy(properties, this.properties);
         return properties;
     }
 
-    /**
-     *
-     * @param key The key of the {@link Structs.Property} to get
-     * @return The {@link Structs.Property} with the given key
-     */
+    @Override
     public Property getProperty(String key) {
         Optional<Property> property = this.getProperties().stream().filter(p -> p.getKey().equals(key)).findFirst();
         return property.orElse(null);
@@ -93,18 +87,12 @@ public class Segment implements Indexable {
         this.index = index;
     }
 
-    /**
-     *
-     * @param p The {@link Structs.Property} to add to this segment
-     */
+    @Override
     public void addProperty(Property p) {
         this.properties.add(p);
     }
 
-    /**
-     *
-     * @param properties All the {@link Structs.Property} to add
-     */
+    @Override
     public void addAllProperties(Iterable<? extends Property> properties) {
         properties.forEach(this::addProperty);
     }

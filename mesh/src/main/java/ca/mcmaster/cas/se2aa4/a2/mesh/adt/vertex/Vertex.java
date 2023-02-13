@@ -4,15 +4,17 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.IProperties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Vertex implements Indexable {
+public class Vertex implements Indexable, IProperties {
     private double x;
     private double y;
     private final Properties properties;
@@ -74,7 +76,7 @@ public class Vertex implements Indexable {
      *
      * @param property The {@link Property} to add to this vertex
      */
-    private void addProperty(Property property) {
+    public void addProperty(Property property) {
         this.properties.add(property);
     }
 
@@ -82,7 +84,7 @@ public class Vertex implements Indexable {
      *
      * @param properties All the properties to add to this vertex
      */
-    private void addAllProperties(Iterable<? extends Property> properties) {
+    public void addAllProperties(Iterable<? extends Property> properties) {
         this.properties.forEach(this::addProperty);
     }
 
@@ -112,9 +114,16 @@ public class Vertex implements Indexable {
      * @param key The key of the property to get
      * @return The {@link Property} with the key
      */
-    private Property getProperty(String key) {
+    public Property getProperty(String key) {
         Optional<Property> property = this.properties.stream().filter(p -> p.getKey().equals(key)).findFirst();
         return property.orElse(null);
+    }
+
+    @Override
+    public List<Property> getProperties() {
+        List<Property> properties = new Properties();
+        Collections.copy(properties, this.properties);
+        return properties;
     }
 
     /**
