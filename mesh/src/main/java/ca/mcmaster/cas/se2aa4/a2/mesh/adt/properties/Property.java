@@ -1,8 +1,9 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 
-public class Property {
+public class Property implements Converter<Structs.Property> {
     private final String key;
     private final String value;
 
@@ -41,11 +42,8 @@ public class Property {
         return this.value;
     }
 
-    /**
-     *
-     * @return A {@link Structs.Property} instance that holds information of this property
-     */
-    public Structs.Property getProperty() {
+    @Override
+    public Structs.Property getConverted() {
         return Structs.Property.newBuilder().setKey(this.key).setValue(this.value).build();
     }
 

@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.IProperties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
@@ -13,7 +14,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class Segment implements Indexable, IProperties {
+public class Segment implements Indexable, IProperties, Converter<Structs.Segment> {
 
     private final Vertex v1;
     private final Vertex v2;
@@ -97,12 +98,9 @@ public class Segment implements Indexable, IProperties {
         properties.forEach(this::addProperty);
     }
 
-    /**
-     *
-     * @return Get the {@link Structs.Segment} instance that stores all segment data
-     */
-    public Structs.Segment getSegment() {
-        List<Structs.Property> properties = this.properties.stream().map(Property::getProperty).toList();
+    @Override
+    public Structs.Segment getConverted() {
+        List<Structs.Property> properties = this.properties.stream().map(Property::getConverted).toList();
         return Structs.Segment.newBuilder().setV1Idx(this.v1.getIndex()).setV2Idx(this.v2.getIndex())
                 .addAllProperties(properties).build();
     }

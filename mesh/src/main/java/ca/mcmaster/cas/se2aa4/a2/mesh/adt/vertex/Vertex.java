@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.IProperties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
 
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Vertex implements Indexable, IProperties {
+public class Vertex implements Indexable, IProperties, Converter<Structs.Vertex> {
     private double x;
     private double y;
     private final Properties properties;
@@ -134,12 +135,9 @@ public class Vertex implements Indexable, IProperties {
         return Util.extractColor(this.getProperty("rgb_color"));
     }
 
-    /**
-     *
-     * @return The {@link Structs.Vertex} instance equivalent to this vertex
-     */
-    public Structs.Vertex getVertex() {
-        List<Structs.Property> properties = this.properties.stream().map(Property::getProperty).toList();
+    @Override
+    public Structs.Vertex getConverted() {
+        List<Structs.Property> properties = this.properties.stream().map(Property::getConverted).toList();
         return Structs.Vertex.newBuilder().setX(this.x).setY(this.y).addAllProperties(properties).build();
     }
 
