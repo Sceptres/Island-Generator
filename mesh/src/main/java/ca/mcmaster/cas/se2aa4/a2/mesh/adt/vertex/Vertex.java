@@ -4,12 +4,10 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Colorable;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.IProperties;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.*;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
@@ -117,7 +115,7 @@ public class Vertex implements Indexable, IProperties, Colorable, Converter<Stru
 
     @Override
     public Color getColor() {
-        return Util.extractColor(this.getProperty("rgb_color"));
+        return Util.extractColor(this.getProperty(ColorProperty.KEY));
     }
 
     @Override

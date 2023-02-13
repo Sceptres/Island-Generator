@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.adt;
 
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
 
 import java.awt.*;
@@ -11,7 +12,7 @@ public class Util {
      * @return The color
      */
     public static Color extractColor(Property property) {
-        if(!property.getKey().equals("rgb_color")) // Not the color property?
+        if(!property.getKey().equals(ColorProperty.KEY)) // Not the color property?
             throw new IllegalArgumentException("This property is not a color property!");
 
         // Get color

@@ -142,6 +142,6 @@ public class Segment implements Indexable, IProperties, Colorable, Converter<Str
 
     @Override
     public Color getColor() {
-        return Util.extractColor(this.getProperty("rgb_color"));
+        return Util.extractColor(this.getProperty(ColorProperty.KEY));
     }
 }
