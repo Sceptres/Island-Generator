@@ -1,20 +1,22 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
 
+import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Vertex implements Indexable {
-    private Structs.Vertex vertex;
+    private double x;
+    private double y;
+    private final Properties properties;
     private int index;
-
-    /**
-     * regular vertex builder
-     */
-    public Vertex(){
-        this.vertex = Structs.Vertex.newBuilder().build();
-    }
 
     /**
      *
@@ -22,7 +24,9 @@ public class Vertex implements Indexable {
      * @param y this is y position
      */
     public Vertex(double x,double y){
-        this.vertex = Structs.Vertex.newBuilder().setX(precision(x)).setY(precision(y)).build();
+        this.x = x;
+        this.y = y;
+        this.properties = new Properties();
     }
 
     /**
@@ -30,7 +34,10 @@ public class Vertex implements Indexable {
      * @param vertex pass in a vertex of structs.Vertex type
      */
     public Vertex(Structs.Vertex vertex){
-        this.vertex = vertex;
+        this(vertex.getX(), vertex.getY());
+
+        List<Property> properties = vertex.getPropertiesList().stream().map(Property::new).toList();
+        this.addAllProperties(properties);
     }
 
     @Override
@@ -43,7 +50,7 @@ public class Vertex implements Indexable {
      * @param x x coordinate of vertex
      */
     public void setX(double x){
-        this.vertex = Structs.Vertex.newBuilder(this.vertex).setX(precision(x)).build();
+        this.x = this.precision(x);
     }
 
     /**
@@ -51,7 +58,32 @@ public class Vertex implements Indexable {
      * @param y y coordinate of vertex
      */
     public void setY(double y){
-       this.vertex = Structs.Vertex.newBuilder(this.vertex).setY(precision(y)).build();
+       this.y = this.precision(y);
+    }
+
+    /**
+     *
+     * @param color The {@link Color} to set this vertex to
+     */
+    public void setColor(Color color) {
+        Property property = new ColorProperty(color);
+        this.addProperty(property);
+    }
+
+    /**
+     *
+     * @param property The {@link Property} to add to this vertex
+     */
+    private void addProperty(Property property) {
+        this.properties.add(property);
+    }
+
+    /**
+     *
+     * @param properties All the properties to add to this vertex
+     */
+    private void addAllProperties(Iterable<? extends Property> properties) {
+        this.properties.forEach(this::addProperty);
     }
 
     @Override
@@ -64,7 +96,7 @@ public class Vertex implements Indexable {
      * @return the x coordinate of the vertex
      */
     public double getX(){
-        return this.vertex.getX();
+        return this.x;
     }
 
     /**
@@ -72,7 +104,34 @@ public class Vertex implements Indexable {
      * @return the y coordinate of the vertex
      */
     public double getY(){
-        return this.vertex.getY();
+        return this.y;
+    }
+
+    /**
+     *
+     * @param key The key of the property to get
+     * @return The {@link Property} with the key
+     */
+    private Property getProperty(String key) {
+        Optional<Property> property = this.properties.stream().filter(p -> p.getKey().equals(key)).findFirst();
+        return property.orElse(null);
+    }
+
+    /**
+     *
+     * @return The {@link Color} of this vertex
+     */
+    public Color getColor() {
+        return Util.extractColor(this.getProperty("rgb_color"));
+    }
+
+    /**
+     *
+     * @return The {@link Structs.Vertex} instance equivalent to this vertex
+     */
+    public Structs.Vertex getVertex() {
+        List<Structs.Property> properties = this.properties.stream().map(Property::getProperty).toList();
+        return Structs.Vertex.newBuilder().setX(this.x).setY(this.y).addAllProperties(properties).build();
     }
 
     /**
@@ -96,12 +155,12 @@ public class Vertex implements Indexable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Vertex vertex1 = (Vertex) o;
-        return Objects.equals(vertex, vertex1.vertex);
+        Vertex vertex = (Vertex) o;
+        return Double.compare(vertex.x, x) == 0 && Double.compare(vertex.y, y) == 0 && Objects.equals(properties, vertex.properties);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(vertex);
+        return Objects.hash(this);
     }
 }
