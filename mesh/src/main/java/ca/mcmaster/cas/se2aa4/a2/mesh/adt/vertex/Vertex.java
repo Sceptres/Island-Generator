@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Colorable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.IProperties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
@@ -73,18 +74,12 @@ public class Vertex implements Indexable, IProperties, Converter<Structs.Vertex>
         this.addProperty(property);
     }
 
-    /**
-     *
-     * @param property The {@link Property} to add to this vertex
-     */
+    @Override
     public void addProperty(Property property) {
         this.properties.add(property);
     }
 
-    /**
-     *
-     * @param properties All the properties to add to this vertex
-     */
+    @Override
     public void addAllProperties(Iterable<? extends Property> properties) {
         this.properties.forEach(this::addProperty);
     }
@@ -110,11 +105,7 @@ public class Vertex implements Indexable, IProperties, Converter<Structs.Vertex>
         return this.y;
     }
 
-    /**
-     *
-     * @param key The key of the property to get
-     * @return The {@link Property} with the key
-     */
+    @Override
     public Property getProperty(String key) {
         Optional<Property> property = this.properties.stream().filter(p -> p.getKey().equals(key)).findFirst();
         return property.orElse(null);
