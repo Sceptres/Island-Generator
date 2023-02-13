@@ -76,7 +76,7 @@ public class Vertex implements Indexable, IProperties, Colorable, Converter<Stru
 
     @Override
     public void addAllProperties(Iterable<? extends Property> properties) {
-        this.properties.forEach(this::addProperty);
+        properties.forEach(this::addProperty);
     }
 
     @Override
