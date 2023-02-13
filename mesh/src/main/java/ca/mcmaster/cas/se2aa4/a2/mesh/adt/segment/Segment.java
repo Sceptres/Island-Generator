@@ -1,11 +1,14 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
+import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -103,7 +106,7 @@ public class Segment implements Indexable {
      * @param properties All the {@link Structs.Property} to add
      */
     public void addAllProperties(Iterable<? extends Property> properties) {
-        properties.forEach(this.properties::add);
+        properties.forEach(this::addProperty);
     }
 
     /**
@@ -114,6 +117,26 @@ public class Segment implements Indexable {
         List<Structs.Property> properties = this.properties.stream().map(Property::getProperty).toList();
         return Structs.Segment.newBuilder().setV1Idx(this.v1.getIndex()).setV2Idx(this.v2.getIndex())
                 .addAllProperties(properties).build();
+    }
+
+    /**
+     * Calculates the color of the segment and adds it to properties
+     */
+    public void calculateColor() {
+        Color v1Color = this.v1.getColor();
+        Color v2Color = this.v2.getColor();
+
+        // Calculate segment color
+        int r = (v1Color.getRed() + v2Color.getRed()) / 2;
+        int g = (v1Color.getGreen() + v2Color.getGreen()) / 2;
+        int b = (v1Color.getBlue() + v2Color.getBlue()) / 2;
+
+        // Create color property
+        Color color = new Color(r, g, b);
+        Property property = new ColorProperty(color);
+
+        // Add property
+        this.addProperty(property);
     }
 
     @Override
