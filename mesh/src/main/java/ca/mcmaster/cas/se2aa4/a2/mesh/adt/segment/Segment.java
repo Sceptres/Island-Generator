@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Colorable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.IProperties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Indexable;
@@ -14,7 +15,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class Segment implements Indexable, IProperties, Converter<Structs.Segment> {
+public class Segment implements Indexable, IProperties, Colorable, Converter<Structs.Segment> {
 
     private final Vertex v1;
     private final Vertex v2;
@@ -131,5 +132,16 @@ public class Segment implements Indexable, IProperties, Converter<Structs.Segmen
         if (o == null || getClass() != o.getClass()) return false;
         Segment segment = (Segment) o;
         return Objects.equals(v1, segment.v1) && Objects.equals(v2, segment.v2) && Objects.equals(properties, segment.properties);
+    }
+
+    @Override
+    public void setColor(Color color) {
+        Property property = new ColorProperty(color);
+        this.addProperty(property);
+    }
+
+    @Override
+    public Color getColor() {
+        return Util.extractColor(this.getProperty("rgb_color"));
     }
 }

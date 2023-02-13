@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Vertex implements Indexable, IProperties, Converter<Structs.Vertex> {
+public class Vertex implements Indexable, IProperties, Colorable, Converter<Structs.Vertex> {
     private double x;
     private double y;
     private final Properties properties;
@@ -65,10 +65,7 @@ public class Vertex implements Indexable, IProperties, Converter<Structs.Vertex>
        this.y = this.precision(y);
     }
 
-    /**
-     *
-     * @param color The {@link Color} to set this vertex to
-     */
+    @Override
     public void setColor(Color color) {
         Property property = new ColorProperty(color);
         this.addProperty(property);
@@ -118,10 +115,7 @@ public class Vertex implements Indexable, IProperties, Converter<Structs.Vertex>
         return properties;
     }
 
-    /**
-     *
-     * @return The {@link Color} of this vertex
-     */
+    @Override
     public Color getColor() {
         return Util.extractColor(this.getProperty("rgb_color"));
     }
