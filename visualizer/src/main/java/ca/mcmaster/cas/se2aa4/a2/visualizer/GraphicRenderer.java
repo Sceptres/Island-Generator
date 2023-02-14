@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -17,6 +18,7 @@ public class GraphicRenderer {
     public void render(Mesh aMesh, Graphics2D canvas) {
         List<Vertex> vertices = aMesh.getVerticesList();
         List<Segment> segments = aMesh.getSegmentsList();
+        List<Polygon> polygons = aMesh.getPolygonsList();
 
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(3f);
@@ -34,8 +36,22 @@ public class GraphicRenderer {
         }
 
         // Add segments
-        /*for(Segment segment : segments) {
+        /*for(Polygon polygon : polygons) {
             // Get vertices assigned to this segment
+            for(int i = 0; i < 4; i++){
+                Segment seg = segments.get(polygon.getSegmentIdxs(i));
+                Vertex v1 = vertices.get(seg.getV1Idx());
+                Vertex v2 = vertices.get(seg.getV2Idx());
+
+                // Draw segment with appropriate color
+                Color old = canvas.getColor();
+                canvas.setColor(extractColor(seg.getPropertiesList()));
+                canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
+                canvas.setColor(old);
+            }
+        }*/
+
+        for(Segment segment: segments){
             Vertex v1 = vertices.get(segment.getV1Idx());
             Vertex v2 = vertices.get(segment.getV2Idx());
 
@@ -44,15 +60,9 @@ public class GraphicRenderer {
             canvas.setColor(extractColor(segment.getPropertiesList()));
             canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
             canvas.setColor(old);
-        }*/
+        }
 
-        Vertex v1 = vertices.get(aMesh.getSegments(76).getV1Idx());
-        Vertex v2 = vertices.get(aMesh.getSegments(76).getV2Idx());
 
-        Color old = canvas.getColor();
-        canvas.setColor(extractColor(aMesh.getSegments(76).getPropertiesList()));
-        canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
-        canvas.setColor(old);
     }
 
 
