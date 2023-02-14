@@ -43,8 +43,6 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
 
         List<Property> properties = segment.getPropertiesList().stream().map(Property::new).toList();
         this.addAllProperties(properties);
-
-        this.index = -1;
     }
 
     @Override
