@@ -35,11 +35,21 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
     /**
      *
      * @param segment The {@link Structs.Segment} instance to wrap
-     * @param v1 The left vertex of the segment
-     * @param v2 The right vertex of the segment
+     * @param v1 The left/up vertex of the segment
+     * @param v2 The right/down vertex of the segment
      */
     public Segment(Structs.Segment segment, Structs.Vertex v1, Structs.Vertex v2) {
-        this(new Vertex(v1), new Vertex(v2));
+        this(segment, new Vertex(v1), new Vertex(v2));
+    }
+
+    /**
+     *
+     * @param segment The {@link Structs.Segment} instance to wrap
+     * @param v1 The left/up vertex of the segment
+     * @param v2 The right/down vertex of the segment
+     */
+    public Segment(Structs.Segment segment, Vertex v1, Vertex v2) {
+        this(v1, v2);
 
         List<Property> properties = Util.toProperties(segment.getPropertiesList());
         this.addAllProperties(properties);
