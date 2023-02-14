@@ -81,7 +81,8 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
 
     @Override
     public void setIndex(int index) {
-        this.index = index;
+        if(this.index == -1 && index >= 0)
+            this.index = index;
     }
 
     @Override
