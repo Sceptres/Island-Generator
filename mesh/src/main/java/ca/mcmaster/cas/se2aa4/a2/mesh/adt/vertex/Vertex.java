@@ -115,7 +115,7 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
 
     @Override
     public Color getColor() {
-        return Util.extractColor(this.getProperty(ColorProperty.KEY));
+        return Util.extractColor(this);
     }
 
     @Override
@@ -149,11 +149,6 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
         return finalValue;
     }
 
-    /**
-     *
-     * @param o object
-     * @return true if its the same object false if its not
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -140,7 +140,7 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
 
     @Override
     public Color getColor() {
-        return Util.extractColor(this.getProperty(ColorProperty.KEY));
+        return Util.extractColor(this);
     }
 
     @Override

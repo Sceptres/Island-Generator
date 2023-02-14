@@ -2,16 +2,23 @@ package ca.mcmaster.cas.se2aa4.a2.mesh.adt;
 
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.IProperties;
 
 import java.awt.*;
+import java.util.Objects;
 
 public class Util {
     /**
      *
-     * @param property The color property to extract color from
+     * @param t The element to get color property from
      * @return The color
      */
-    public static Color extractColor(Property property) {
+    public static <T extends IProperties> Color extractColor(T t) {
+        Property property = t.getProperty(ColorProperty.KEY);
+
+        if(Objects.isNull(property))
+            return Color.BLACK;
+
         if(!property.getKey().equals(ColorProperty.KEY)) // Not the color property?
             throw new IllegalArgumentException("This property is not a color property!");
 
