@@ -71,9 +71,7 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
 
     @Override
     public List<Property> getProperties() {
-        List<Property> properties = new Properties();
-        Collections.copy(properties, this.properties);
-        return properties;
+        return new ArrayList<>(this.properties);
     }
 
     @Override

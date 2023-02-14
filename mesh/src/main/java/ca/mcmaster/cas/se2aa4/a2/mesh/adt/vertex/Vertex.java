@@ -9,10 +9,8 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 public class Vertex implements Indexable, IProperties, Renderable, Colorable, Converter<Structs.Vertex> {
     private double x;
@@ -108,9 +106,7 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
 
     @Override
     public List<Property> getProperties() {
-        List<Property> properties = new Properties();
-        Collections.copy(properties, this.properties);
-        return properties;
+        return new ArrayList<>(this.properties);
     }
 
     @Override
