@@ -9,10 +9,11 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.*;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.util.*;
 import java.util.List;
 
-public class Segment implements Indexable, IProperties, Colorable, Converter<Structs.Segment> {
+public class Segment implements Indexable, IProperties, Renderable, Colorable, Converter<Structs.Segment> {
 
     private final Vertex v1;
     private final Vertex v2;
@@ -140,5 +141,11 @@ public class Segment implements Indexable, IProperties, Colorable, Converter<Str
     @Override
     public Color getColor() {
         return Util.extractColor(this.getProperty(ColorProperty.KEY));
+    }
+
+    @Override
+    public void draw(Graphics2D canvas) {
+        canvas.setColor(this.getColor());
+        canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
     }
 }
