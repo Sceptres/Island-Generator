@@ -29,6 +29,7 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
         this.v1 = v1;
         this.v2 = v2;
         this.properties = new Properties();
+        this.index = -1;
     }
 
     /**
@@ -38,9 +39,7 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
      * @param v2 The right vertex of the segment
      */
     public Segment(Structs.Segment segment, Structs.Vertex v1, Structs.Vertex v2) {
-        this.v1 = new Vertex(v1);
-        this.v2 = new Vertex(v2);
-        this.properties = new Properties();
+        this(new Vertex(v1), new Vertex(v2));
 
         List<Property> properties = segment.getPropertiesList().stream().map(Property::new).toList();
         this.addAllProperties(properties);
