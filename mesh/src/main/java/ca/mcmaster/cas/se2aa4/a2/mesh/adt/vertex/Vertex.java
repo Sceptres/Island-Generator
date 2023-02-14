@@ -24,8 +24,8 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
      * @param y this is y position
      */
     public Vertex(double x,double y){
-        this.x = x;
-        this.y = y;
+        this.x = this.precision(x);
+        this.y = this.precision(y);
         this.properties = new Properties();
         this.index = -1;
     }
