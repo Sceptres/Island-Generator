@@ -41,7 +41,7 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
     public Segment(Structs.Segment segment, Structs.Vertex v1, Structs.Vertex v2) {
         this(new Vertex(v1), new Vertex(v2));
 
-        List<Property> properties = segment.getPropertiesList().stream().map(Property::new).toList();
+        List<Property> properties = Util.toProperties(segment.getPropertiesList());
         this.addAllProperties(properties);
     }
 
@@ -95,9 +95,8 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
 
     @Override
     public Structs.Segment getConverted() {
-        List<Structs.Property> properties = this.properties.stream().map(Property::getConverted).toList();
         return Structs.Segment.newBuilder().setV1Idx(this.v1.getIndex()).setV2Idx(this.v2.getIndex())
-                .addAllProperties(properties).build();
+                .addAllProperties(this.properties.getConverted()).build();
     }
 
     /**
@@ -114,10 +113,7 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
 
         // Create color property
         Color color = new Color(r, g, b);
-        Property property = new ColorProperty(color);
-
-        // Add property
-        this.addProperty(property);
+        this.setColor(color);
     }
 
     @Override

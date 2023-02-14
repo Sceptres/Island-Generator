@@ -36,9 +36,7 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
      */
     public Vertex(Structs.Vertex vertex){
         this(vertex.getX(), vertex.getY());
-
-        List<Property> properties = vertex.getPropertiesList().stream().map(Property::new).toList();
-        this.addAllProperties(properties);
+        this.addAllProperties(Util.toProperties(vertex.getPropertiesList()));
     }
 
     @Override
@@ -131,8 +129,7 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
 
     @Override
     public Structs.Vertex getConverted() {
-        List<Structs.Property> properties = this.properties.stream().map(Property::getConverted).toList();
-        return Structs.Vertex.newBuilder().setX(this.x).setY(this.y).addAllProperties(properties).build();
+        return Structs.Vertex.newBuilder().setX(this.x).setY(this.y).addAllProperties(this.properties.getConverted()).build();
     }
 
     /**
