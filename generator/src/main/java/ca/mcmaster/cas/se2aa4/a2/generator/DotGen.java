@@ -207,4 +207,5 @@ public class DotGen {
         return Segment.newBuilder().setV1Idx(v1Idx).setV2Idx(v2Idx).addProperties(color).build();
     }
 
+
 }
