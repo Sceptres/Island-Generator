@@ -27,6 +27,7 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
         this.x = x;
         this.y = y;
         this.properties = new Properties();
+        this.index = -1;
     }
 
     /**
@@ -42,7 +43,8 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
 
     @Override
     public void setIndex(int index) {
-        this.index = index;
+        if(this.index == -1 && index >= 0)
+            this.index = index;
     }
 
     /**
