@@ -146,4 +146,14 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
         canvas.setColor(this.getColor());
         canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
     }
+
+    /**
+     *
+     * @param segment The segment to check with
+     * @return True if this segment and the given segment share a vertex meaning they are connected. False otherwise.
+     */
+    public boolean shareVertex(Segment segment) {
+        return this.v1.equals(segment.v1) || this.v1.equals(segment.v2) ||
+                this.v2.equals(segment.v1) || this.v2.equals(segment.v2);
+    }
 }
