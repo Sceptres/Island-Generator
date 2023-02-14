@@ -154,6 +154,6 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
 
     @Override
     public int hashCode() {
-        return Objects.hash(this);
+        return Objects.hash(x, y, properties, index);
     }
 }
