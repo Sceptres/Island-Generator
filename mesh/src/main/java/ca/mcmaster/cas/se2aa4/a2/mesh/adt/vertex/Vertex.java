@@ -15,6 +15,7 @@ import java.util.List;
 public class Vertex implements Indexable, IProperties, Renderable, Colorable, Converter<Structs.Vertex> {
     private double x;
     private double y;
+    private boolean wasRendered;
     private final Properties properties;
     private int index;
 
@@ -116,15 +117,19 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
 
     @Override
     public void draw(Graphics2D canvas) {
-        double centreX = this.getX() - (3/2.0d);
-        double centreY = this.getY() - (3/2.0d);
+        if(!this.wasRendered) {
+            double centreX = this.getX() - (3 / 2.0d);
+            double centreY = this.getY() - (3 / 2.0d);
 
-        // Set color to draw with
-        canvas.setColor(this.getColor());
+            // Set color to draw with
+            canvas.setColor(this.getColor());
 
-        // Draw vertex
-        Ellipse2D point = new Ellipse2D.Double(centreX, centreY, 3, 3);
-        canvas.fill(point);
+            // Draw vertex
+            Ellipse2D point = new Ellipse2D.Double(centreX, centreY, 3, 3);
+            canvas.fill(point);
+
+            this.wasRendered = true;
+        }
     }
 
     @Override

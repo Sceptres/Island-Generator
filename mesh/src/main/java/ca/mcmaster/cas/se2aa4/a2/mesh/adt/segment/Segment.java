@@ -17,6 +17,7 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
 
     private final Vertex v1;
     private final Vertex v2;
+    private boolean wasRendered;
     private final Properties properties;
     private int index;
 
@@ -148,8 +149,12 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
 
     @Override
     public void draw(Graphics2D canvas) {
-        canvas.setColor(this.getColor());
-        canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
+        if(!this.wasRendered) {
+            canvas.setColor(this.getColor());
+            canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
+
+            this.wasRendered = true;
+        }
     }
 
     /**
