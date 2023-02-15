@@ -131,7 +131,8 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Segment segment = (Segment) o;
-        return Objects.equals(v1, segment.v1) && Objects.equals(v2, segment.v2) && Objects.equals(properties, segment.properties);
+        return Objects.equals(v1, segment.v1) && Objects.equals(v2, segment.v2) ||
+                Objects.equals(v1, segment.v2) && Objects.equals(v2, segment.v1);
     }
 
     @Override

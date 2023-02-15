@@ -149,7 +149,7 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vertex vertex = (Vertex) o;
-        return Double.compare(vertex.x, x) == 0 && Double.compare(vertex.y, y) == 0 && Objects.equals(properties, vertex.properties);
+        return Double.compare(vertex.x, x) == 0 && Double.compare(vertex.y, y) == 0;
     }
 
     @Override
