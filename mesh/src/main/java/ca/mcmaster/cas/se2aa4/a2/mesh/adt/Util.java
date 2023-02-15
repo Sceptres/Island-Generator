@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.adt;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygons;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
@@ -43,7 +44,7 @@ public class Util {
      * @param structProperties The group of {@link Structs.Property} instances to convert to {@link Property}
      * @return A list of all the equivalent {@link Property} instances
      */
-    public static Properties toProperties(Iterable<? extends Structs.Property> structProperties) {
+    public static Properties toProperties(List<? extends Structs.Property> structProperties) {
         Properties properties = new Properties();
         structProperties.forEach(p -> properties.add(new Property(p)));
 
@@ -87,7 +88,7 @@ public class Util {
      * @param vertices The list of {@link Structs.Vertex} instances to convert to {@link Vertex}
      * @return The {@link Vertices} list with all the {@link Vertex} instances
      */
-    public static Vertices toVertices(Iterable<? extends Structs.Vertex> vertices) {
+    public static Vertices toVertices(List<? extends Structs.Vertex> vertices) {
         Vertices verticesList = new Vertices();
         vertices.forEach(v -> verticesList.add(new Vertex(v)));
 
