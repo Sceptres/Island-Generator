@@ -10,8 +10,15 @@ import java.util.List;
 public class Vertices extends UniqueList<Vertex> implements Converter<List<Structs.Vertex>> {
     @Override
     public boolean add(Vertex t) {
-        t.setIndex(super.size());
-        return super.add(t);
+        boolean isAdded = super.add(t);
+        if(isAdded)
+            t.setIndex(super.size()-1);
+        else {
+            Vertex vertex = super.stream().filter(v -> v.equals(t)).findFirst().get();
+            t.setIndex(super.indexOf(vertex));
+        }
+
+        return isAdded;
     }
 
     @Override

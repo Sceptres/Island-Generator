@@ -9,9 +9,16 @@ import java.util.List;
 public class Segments extends UniqueList<Segment> implements Converter<List<Structs.Segment>> {
     @Override
     public boolean add(Segment t) {
-        t.setIndex(super.size());
-        t.calculateColor();
-        return super.add(t);
+        boolean isAdded = super.add(t);
+
+        if(isAdded) {
+            t.setIndex(super.size()-1);
+            t.calculateColor();
+        } else {
+            Segment segment = super.stream().filter(s -> s.equals(t)).findFirst().get();
+            t.setIndex(super.indexOf(segment));
+        }
+        return isAdded;
     }
 
     @Override
