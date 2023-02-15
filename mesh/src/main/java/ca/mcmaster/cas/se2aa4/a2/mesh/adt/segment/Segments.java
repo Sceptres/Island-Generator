@@ -16,7 +16,7 @@ public class Segments extends UniqueList<Segment> implements Converter<List<Stru
             t.calculateColor();
         } else {
             Segment segment = super.stream().filter(s -> s.equals(t)).findFirst().get();
-            t.setIndex(super.indexOf(segment));
+            t.setIndex(segment.getIndex());
         }
         return isAdded;
     }

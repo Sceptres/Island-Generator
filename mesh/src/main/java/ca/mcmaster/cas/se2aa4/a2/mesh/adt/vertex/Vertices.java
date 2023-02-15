@@ -15,7 +15,7 @@ public class Vertices extends UniqueList<Vertex> implements Converter<List<Struc
             t.setIndex(super.size()-1);
         else {
             Vertex vertex = super.stream().filter(v -> v.equals(t)).findFirst().get();
-            t.setIndex(super.indexOf(vertex));
+            t.setIndex(vertex.getIndex());
         }
 
         return isAdded;
