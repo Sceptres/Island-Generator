@@ -1,70 +1,67 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segments;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.util.List;
+import java.util.Random;
 
 public class GraphicRenderer {
 
     private static final int THICKNESS = 3;
-    public void render(Mesh aMesh, Graphics2D canvas) {
-        List<Vertex> vertices = aMesh.getVerticesList();
-        List<Segment> segments = aMesh.getSegmentsList();
+    public void render(Structs.Mesh aMesh, Graphics2D canvas) {
+        boolean debug = false;
+
+        Mesh mesh = new Mesh(aMesh);
 
         canvas.setColor(Color.BLACK);
-        Stroke stroke = new BasicStroke(3f);
+        Stroke stroke = new BasicStroke(1f);
         canvas.setStroke(stroke);
 
-        // Add vertices
-        for (Vertex v: vertices) {
-            double centre_x = v.getX() - (THICKNESS/2.0d);
-            double centre_y = v.getY() - (THICKNESS/2.0d);
-            Color old = canvas.getColor();
-            canvas.setColor(extractColor(v.getPropertiesList()));
-            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
-            canvas.fill(point);
-            canvas.setColor(old);
-        }
+        Segments debugSegments = new Segments();
 
-        // Add segments
-        for(Segment segment : segments) {
-            // Get vertices assigned to this segment
-            Vertex v1 = vertices.get(segment.getV1Idx());
-            Vertex v2 = vertices.get(segment.getV2Idx());
+        mesh.getPolygons().forEach(polygon -> {
+            if(debug) {
+                Random random = new Random();
+                int r = random.nextInt(256);
+                int g = random.nextInt(256);
+                int b = random.nextInt(256);
+                Color color = new Color(r, g, b);
 
-            // Draw segment with appropriate color
-            Color old = canvas.getColor();
-            canvas.setColor(extractColor(segment.getPropertiesList()));
-            canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
-            canvas.setColor(old);
-        }
-    }
-
-
-    private Color extractColor(List<Property> properties) {
-        String val = null;
-        for(Property p: properties) {
-            if (p.getKey().equals("rgb_color")) {
-                System.out.println(p.getValue());
-                val = p.getValue();
+                polygon.getNeighbors().forEach(p -> {
+                    double midX = (p.getCentroid().getX() + polygon.getCentroid().getX()) / 2;
+                    double midY = (p.getCentroid().getY() + polygon.getCentroid().getY()) / 2;
+                    Vertex midVertex = new Vertex(midX, midY);
+                    Segment segment = new Segment(polygon.getCentroid(), midVertex);
+                    segment.setColor(color);
+                    debugSegments.add(segment);
+                });
             }
-        }
-        if (val == null)
-            return Color.BLACK;
-        String[] raw = val.split(",");
-        int red = Integer.parseInt(raw[0]);
-        int green = Integer.parseInt(raw[1]);
-        int blue = Integer.parseInt(raw[2]);
-        return new Color(red, green, blue);
-    }
+            polygon.setColor(new Color(0, 0, 0, 0));
+            polygon.render(canvas);
+        });
 
+        mesh.getSegments().forEach(segment -> {
+            if(debug)
+                segment.setColor(Color.BLACK);
+            segment.render(canvas);
+        });
+
+        mesh.getNonCentroidVertices().forEach(vertex -> {
+            if(debug)
+                vertex.setColor(Color.BLACK);
+            vertex.render(canvas);
+        });
+
+        if(debug) {
+            debugSegments.forEach(s -> s.render(canvas));
+            mesh.getCentroidVertices().forEach(vertex -> vertex.render(canvas));
+        }
+    }
 }
