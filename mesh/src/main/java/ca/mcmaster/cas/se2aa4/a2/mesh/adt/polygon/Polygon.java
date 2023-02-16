@@ -29,6 +29,12 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
     private final Polygons neighbors;
     private int index;
 
+    /**
+     *
+     * @param segments The segments belonging to this polygon
+     * @throws IllegalArgumentException If not enough segments were given to form a polygon
+     * @throws IllegalStateException If the segments do not form a polygon
+     */
     public Polygon(List<? extends Segment> segments) throws IllegalArgumentException, IllegalStateException {
         this.properties = new Properties();
         this.neighbors = new Polygons();
@@ -41,19 +47,38 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
         this.index = -1;
     }
 
-    public Polygon(Structs.Polygon polygon, List<? extends Segment> segments, Vertex centroid) {
+    /**
+     *
+     * @param polygon The {@link Structs.Polygon} to wrap
+     * @param segments The {@link Segment} of this polygon
+     * @param centroid The centroid {@link Vertex} of this polygon
+     * @throws IllegalArgumentException If not enough segments were given to form a polygon
+     * @throws IllegalStateException If the segments do not form a polygon
+     */
+    public Polygon(
+            Structs.Polygon polygon, List<? extends Segment> segments, Vertex centroid
+    ) throws IllegalArgumentException, IllegalStateException {
         this(segments);
 
         List<Property> properties = Util.toProperties(polygon.getPropertiesList());
         this.addAllProperties(properties);
     }
 
+    /**
+     *
+     * @param polygon The {@link Structs.Polygon} to wrap into an instance
+     * @param segments The segments that belong to this polygon
+     * @param vertices The {@link List} of all vertices
+     * @param centroid The centroid {@link Structs.Vertex} of this polygon
+     * @throws IllegalArgumentException If not enough segments were given to form a polygon
+     * @throws IllegalStateException If the segments do not form a polygon
+     */
     public Polygon(
             Structs.Polygon polygon,
             List<? extends Structs.Segment> segments,
             List<? extends Structs.Vertex> vertices,
             Structs.Vertex centroid
-    ) {
+    ) throws IllegalArgumentException, IllegalStateException {
         this(polygon, Util.toSegments(segments, vertices), new Vertex(centroid));
         this.centroid = null;
     }
