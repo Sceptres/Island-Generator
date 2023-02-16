@@ -6,6 +6,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygons;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ThicknessProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segments;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.IProperties;
@@ -13,6 +14,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertices;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -23,9 +25,18 @@ public class Util {
      * @param t The element to get color property from
      * @return The color
      */
+    public static <T extends IProperties> double extractThickness(T t) {
+        Property property = t.getProperty(ThicknessProperty.KEY);
+        if(Objects.isNull(property))
+            return 2;
+
+        // Get thickness
+        double x = Double.parseDouble(property.getValue());
+        return x;
+    }
+
     public static <T extends IProperties> Color extractColor(T t) {
         Property property = t.getProperty(ColorProperty.KEY);
-
         if(Objects.isNull(property))
             return Color.BLACK;
 
@@ -37,8 +48,8 @@ public class Util {
         int r = Integer.parseInt(rgbStr[0]);
         int g = Integer.parseInt(rgbStr[1]);
         int b = Integer.parseInt(rgbStr[2]);
-
-        return new Color(r, g, b);
+        int alpha = Integer.parseInt(rgbStr[3]);
+        return new Color(r, g, b, alpha);
     }
 
     /**
@@ -147,5 +158,17 @@ public class Util {
         List<Vertex> vertexList = Util.toVertices(vertices);
         List<Segment> segmentList = Util.toSegmentsVertex(segments, vertexList);
         return Util.toPolygons(polygons, segmentList, vertexList);
+    }
+
+    /**
+     *
+     * @param x double that you want to round to 2 decimal places
+     * @return double value in 2 decimal
+     */
+    public static double precision(double x){
+        DecimalFormat df=new DecimalFormat("0.00");
+        String formate = df.format(x);
+        double finalValue = Double.parseDouble(formate);
+        return finalValue;
     }
 }

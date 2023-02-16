@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ThicknessProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.*;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
@@ -13,7 +14,7 @@ import java.awt.geom.Line2D;
 import java.util.*;
 import java.util.List;
 
-public class Segment implements Indexable, IProperties, Renderable, Colorable, Copier<Segment>, Converter<Structs.Segment> {
+public class Segment implements Indexable,Thickenable, IProperties, Renderable, Colorable, Copier<Segment>, Converter<Structs.Segment> {
 
     private Vertex v1;
     private Vertex v2;
@@ -176,5 +177,16 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
         this.wasRendered = o.wasRendered;
         this.properties.copy(o.properties);
         this.index = o.getIndex();
+    }
+
+    @Override
+    public void setThickness(double x) {
+        Property property = new ThicknessProperty(x);
+        this.addProperty(property);
+    }
+
+    @Override
+    public double getThickness() {
+        return Util.extractThickness(this);
     }
 }
