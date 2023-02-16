@@ -243,7 +243,7 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
                 .distinct().toList();
         vertices.retainAll(polygonVertices);
 
-        return this != polygon && vertices.size() != 0;
+        return !this.equals(polygon) && vertices.size() != 0;
     }
 
     @Override
