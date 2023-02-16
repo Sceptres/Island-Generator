@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.adt;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygons;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
@@ -14,6 +15,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertices;
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Util {
     /**
@@ -93,5 +95,57 @@ public class Util {
         vertices.forEach(v -> verticesList.add(new Vertex(v)));
 
         return verticesList;
+    }
+
+    /**
+     *
+     * @param polygons The list {@link Structs.Polygon} to wrap
+     * @param segments The list of all {@link Segment}
+     * @param vertices The list of all {@link Vertex}
+     * @return A list {@link Polygons} with equivalent polygons
+     */
+    public static Polygons toPolygons(
+            List<? extends Structs.Polygon> polygons,
+            List<? extends Segment> segments,
+            List<? extends Vertex> vertices) {
+        Polygons polygonsList = new Polygons();
+
+        // Create instances
+        polygons.forEach(p -> {
+            List<? extends Segment> polygonSegments = p.getSegmentIdxsList().stream().map(segments::get).toList();
+            Polygon polygon = new Polygon(p, polygonSegments, vertices.get(p.getCentroidIdx()));
+
+            polygonsList.add(polygon);
+        });
+
+        // Set neighbors
+        for(int i=0; i < polygons.size(); i++) {
+            // Get neighbors
+            Structs.Polygon p = polygons.get(i);
+            List<Polygon> neighbors = p.getNeighborIdxsList().stream().map(polygonsList::get).toList();
+
+            // Add neighbors
+            Polygon polygon = polygonsList.get(i);
+            polygon.addNeighbors(neighbors);
+        }
+
+        return polygonsList;
+    }
+
+    /**
+     *
+     * @param polygons The list of {@link Structs.Polygon} to wrap into {@link Polygon}
+     * @param segments The list of {@link Structs.Segment} with all the segments
+     * @param vertices The list of {@link Structs.Vertex} with all the vertices
+     * @return A list {@link Polygons} of equivalent polygons
+     */
+    public static Polygons toPolygonsFromStruct(
+            List<? extends Structs.Polygon> polygons,
+            List<? extends Structs.Segment> segments,
+            List<? extends Structs.Vertex> vertices
+    ) {
+        List<Vertex> vertexList = Util.toVertices(vertices);
+        List<Segment> segmentList = Util.toSegmentsVertex(segments, vertexList);
+        return Util.toPolygons(polygons, segmentList, vertexList);
     }
 }

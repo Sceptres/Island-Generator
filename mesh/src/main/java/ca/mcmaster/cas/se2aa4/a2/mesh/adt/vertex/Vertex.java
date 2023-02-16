@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.CentroidProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
@@ -60,6 +61,31 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
      */
     public void setY(double y){
        this.y = this.precision(y);
+    }
+
+    /**
+     *
+     * @return True if this vertex is a centroid of a polygon. False otherwise
+     */
+    public boolean isCentroid() {
+        Property property = this.getProperty(CentroidProperty.KEY);
+
+        if(Objects.isNull(property))
+            return false;
+
+        return Boolean.parseBoolean(property.getValue());
+    }
+
+    /**
+     *
+     * @param isCentroid Is this vertex a centroid vertex?
+     */
+    public void setAsCentroid(boolean isCentroid) {
+        if(isCentroid) {
+            this.addProperty(new CentroidProperty(true));
+        } else {
+            this.addProperty(new CentroidProperty(false));
+        }
     }
 
     @Override
