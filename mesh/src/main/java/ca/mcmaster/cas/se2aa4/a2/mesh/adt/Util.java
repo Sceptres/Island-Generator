@@ -24,13 +24,13 @@ public class Util {
      * @param t The element to get color property from
      * @return The color
      */
-    public static <T extends IProperties> double extractThickness(T t) {
+    public static <T extends IProperties> float extractThickness(T t) {
         Property property = t.getProperty(ThicknessProperty.KEY);
         if(Objects.isNull(property))
             return 2;
 
         // Get thickness
-        double x = Double.parseDouble(property.getValue());
+        float x = Float.parseFloat(property.getValue());
         return x;
     }
 

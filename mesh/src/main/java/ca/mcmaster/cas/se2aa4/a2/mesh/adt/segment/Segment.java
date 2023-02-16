@@ -180,13 +180,13 @@ public class Segment implements Indexable,Thickenable, IProperties, Renderable, 
     }
 
     @Override
-    public void setThickness(double x) {
+    public void setThickness(float x) {
         Property property = new ThicknessProperty(x);
         this.addProperty(property);
     }
 
     @Override
-    public double getThickness() {
+    public float getThickness() {
         return Util.extractThickness(this);
     }
 }

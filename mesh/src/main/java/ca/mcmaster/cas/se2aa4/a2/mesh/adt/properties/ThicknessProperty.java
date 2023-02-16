@@ -8,7 +8,7 @@ public class ThicknessProperty extends Property{
     public static final String KEY = "thickness";
 
     private static final String VALUE_FORMAT = "%f";
-    public ThicknessProperty(double x) {
+    public ThicknessProperty(float x) {
         super(KEY, String.format(VALUE_FORMAT, Util.precision(x)));
     }
 
