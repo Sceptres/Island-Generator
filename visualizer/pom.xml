@@ -27,6 +27,11 @@
 		  <artifactId>batik-rasterizer</artifactId>
 		  <version>1.16</version>
 	  </dependency>
+	  <dependency>
+		  <groupId>io.github.ace-design</groupId>
+		  <artifactId>2aa4.mesh.mesh</artifactId>
+		  <version>1.0</version>
+	  </dependency>
   </dependencies>
 
   <build>

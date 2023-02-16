@@ -5,7 +5,7 @@
   http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <packaging>jar</packaging>
-  
+
   <parent>
     <groupId>io.github.ace-design</groupId>
     <artifactId>2aa4.mesh</artifactId>
@@ -20,6 +20,11 @@
     <dependency>
       <groupId>io.github.ace-design</groupId>
       <artifactId>2aa4.mesh.io</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.ace-design</groupId>
+      <artifactId>2aa4.mesh.mesh</artifactId>
       <version>1.0</version>
     </dependency>
   </dependencies>
