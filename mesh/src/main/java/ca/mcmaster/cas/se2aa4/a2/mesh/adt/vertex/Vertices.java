@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.datastructures.UniqueList;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Vertices extends UniqueList<Vertex> implements Converter<List<Structs.Vertex>> {
@@ -19,6 +20,17 @@ public class Vertices extends UniqueList<Vertex> implements Converter<List<Struc
         }
 
         return isAdded;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends Vertex> c) {
+        c.forEach(this::add);
+        return true;
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends Vertex> c) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

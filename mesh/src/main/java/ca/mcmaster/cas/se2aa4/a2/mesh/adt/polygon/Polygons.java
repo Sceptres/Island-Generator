@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.datastructures.UniqueList;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 
+import java.util.Collection;
 import java.util.List;
 
 public class Polygons extends UniqueList<Polygon> implements Converter<List<Structs.Polygon>> {
@@ -19,6 +20,17 @@ public class Polygons extends UniqueList<Polygon> implements Converter<List<Stru
         }
 
         return isAdded;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends Polygon> c) {
+        c.forEach(this::add);
+        return true;
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends Polygon> c) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

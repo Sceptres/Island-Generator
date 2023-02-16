@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.datastructures.UniqueList;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 
+import java.util.Collection;
 import java.util.List;
 
 public class Segments extends UniqueList<Segment> implements Converter<List<Structs.Segment>> {
@@ -19,6 +20,17 @@ public class Segments extends UniqueList<Segment> implements Converter<List<Stru
             t.setIndex(segment.getIndex());
         }
         return isAdded;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends Segment> c) {
+        c.forEach(this::add);
+        return true;
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends Segment> c) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
