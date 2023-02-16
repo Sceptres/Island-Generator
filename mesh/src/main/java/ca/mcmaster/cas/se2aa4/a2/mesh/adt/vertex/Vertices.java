@@ -3,12 +3,13 @@ package ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.datastructures.UniqueList;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Copier;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Vertices extends UniqueList<Vertex> implements Converter<List<Structs.Vertex>> {
+public class Vertices extends UniqueList<Vertex> implements Copier<Vertices>, Converter<List<Structs.Vertex>> {
     @Override
     public boolean add(Vertex t) {
         boolean isAdded = super.add(t);
@@ -16,7 +17,7 @@ public class Vertices extends UniqueList<Vertex> implements Converter<List<Struc
             t.setIndex(super.size()-1);
         else {
             Vertex vertex = super.stream().filter(v -> v.equals(t)).findFirst().get();
-            t.setIndex(vertex.getIndex());
+            t.copy(vertex);
         }
 
         return isAdded;
@@ -36,5 +37,11 @@ public class Vertices extends UniqueList<Vertex> implements Converter<List<Struc
     @Override
     public List<Structs.Vertex> getConverted() {
         return super.stream().map(Vertex::getConverted).toList();
+    }
+
+    @Override
+    public void copy(Vertices vertices) {
+        super.clear();
+        this.addAll(vertices);
     }
 }

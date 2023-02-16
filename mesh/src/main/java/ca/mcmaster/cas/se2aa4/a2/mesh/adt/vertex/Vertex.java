@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 
-public class Vertex implements Indexable, IProperties, Renderable, Colorable, Converter<Structs.Vertex> {
+public class Vertex implements Indexable, IProperties, Renderable, Colorable, Copier<Vertex>, Converter<Structs.Vertex> {
     private double x;
     private double y;
     private boolean wasRendered;
@@ -186,5 +186,22 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
     @Override
     public int hashCode() {
         return Objects.hash(x, y, properties, index);
+    }
+
+    @Override
+    public void copy(Vertex vertex) {
+        this.setX(vertex.getX());
+        this.setY(vertex.getY());
+        this.wasRendered = vertex.wasRendered;
+        this.properties.copy(vertex.properties);
+        this.index = vertex.getIndex();
+    }
+
+    @Override
+    public String toString() {
+        return "Vertex{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

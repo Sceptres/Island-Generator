@@ -13,10 +13,10 @@ import java.awt.geom.Line2D;
 import java.util.*;
 import java.util.List;
 
-public class Segment implements Indexable, IProperties, Renderable, Colorable, Converter<Structs.Segment> {
+public class Segment implements Indexable, IProperties, Renderable, Colorable, Copier<Segment>, Converter<Structs.Segment> {
 
-    private final Vertex v1;
-    private final Vertex v2;
+    private Vertex v1;
+    private Vertex v2;
     private boolean wasRendered;
     private final Properties properties;
     private int index;
@@ -165,5 +165,16 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
     public boolean shareVertex(Segment segment) {
         return this.v1.equals(segment.v1) || this.v1.equals(segment.v2) ||
                 this.v2.equals(segment.v1) || this.v2.equals(segment.v2);
+    }
+
+    @Override
+    public void copy(Segment o) {
+        this.v1 = new Vertex(o.getV1().getX(), o.getV1().getY());
+        this.v2 = new Vertex(o.getV2().getX(), o.getV2().getY());
+        this.v1.copy(o.v1);
+        this.v2.copy(o.v2);
+        this.wasRendered = o.wasRendered;
+        this.properties.copy(o.properties);
+        this.index = o.getIndex();
     }
 }

@@ -9,7 +9,6 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segments;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.*;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertices;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
@@ -22,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Polygon implements Indexable, IProperties, Renderable, Colorable, Converter<Structs.Polygon> {
+public class Polygon implements Indexable, IProperties, Renderable, Colorable, Copier<Polygon>, Converter<Structs.Polygon> {
 
     private Vertex centroid;
     private final Segments segments;
@@ -105,8 +104,11 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
             Segment segment1 = this.segments.get(i);
             Segment segment2 = this.segments.get((i+1) % this.segments.size());
 
-            if(!segment1.shareVertex(segment2)) // Second vertex of first segment and first of second segment dont match?
+            if(!segment1.shareVertex(segment2)) { // Second vertex of first segment and first of second segment dont match?
+                System.out.println(segment1);
+                System.out.println(segment2);
                 return false;
+            }
         }
 
         return true;
@@ -252,5 +254,14 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
         if (o == null || getClass() != o.getClass()) return false;
         Polygon polygon = (Polygon) o;
         return Objects.equals(centroid, polygon.centroid) && Objects.equals(segments, polygon.segments);
+    }
+
+    @Override
+    public void copy(Polygon polygon) {
+        this.centroid.copy(polygon.getCentroid());
+        this.segments.copy(polygon.segments);
+        this.properties.copy(polygon.properties);
+        this.neighbors.copy(polygon.neighbors);
+        this.index = polygon.getIndex();
     }
 }

@@ -3,21 +3,21 @@ package ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.datastructures.UniqueList;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Copier;
 
 import java.util.Collection;
 import java.util.List;
 
-public class Segments extends UniqueList<Segment> implements Converter<List<Structs.Segment>> {
+public class Segments extends UniqueList<Segment> implements Copier<Segments>, Converter<List<Structs.Segment>> {
     @Override
     public boolean add(Segment t) {
         boolean isAdded = super.add(t);
 
         if(isAdded) {
             t.setIndex(super.size()-1);
-            t.calculateColor();
         } else {
             Segment segment = super.stream().filter(s -> s.equals(t)).findFirst().get();
-            t.setIndex(segment.getIndex());
+            t.copy(segment);
         }
         return isAdded;
     }
@@ -36,5 +36,11 @@ public class Segments extends UniqueList<Segment> implements Converter<List<Stru
     @Override
     public List<Structs.Segment> getConverted() {
         return super.stream().map(Segment::getConverted).toList();
+    }
+
+    @Override
+    public void copy(Segments segments) {
+        super.clear();
+        this.addAll(segments);
     }
 }
