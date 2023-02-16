@@ -31,7 +31,7 @@ public class Util {
 
         // Get thickness
         float x = Float.parseFloat(property.getValue());
-        return x;
+        return (float) Util.precision(x);
     }
 
     public static <T extends IProperties> Color extractColor(T t) {
