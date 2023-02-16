@@ -20,12 +20,17 @@ public class GraphicRenderer {
         List<Segment> segments = aMesh.getSegmentsList();
         List<Polygon> polygons = aMesh.getPolygonsList();
 
+        boolean debug = true;
+
         canvas.setColor(Color.BLACK);
-        Stroke stroke = new BasicStroke(3f);
+        Stroke stroke = new BasicStroke(0.5f);
         canvas.setStroke(stroke);
 
         // Add vertices
         for (Vertex v: vertices) {
+            if(vertices.indexOf(v) == 676 && !debug){
+                break;
+            }
             double centre_x = v.getX() - (THICKNESS/2.0d);
             double centre_y = v.getY() - (THICKNESS/2.0d);
             Color old = canvas.getColor();
@@ -35,22 +40,7 @@ public class GraphicRenderer {
             canvas.setColor(old);
         }
 
-        // Add segments
-        /*for(Polygon polygon : polygons) {
-            // Get vertices assigned to this segment
-            for(int i = 0; i < 4; i++){
-                Segment seg = segments.get(polygon.getSegmentIdxs(i));
-                Vertex v1 = vertices.get(seg.getV1Idx());
-                Vertex v2 = vertices.get(seg.getV2Idx());
-
-                // Draw segment with appropriate color
-                Color old = canvas.getColor();
-                canvas.setColor(extractColor(seg.getPropertiesList()));
-                canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
-                canvas.setColor(old);
-            }
-        }*/
-
+        //Draw Segments
         for(Segment segment: segments){
             Vertex v1 = vertices.get(segment.getV1Idx());
             Vertex v2 = vertices.get(segment.getV2Idx());
