@@ -15,7 +15,6 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertices;
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Util {
     /**
