@@ -1,10 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.CentroidProperty;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.*;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.*;
 
 import java.awt.*;
@@ -13,7 +11,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 
-public class Vertex implements Indexable, IProperties, Renderable, Colorable, Copier<Vertex>, Converter<Structs.Vertex> {
+public class Vertex implements Indexable,Thickenable, IProperties, Renderable, Colorable, Copier<Vertex>, Converter<Structs.Vertex> {
     private double x;
     private double y;
     private boolean wasRendered;
@@ -26,8 +24,8 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
      * @param y this is y position
      */
     public Vertex(double x,double y){
-        this.x = this.precision(x);
-        this.y = this.precision(y);
+        this.x = Util.precision(x);
+        this.y = Util.precision(y);
         this.properties = new Properties();
         this.index = -1;
     }
@@ -52,7 +50,7 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
      * @param x x coordinate of vertex
      */
     public void setX(double x){
-        this.x = this.precision(x);
+        this.x = Util.precision(x);
     }
 
     /**
@@ -60,7 +58,7 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
      * @param y y coordinate of vertex
      */
     public void setY(double y){
-       this.y = this.precision(y);
+       this.y = Util.precision(y);
     }
 
     /**
@@ -144,14 +142,15 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
     @Override
     public void draw(Graphics2D canvas) {
         if(!this.wasRendered) {
-            double centreX = this.getX() - (3 / 2.0d);
-            double centreY = this.getY() - (3 / 2.0d);
+            double centreX = this.getX() - (this.getThickness() / 2.0d);
+            double centreY = this.getY() - (this.getThickness() / 2.0d);
 
             // Set color to draw with
             canvas.setColor(this.getColor());
 
             // Draw vertex
-            Ellipse2D point = new Ellipse2D.Double(centreX, centreY, 3, 3);
+            Ellipse2D point = new Ellipse2D.Double(centreX, centreY, this.getThickness(), this.getThickness());
+            canvas.setStroke(new BasicStroke(this.getThickness()));
             canvas.fill(point);
 
             this.wasRendered = true;
@@ -163,17 +162,7 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
         return Structs.Vertex.newBuilder().setX(this.x).setY(this.y).addAllProperties(this.properties.getConverted()).build();
     }
 
-    /**
-     *
-     * @param x double that you want to round to 2 decimal places
-     * @return double value in 2 decimal
-     */
-    private double precision(double x){
-        DecimalFormat df=new DecimalFormat("0.00");
-        String formate = df.format(x);
-        double finalValue = Double.parseDouble(formate);
-        return finalValue;
-    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -203,5 +192,16 @@ public class Vertex implements Indexable, IProperties, Renderable, Colorable, Co
                 "x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    @Override
+    public void setThickness(float x) {
+        Property property = new ThicknessProperty(x);
+        this.addProperty(property);
+    }
+
+    @Override
+    public float getThickness() {
+        return Util.extractThickness(this);
     }
 }

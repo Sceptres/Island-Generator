@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ThicknessProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.*;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
@@ -13,7 +14,7 @@ import java.awt.geom.Line2D;
 import java.util.*;
 import java.util.List;
 
-public class Segment implements Indexable, IProperties, Renderable, Colorable, Copier<Segment>, Converter<Structs.Segment> {
+public class Segment implements Indexable,Thickenable, IProperties, Renderable, Colorable, Copier<Segment>, Converter<Structs.Segment> {
 
     private final Vertex v1;
     private final Vertex v2;
@@ -29,6 +30,7 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
     public Segment(Vertex v1, Vertex v2) {
         this.v1 = v1;
         this.v2 = v2;
+        this.setThickness(0.5f);
         this.properties = new Properties();
         this.index = -1;
     }
@@ -151,6 +153,7 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
     public void draw(Graphics2D canvas) {
         if(!this.wasRendered) {
             canvas.setColor(this.getColor());
+            this.setThickness(this.getThickness());
             canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
 
             this.wasRendered = true;
@@ -179,5 +182,16 @@ public class Segment implements Indexable, IProperties, Renderable, Colorable, C
         this.wasRendered = o.wasRendered;
         this.properties.copy(o.properties);
         this.index = o.getIndex();
+    }
+
+    @Override
+    public void setThickness(float x) {
+        Property property = new ThicknessProperty(x);
+        this.addProperty(property);
+    }
+
+    @Override
+    public float getThickness() {
+        return Util.extractThickness(this);
     }
 }
