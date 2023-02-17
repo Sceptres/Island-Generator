@@ -62,6 +62,8 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
 
         List<Property> properties = Util.toProperties(polygon.getPropertiesList());
         this.addAllProperties(properties);
+
+        this.centroid = centroid;
     }
 
     /**
