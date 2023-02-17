@@ -59,14 +59,16 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Definition of Done
 
--- TBD --
+1. Works as expected per feature outline and requirements
+2. No bugs and unexpected behaviour
+3. Smooth program execution
 
 
 ### Product Backlog
 
 - | Id | Feature title                        | Who?          | Start     |     End   |   Status |
-- | 01 |Creating a mesh ADT (fix generator)   |Abdallah,Beshoy| 8-2-2023  |           |   Pending|
-- | 02 |Producing full meshes                 |Omar           | 8-2-2023  | 16-2-2023 |   Pending|
+- | 01 |Creating a mesh ADT (fix generator)   |Abdallah,Beshoy| 8-2-2023  | 16-2-2023 |   Complete|
+- | 02 |Producing full meshes                 |Omar           | 8-2-2023  | 16-2-2023 |   Complete|
 - | 03 |Playing with rendering                |TBD            | 6-2-2023  |           |   Pending|
 - | 04 |Visualization mode                    |TBD            | 11-2-2023 |           |   Pending|
 - | .. |...                                   |...            | ...       |           |   ...    |
