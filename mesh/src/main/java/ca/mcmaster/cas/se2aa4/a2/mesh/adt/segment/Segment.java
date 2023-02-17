@@ -30,8 +30,8 @@ public class Segment implements Indexable,Thickenable, IProperties, Renderable, 
     public Segment(Vertex v1, Vertex v2) {
         this.v1 = v1;
         this.v2 = v2;
-        this.setThickness(0.5f);
         this.properties = new Properties();
+        this.setThickness(0.5f);
         this.index = -1;
     }
 
