@@ -17,6 +17,7 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class Util {
     /**
@@ -169,5 +170,18 @@ public class Util {
         String formate = df.format(x);
         double finalValue = Double.parseDouble(formate);
         return finalValue;
+    }
+
+    public static Color generateRandomColor(boolean alpha) {
+        Random random = new Random();
+        int r = random.nextInt(256);
+        int g = random.nextInt(256);
+        int b = random.nextInt(256);
+        int a = 255;
+
+        if(alpha)
+            a = random.nextInt(256);
+
+        return new Color(r, g, b, a);
     }
 }

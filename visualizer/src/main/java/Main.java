@@ -6,6 +6,7 @@ import ca.mcmaster.cas.se2aa4.a2.visualizer.SVGCanvas;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Main {
 
@@ -23,7 +24,16 @@ public class Main {
         }
         // Creating the Canvas to draw the mesh
         Graphics2D canvas = SVGCanvas.build((int) Math.ceil(max_x), (int) Math.ceil(max_y));
-        GraphicRenderer renderer = new GraphicRenderer();
+
+        boolean isDebug;
+
+        try {
+            isDebug = args[2].equals("-X");
+        } catch (ArrayIndexOutOfBoundsException e){
+            isDebug = false;
+        }
+
+        GraphicRenderer renderer = new GraphicRenderer(isDebug);
         // Painting the mesh on the canvas
         renderer.render(aMesh, canvas);
         // Storing the result in an SVG file

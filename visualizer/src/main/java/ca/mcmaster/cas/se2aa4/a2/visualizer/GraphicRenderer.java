@@ -1,24 +1,68 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segments;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.awt.*;
 
 public class GraphicRenderer {
+
+    private final boolean isDebug;
+
+    public GraphicRenderer(boolean isDebug) {
+        this.isDebug = isDebug;
+    }
 
     public void render(Structs.Mesh aMesh, Graphics2D canvas) {
         Mesh mesh = new Mesh(aMesh);
 
         canvas.setColor(Color.BLACK);
 
+        Segments debugSegments = new Segments();
+
         // Render polygons
-        mesh.getPolygons().forEach(polygon -> polygon.render(canvas));
+        mesh.getPolygons().forEach(polygon -> {
+            if(this.isDebug) {
+                Color color = Util.generateRandomColor(false);
+
+                polygon.getNeighbors().forEach(p -> {
+                    // Calculate center point between centroids of polygon and its neighbors
+                    double midX = (p.getCentroid().getX() + polygon.getCentroid().getX()) / 2;
+                    double midY = (p.getCentroid().getY() + polygon.getCentroid().getY()) / 2;
+                    Vertex midVertex = new Vertex(midX, midY);
+
+                    // Segment that will be drawn to show neighborhood
+                    Segment segment = new Segment(polygon.getCentroid(), midVertex);
+                    segment.setColor(color);
+                    debugSegments.add(segment);
+                });
+                polygon.setColor(new Color(0, 0, 0, 0));
+            }
+
+            polygon.render(canvas);
+        });
 
         // Render segments
-        mesh.getSegments().forEach(segment -> segment.render(canvas));
+        mesh.getSegments().forEach(segment -> {
+            if(this.isDebug)
+                segment.setColor(Color.BLACK);
+            segment.render(canvas);
+        });
 
         // Render vertices
-        mesh.getNonCentroidVertices().forEach(vertex -> vertex.render(canvas));
+        mesh.getNonCentroidVertices().forEach(vertex -> {
+            if(this.isDebug)
+                vertex.setColor(Color.BLACK);
+            vertex.render(canvas);
+        });
+
+        if(this.isDebug) {
+            debugSegments.forEach(s -> s.render(canvas));
+            mesh.getCentroidVertices().forEach(vertex -> vertex.render(canvas));
+        }
     }
 }
