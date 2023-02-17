@@ -38,7 +38,7 @@ public class Util {
     public static <T extends IProperties> Color extractColor(T t) {
         Property property = t.getProperty(ColorProperty.KEY);
         if(Objects.isNull(property))
-            return Color.BLACK;
+            return new Color(0, 0, 0, 0);
 
         if(!property.getKey().equals(ColorProperty.KEY)) // Not the color property?
             throw new IllegalArgumentException("This property is not a color property!");

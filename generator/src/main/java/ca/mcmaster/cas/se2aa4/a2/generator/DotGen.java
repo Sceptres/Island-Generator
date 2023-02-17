@@ -1,10 +1,10 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
@@ -67,12 +67,7 @@ public class DotGen {
      * @return The {@link Vertex} instance
      */
     private Vertex getVertexWithColor(double x, double y) {
-        Random bag = new Random();
-        int red = bag.nextInt(255);
-        int green = bag.nextInt(255);
-        int blue = bag.nextInt(255);
-        Color color = new Color(red, green, blue);
-
+        Color color = Util.generateRandomColor(false);
         Vertex vertex = new Vertex(x, y);
         vertex.setColor(color);
 
