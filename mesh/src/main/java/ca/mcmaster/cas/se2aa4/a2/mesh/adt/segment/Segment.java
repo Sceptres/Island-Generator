@@ -30,6 +30,7 @@ public class Segment implements Indexable,Thickenable, IProperties, Renderable, 
     public Segment(Vertex v1, Vertex v2) {
         this.v1 = v1;
         this.v2 = v2;
+        this.setThickness(0.5f);
         this.properties = new Properties();
         this.index = -1;
     }
@@ -152,6 +153,7 @@ public class Segment implements Indexable,Thickenable, IProperties, Renderable, 
     public void draw(Graphics2D canvas) {
         if(!this.wasRendered) {
             canvas.setColor(this.getColor());
+            this.setThickness(this.getThickness());
             canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
 
             this.wasRendered = true;

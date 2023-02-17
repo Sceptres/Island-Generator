@@ -142,14 +142,15 @@ public class Vertex implements Indexable,Thickenable, IProperties, Renderable, C
     @Override
     public void draw(Graphics2D canvas) {
         if(!this.wasRendered) {
-            double centreX = this.getX() - (3 / 2.0d);
-            double centreY = this.getY() - (3 / 2.0d);
+            double centreX = this.getX() - (this.getThickness() / 2.0d);
+            double centreY = this.getY() - (this.getThickness() / 2.0d);
 
             // Set color to draw with
             canvas.setColor(this.getColor());
 
             // Draw vertex
-            Ellipse2D point = new Ellipse2D.Double(centreX, centreY, 3, 3);
+            Ellipse2D point = new Ellipse2D.Double(centreX, centreY, this.getThickness(), this.getThickness());
+            canvas.setStroke(new BasicStroke(this.getThickness()));
             canvas.fill(point);
 
             this.wasRendered = true;

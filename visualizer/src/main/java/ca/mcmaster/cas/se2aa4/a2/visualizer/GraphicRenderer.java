@@ -7,7 +7,6 @@ import java.awt.*;
 
 public class GraphicRenderer {
 
-    private static final int THICKNESS = 3;
     public void render(Structs.Mesh aMesh, Graphics2D canvas) {
         Mesh mesh = new Mesh(aMesh);
 
