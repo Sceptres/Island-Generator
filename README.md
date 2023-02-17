@@ -69,7 +69,7 @@ When you develop features and enrich the product, remember that you have first t
 - | Id | Feature title                        | Who?          | Start     |     End   |   Status |
 - | 01 |Creating a mesh ADT (fix generator)   |Abdallah,Beshoy| 8-2-2023  | 16-2-2023 |   Complete|
 - | 02 |Producing full meshes                 |Omar           | 8-2-2023  | 16-2-2023 |   Complete|
-- | 03 |Playing with rendering                |TBD            | 6-2-2023  |           |   Pending|
+- | 03 |Playing with rendering                |Beshoy         | 16-2-2023 | 16-2-2023 |   Complete|
 - | 04 |Visualization mode                    |TBD            | 11-2-2023 |           |   Pending|
 - | .. |...                                   |...            | ...       |           |   ...    |
 - 
