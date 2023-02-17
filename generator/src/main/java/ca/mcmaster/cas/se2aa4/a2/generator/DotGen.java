@@ -81,9 +81,9 @@ public class DotGen {
 
     /**
      *
-     * @param v1
-     * @param v2
-     * @return
+     * @param v1 The first {@link Vertex} of the {@link Segment}
+     * @param v2 The second {@link Vertex} of the {@link Segment}
+     * @return The {@link Segment} connecting both vertices
      */
     private Segment getSegmentWithColor(Vertex v1, Vertex v2) {
         Segment segment = new Segment(v1, v2);
