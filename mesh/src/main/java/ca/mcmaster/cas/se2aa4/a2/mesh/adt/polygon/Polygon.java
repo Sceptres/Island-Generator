@@ -228,8 +228,7 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
         });
         area.closePath();
 
-        Color areaColor = new Color(0, 0, 0, 0);
-        canvas.setColor(areaColor);
+        canvas.setColor(this.getColor());
         canvas.fill(area);
     }
 
