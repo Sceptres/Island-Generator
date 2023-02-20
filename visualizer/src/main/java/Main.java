@@ -56,11 +56,11 @@ public class Main {
         String value = handler.getOptionValue(VisualizerInputHandler.getVisualizerOption(InputOption.OPTION_STR));
 
         if(!Files.exists(Path.of(value))) { // Does this file not exist?
-            System.out.printf("Cannot find %s. Please try again!", value);
+            System.out.printf("Cannot find %s. Please try again!\n", value);
             handler.printHelp();
             System.exit(1);
         } else if(!value.endsWith(".mesh")) { // Is the given file not a mesh?
-            System.out.printf("%s is not a mesh file! Please insert correct file format.", value);
+            System.out.printf("%s is not a mesh file! Please insert correct file format.\n", value);
             handler.printHelp();
             System.exit(1);
         }
