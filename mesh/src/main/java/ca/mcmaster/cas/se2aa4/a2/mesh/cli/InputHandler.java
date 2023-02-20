@@ -15,7 +15,7 @@ public class InputHandler {
      * @param args The arguments passed in through the cmd
      * @param optionsMap The {@link HashMap} of all the possible options that can be passed in
      */
-    public InputHandler(String[] args, HashMap<String, ? extends Option> optionsMap) {
+    public InputHandler(String[] args, Map<String, ? extends Option> optionsMap) {
         // Set options
         this.options = new Options();
         optionsMap.forEach((k, v) -> this.options.addOption(v));
