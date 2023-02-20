@@ -8,7 +8,7 @@ import org.apache.commons.cli.Option;
 public class OutputOption extends Option {
 
     public static final String OPTION_STR = "output";
-    private static final String DESCRIPTION = "The file to output the to.";
+    private static final String DESCRIPTION = "The file to output to.";
 
     public OutputOption() throws IllegalArgumentException {
         super(OPTION_STR.substring(0, 3), OPTION_STR, true, DESCRIPTION);
