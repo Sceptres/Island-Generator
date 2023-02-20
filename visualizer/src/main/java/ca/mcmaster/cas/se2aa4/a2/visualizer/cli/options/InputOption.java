@@ -13,6 +13,7 @@ public class InputOption extends Option {
     public InputOption() throws IllegalArgumentException {
         super(OPTION_STR.substring(0, 2), OPTION_STR, true, DESCRIPTION);
         super.setRequired(true);
+        super.setArgName("input file>");
         super.setArgs(1);
     }
 }
