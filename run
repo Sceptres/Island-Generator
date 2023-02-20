@@ -6,5 +6,5 @@ java -jar generator.jar sample.mesh
 cd ../
 
 cd visualizer/
-java -jar visualizer.jar ../generator/sample.mesh sample.svg
+java -jar visualizer.jar -in ../generator/sample.mesh -out sample.svg
 cd ../
