@@ -71,6 +71,8 @@ When you develop features and enrich the product, remember that you have first t
 - | 02 |Producing full meshes                 |Omar           | 8-2-2023  | 16-2-2023 |   Complete|
 - | 03 |Playing with rendering                |Beshoy         | 16-2-2023 | 16-2-2023 |   Complete|
 - | 04 |Visualization mode                    |Omar           | 16-2-2023 | 17-2-2023 |   Complete|
+- | 05 |Mesh configuration                    |Abdallah       |  |  |    Pending|
+- | 04 |Irregular mesh generation             |Omar & Beshoy  |  |  |    Pending|
 - | .. |...                                   |...            | ...       |           |   ...    |
 - 
 
