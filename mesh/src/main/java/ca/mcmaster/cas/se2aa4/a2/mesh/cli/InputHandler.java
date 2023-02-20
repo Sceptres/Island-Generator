@@ -79,7 +79,7 @@ public class InputHandler {
      * @param option The {@link Option} to get from the command line
      * @return Whether this {@link Option} has been passed in or not
      */
-    public boolean hasOption(Option option) throws IllegalArgumentException {
+    public boolean hasOption(Option option) {
         return this.cmd.hasOption(option);
     }
 }
