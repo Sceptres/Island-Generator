@@ -1,11 +1,14 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.cli;
 
+import ca.mcmaster.cas.se2aa4.a2.mesh.cli.options.HelpOption;
 import org.apache.commons.cli.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class InputHandler {
+    private static final HelpOption HELP_OPTION = new HelpOption();
+
     private CommandLine cmd;
     private final HelpFormatter formatter;
     private final Options options;
@@ -19,6 +22,7 @@ public class InputHandler {
         // Set options
         this.options = new Options();
         optionsMap.forEach((k, v) -> this.options.addOption(v));
+        this.options.addOption(HELP_OPTION);
         this.formatter = new HelpFormatter();
 
         try {
@@ -27,6 +31,11 @@ public class InputHandler {
             this.cmd = parser.parse(this.options, args);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
+            this.printHelp();
+            System.exit(1);
+        }
+
+        if(this.hasOption(HELP_OPTION)) { // Did the user request for help message?
             this.printHelp();
             System.exit(1);
         }
