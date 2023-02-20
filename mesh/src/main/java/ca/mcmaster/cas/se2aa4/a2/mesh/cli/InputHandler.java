@@ -72,6 +72,19 @@ public class InputHandler {
 
     /**
      *
+     * @param option The {@link Option} to get value of from the command line
+     * @param defaultValue The default value if no value exists
+     * @return The value of the {@link Option} if there is one. The given default value otherwise.
+     */
+    public String getOptionValue(Option option, String defaultValue) {
+        if(!this.options.hasOption(option.getOpt()))
+            throw new IllegalArgumentException("Invalid option!");
+
+        return this.cmd.getOptionValue(option, defaultValue);
+    }
+
+    /**
+     *
      * @param option The {@link Option} to get values of from the command line
      * @return A {@link String}[] containing the values given to this {@link Option}
      * @throws IllegalArgumentException If this {@link Option} is not a part of the parsed {@link Options}
