@@ -7,14 +7,14 @@ import org.apache.commons.cli.Option;
  */
 public class NumberPolygonsOption extends Option {
 
-    public static final String OPTION_STR = "num-polygons";
+    public static final String OPTION_STR = "numPolygons";
     public static final String DEFAULT_VALUE = "100";
     private static final String DESCRIPTION =
             "Sets the number of polygons to generate in the irregular mesh. Will be ignored if the mesh is a grid.";
 
 
     public NumberPolygonsOption() throws IllegalArgumentException {
-        super(OPTION_STR, OPTION_STR, true, DESCRIPTION);
+        super("np", OPTION_STR, true, DESCRIPTION);
         super.setArgs(1);
         super.setArgName("number of polygons>");
         super.setRequired(false);
