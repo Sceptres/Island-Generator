@@ -154,6 +154,7 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
         this.centroid = new Vertex(x, y);
         this.centroid.setAsCentroid(true);
         this.centroid.setColor(Color.RED);
+        this.centroid.setThickness(4);
     }
 
     @Override
