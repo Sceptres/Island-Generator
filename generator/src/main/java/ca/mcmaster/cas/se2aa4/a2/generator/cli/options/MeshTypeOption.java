@@ -15,6 +15,7 @@ public class MeshTypeOption extends Option {
     public MeshTypeOption() throws IllegalArgumentException {
         super(OPTION_STR.substring(0, 1), OPTION_STR, true, DESCRIPTION);
         super.setArgs(1);
+        super.setArgName("mesh type>");
         super.setRequired(false);
     }
 }
