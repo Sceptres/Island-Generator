@@ -27,6 +27,7 @@ public class Vertex implements Indexable,Thickenable, IProperties, Renderable, C
         this.x = Util.precision(x);
         this.y = Util.precision(y);
         this.properties = new Properties();
+        this.setColor(Util.generateRandomColor(false));
         this.index = -1;
     }
 
