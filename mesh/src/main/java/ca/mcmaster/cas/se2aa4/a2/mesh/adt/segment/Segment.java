@@ -137,7 +137,7 @@ public class Segment implements Indexable,Thickenable, IProperties, Renderable, 
     public void draw(Graphics2D canvas) {
         if(!this.wasRendered) {
             canvas.setColor(this.getColor());
-            this.setThickness(this.getThickness());
+            canvas.setStroke(new BasicStroke(this.getThickness()));
             canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
 
             this.wasRendered = true;
