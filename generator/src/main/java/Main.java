@@ -71,7 +71,7 @@ public class Main {
             double squareSize = getGridMeshSquareSize(handler);
 
             try {
-                return new GridMeshGenerator(generators, thickness, meshDimensions[0], meshDimensions[1], squareSize);
+                return new GridMeshGenerator(generators, thickness, meshDimensions, squareSize);
             } catch (SquaresFittingException e) {
                 String message = String.format(
                         "Not all squares of size %.2f can fit in %dx%d\n",

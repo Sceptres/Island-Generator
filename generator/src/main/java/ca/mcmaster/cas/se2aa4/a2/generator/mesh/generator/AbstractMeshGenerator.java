@@ -21,13 +21,13 @@ public abstract class AbstractMeshGenerator implements MeshGenerator {
      * @param width The width of the mesh to generate
      * @param height The height of the mesh to generate
      */
-    protected AbstractMeshGenerator(ColorGenerator[] generators, float[] thickness, int width, int height) {
-        if(width <= 0 || height <= 0)
+    protected AbstractMeshGenerator(ColorGenerator[] generators, float[] thickness, int[] dimensions) {
+        if(dimensions[0] <= 0 || dimensions[1] <= 0)
             throw new IllegalArgumentException("Cannot have a dimension less than or equal to 0!");
         this.verticesThickness = (float) Util.precision(thickness[0]);
         this.segmentsThickness = (float) Util.precision(thickness[1]);
-        this.width = width;
-        this.height = height;
+        this.width = dimensions[0];
+        this.height = dimensions[1];
         this.vertexColorGenerator = generators[0];
         this.segmentColorGenerator = generators[1];
         this.polygonColorGenerator = generators[2];

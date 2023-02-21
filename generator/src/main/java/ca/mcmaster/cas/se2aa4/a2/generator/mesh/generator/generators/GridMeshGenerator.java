@@ -15,12 +15,12 @@ public class GridMeshGenerator extends AbstractMeshGenerator {
 
     private final double squareSize;
 
-    public GridMeshGenerator(ColorGenerator[] generators, float[] thickness, int width, int height, double squareSize) {
-        super(generators, thickness, width, height);
+    public GridMeshGenerator(ColorGenerator[] generators, float[] thickness, int[] dimensions, double squareSize) {
+        super(generators, thickness, dimensions);
 
-        if(width != height) // Not square dimensions?
+        if(super.getWidth() != super.getHeight()) // Not square dimensions?
             throw new NotSquareMeshException();
-        else if((width/squareSize) % 1 != 0) // Not all squares can fit within the mesh?
+        else if((super.getWidth()/squareSize) % 1 != 0) // Not all squares can fit within the mesh?
             throw new SquaresFittingException(super.getWidth(), super.getHeight());
 
         this.squareSize = squareSize;
