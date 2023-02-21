@@ -27,6 +27,7 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
     private final Segments segments;
     private final Properties properties;
     private final Polygons neighbors;
+    private boolean wasRendered = false;
     private int index;
 
     /**
@@ -208,30 +209,34 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
 
     @Override
     public void draw(Graphics2D canvas) {
-        Path2D area = new Path2D.Double();
-        area.moveTo(this.segments.get(0).getV1().getX(), this.segments.get(0).getV1().getY());
+        if(!this.wasRendered) {
+            Path2D area = new Path2D.Double();
+            area.moveTo(this.segments.get(0).getV1().getX(), this.segments.get(0).getV1().getY());
 
-        // Keep track of the position of the last loop
-        AtomicReference<Point2D> lastPos = new AtomicReference<>(area.getCurrentPoint());
+            // Keep track of the position of the last loop
+            AtomicReference<Point2D> lastPos = new AtomicReference<>(area.getCurrentPoint());
 
-        this.segments.forEach(s -> {
-            // Get vertices
-            Vertex v1 = s.getV1();
-            Vertex v2 = s.getV2();
+            this.segments.forEach(s -> {
+                // Get vertices
+                Vertex v1 = s.getV1();
+                Vertex v2 = s.getV2();
 
-            if(lastPos.get().getX() != v1.getX() || lastPos.get().getY() != v1.getY()) // Not the same position as the last loop?
-                area.lineTo(s.getV1().getX(), s.getV1().getY());
+                if (lastPos.get().getX() != v1.getX() || lastPos.get().getY() != v1.getY()) // Not the same position as the last loop?
+                    area.lineTo(s.getV1().getX(), s.getV1().getY());
 
-            if(lastPos.get().getX() != v2.getX() || lastPos.get().getY() != v2.getY()) // Not the same position as the last loop?
-                area.lineTo(s.getV2().getX(), s.getV2().getY());
+                if (lastPos.get().getX() != v2.getX() || lastPos.get().getY() != v2.getY()) // Not the same position as the last loop?
+                    area.lineTo(s.getV2().getX(), s.getV2().getY());
 
-            // Update last point
-            lastPos.set(area.getCurrentPoint());
-        });
-        area.closePath();
+                // Update last point
+                lastPos.set(area.getCurrentPoint());
+            });
+            area.closePath();
 
-        canvas.setColor(this.getColor());
-        canvas.fill(area);
+            canvas.setColor(this.getColor());
+            canvas.fill(area);
+
+            this.wasRendered = true;
+        }
     }
 
     /**
