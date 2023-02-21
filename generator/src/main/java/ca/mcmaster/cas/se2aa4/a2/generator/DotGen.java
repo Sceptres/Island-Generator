@@ -1,6 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-import ca.mcmaster.cas.se2aa4.a2.generator.generator.MeshGenerator;
+import ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator.MeshGenerator;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;

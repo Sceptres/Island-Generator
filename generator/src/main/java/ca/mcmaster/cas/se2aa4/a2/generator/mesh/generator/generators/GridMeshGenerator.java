@@ -1,16 +1,14 @@
-package ca.mcmaster.cas.se2aa4.a2.generator.generator.generators;
+package ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator.generators;
 
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.exceptions.NotSquareMeshException;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.exceptions.SquaresFittingException;
 import ca.mcmaster.cas.se2aa4.a2.generator.coloring.ColorGenerator;
-import ca.mcmaster.cas.se2aa4.a2.generator.generator.AbstractMeshGenerator;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
+import ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator.AbstractMeshGenerator;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
-import java.awt.*;
 import java.util.List;
 
 public class GridMeshGenerator extends AbstractMeshGenerator {

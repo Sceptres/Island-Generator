@@ -12,8 +12,8 @@ import ca.mcmaster.cas.se2aa4.a2.generator.coloring.generators.polygoncolor.Poly
 import ca.mcmaster.cas.se2aa4.a2.generator.coloring.generators.polygoncolor.PolygonTransparentColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.generator.coloring.generators.polygoncolor.PolygonVertexColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.generator.coloring.generators.segmentcolor.SegmentColorGenerator;
-import ca.mcmaster.cas.se2aa4.a2.generator.generator.MeshGenerator;
-import ca.mcmaster.cas.se2aa4.a2.generator.generator.generators.GridMeshGenerator;
+import ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator.MeshGenerator;
+import ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator.generators.GridMeshGenerator;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
