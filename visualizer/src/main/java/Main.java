@@ -56,13 +56,11 @@ public class Main {
         String value = handler.getOptionValue(VisualizerInputHandler.getVisualizerOption(InputOption.OPTION_STR));
 
         if(!Files.exists(Path.of(value))) { // Does this file not exist?
-            System.out.printf("Cannot find %s. Please try again!\n", value);
-            handler.printHelp();
-            System.exit(1);
+            String message = String.format("Cannot find %s. Please try again!\n", value);
+            handler.printHelp(message);
         } else if(!value.endsWith(".mesh")) { // Is the given file not a mesh?
-            System.out.printf("%s is not a mesh file! Please insert correct file format.\n", value);
-            handler.printHelp();
-            System.exit(1);
+            String message = String.format("%s is not a mesh file! Please insert correct file format.\n", value);
+            handler.printHelp(message);
         }
 
         return value;
@@ -77,9 +75,7 @@ public class Main {
         String value = handler.getOptionValue(VisualizerInputHandler.getVisualizerOption(OutputOption.OPTION_STR));
 
         if(!value.endsWith(".svg")){
-            System.out.println("The given output file is not an svg!");
-            handler.printHelp();
-            System.exit(1);
+            handler.printHelp("The given output file is not an svg!");
         }
 
         return value;
