@@ -1,16 +1,9 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-import java.awt.*;
-import java.util.List;
-
 import ca.mcmaster.cas.se2aa4.a2.generator.generator.MeshGenerator;
-import ca.mcmaster.cas.se2aa4.a2.generator.generator.generators.GridMeshGenerator;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 public class DotGen {
 
