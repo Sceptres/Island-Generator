@@ -14,7 +14,7 @@ public class MeshDimensionsOption extends Option {
     public MeshDimensionsOption() throws IllegalArgumentException {
         super(OPTION_STR.substring(0, 1), OPTION_STR, true, DESCRIPTION);
         super.setArgs(1);
-        super.setArgName("widthxheight>");
+        super.setArgName("widthxheight");
         super.setRequired(false);
     }
 }

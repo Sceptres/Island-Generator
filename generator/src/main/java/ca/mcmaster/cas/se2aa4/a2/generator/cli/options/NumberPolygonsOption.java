@@ -16,7 +16,7 @@ public class NumberPolygonsOption extends Option {
     public NumberPolygonsOption() throws IllegalArgumentException {
         super("np", OPTION_STR, true, DESCRIPTION);
         super.setArgs(1);
-        super.setArgName("number of polygons>");
+        super.setArgName("number of polygons");
         super.setRequired(false);
     }
 }

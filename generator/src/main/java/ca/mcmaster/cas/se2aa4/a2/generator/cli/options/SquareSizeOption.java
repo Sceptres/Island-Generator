@@ -14,7 +14,7 @@ public class SquareSizeOption extends Option {
     public SquareSizeOption() throws IllegalArgumentException {
         super("ss", OPTION_STR, true, DESCRIPTION);
         super.setArgs(1);
-        super.setArgName("square size>");
+        super.setArgName("square size");
         super.setRequired(false);
     }
 }

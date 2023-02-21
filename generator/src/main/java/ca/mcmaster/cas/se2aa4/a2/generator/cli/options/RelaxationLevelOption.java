@@ -14,7 +14,7 @@ public class RelaxationLevelOption extends Option {
     public RelaxationLevelOption() throws IllegalArgumentException {
         super("rl", OPTION_STR, true, DESCRIPTION);
         super.setArgs(1);
-        super.setArgName("relaxation level>");
+        super.setArgName("relaxation level");
         super.setRequired(false);
     }
 }
