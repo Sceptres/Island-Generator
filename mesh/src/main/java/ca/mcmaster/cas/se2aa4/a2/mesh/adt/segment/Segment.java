@@ -31,6 +31,7 @@ public class Segment implements Indexable,Thickenable, IProperties, Renderable, 
         this.v1 = v1;
         this.v2 = v2;
         this.properties = new Properties();
+        this.setColor(Util.generateRandomColor(false));
         this.setThickness(0.5f);
         this.index = -1;
     }
@@ -112,23 +113,6 @@ public class Segment implements Indexable,Thickenable, IProperties, Renderable, 
                 .addAllProperties(this.properties.getConverted()).build();
     }
 
-    /**
-     * Calculates the color of the segment and adds it to properties
-     */
-    public void calculateColor() {
-        Color v1Color = this.v1.getColor();
-        Color v2Color = this.v2.getColor();
-
-        // Calculate segment color
-        int r = (v1Color.getRed() + v2Color.getRed()) / 2;
-        int g = (v1Color.getGreen() + v2Color.getGreen()) / 2;
-        int b = (v1Color.getBlue() + v2Color.getBlue()) / 2;
-
-        // Create color property
-        Color color = new Color(r, g, b);
-        this.setColor(color);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -153,7 +137,7 @@ public class Segment implements Indexable,Thickenable, IProperties, Renderable, 
     public void draw(Graphics2D canvas) {
         if(!this.wasRendered) {
             canvas.setColor(this.getColor());
-            this.setThickness(this.getThickness());
+            canvas.setStroke(new BasicStroke(this.getThickness()));
             canvas.draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()));
 
             this.wasRendered = true;

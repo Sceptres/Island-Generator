@@ -45,11 +45,21 @@ public class Util {
 
         // Get color
         String[] rgbStr = property.getValue().split(",");
-        int r = Integer.parseInt(rgbStr[0]);
-        int g = Integer.parseInt(rgbStr[1]);
-        int b = Integer.parseInt(rgbStr[2]);
-        int alpha = Integer.parseInt(rgbStr[3]);
-        return new Color(r, g, b, alpha);
+        return Util.getColorFromStr(rgbStr);
+    }
+
+    /**
+     *
+     * @param colorStr The array of string RGBA values
+     * @return The {@link Color} with the given RGBA values
+     */
+    public static Color getColorFromStr(String[] colorStr) {
+        int r = Integer.parseInt(colorStr[0]);
+        int g = Integer.parseInt(colorStr[1]);
+        int b = Integer.parseInt(colorStr[2]);
+        int a = Integer.parseInt(colorStr[3]);
+
+        return new Color(r, g, b, a);
     }
 
     /**
