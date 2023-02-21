@@ -3,6 +3,8 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 import java.awt.*;
 import java.util.List;
 
+import ca.mcmaster.cas.se2aa4.a2.generator.generator.MeshGenerator;
+import ca.mcmaster.cas.se2aa4.a2.generator.generator.generators.GridMeshGenerator;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
@@ -12,43 +14,17 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 public class DotGen {
 
-    private final int width = 500;
-    private final int height = 500;
-    private final int square_size = 20;
-    private final int num_dots_row = (width / square_size) + 1; // number of dots per row
+    private final MeshGenerator generator;
+
+    public DotGen(MeshGenerator generator) {
+        this.generator = generator;
+    }
 
     public Structs.Mesh generate() {
         Mesh mesh = new Mesh();
 
-        // Create all the vertices and segments
-        for (int y = 0; y < height; y += square_size) {
-            for (int x = 0; x < width; x += square_size) {
-                // Add vertex
-                Vertex v0 = getVertexWithColor(x, y);
-                Vertex v1 = getVertexWithColor(x+square_size, y);
-                Vertex v2 = getVertexWithColor(x+square_size, y+square_size);
-                Vertex v3 = getVertexWithColor(x, y+square_size);
-                mesh.addVertex(v0);
-                mesh.addVertex(v1);
-                mesh.addVertex(v2);
-                mesh.addVertex(v3);
-
-                // Add segments
-                Segment s0 = getSegmentWithColor(v0, v1);
-                Segment s1 = getSegmentWithColor(v1, v2);
-                Segment s2 = getSegmentWithColor(v2, v3);
-                Segment s3 = getSegmentWithColor(v3, v0);
-                mesh.addSegment(s0);
-                mesh.addSegment(s1);
-                mesh.addSegment(s2);
-                mesh.addSegment(s3);
-
-                // Add polygon
-                Polygon polygon = new Polygon(List.of(s0, s1, s2, s3));
-                mesh.addVertex(polygon.getCentroid());
-                mesh.addPolygon(polygon);
-            }
-        }
+        // Generate mesh
+        this.generator.generate(mesh);
 
         // Match neighboring polygons
         for(Polygon p1 : mesh.getPolygons()) {
@@ -58,31 +34,5 @@ public class DotGen {
         }
 
         return mesh.getConverted();
-    }
-
-    /**
-     *
-     * @param x The x position of the {@link Vertex}
-     * @param y The y position of the {@link Vertex}
-     * @return The {@link Vertex} instance
-     */
-    private Vertex getVertexWithColor(double x, double y) {
-        Color color = Util.generateRandomColor(false);
-        Vertex vertex = new Vertex(x, y);
-        vertex.setColor(color);
-
-        return vertex;
-    }
-
-    /**
-     *
-     * @param v1 The first {@link Vertex} of the {@link Segment}
-     * @param v2 The second {@link Vertex} of the {@link Segment}
-     * @return The {@link Segment} connecting both vertices
-     */
-    private Segment getSegmentWithColor(Vertex v1, Vertex v2) {
-        Segment segment = new Segment(v1, v2);
-        segment.calculateColor();
-        return segment;
     }
 }
