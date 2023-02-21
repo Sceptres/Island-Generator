@@ -7,7 +7,6 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 public abstract class AbstractMeshGenerator implements MeshGenerator {
 
     private final float verticesThickness;
-
     private final float segmentsThickness;
     private final int width;
     private final int height;
@@ -17,6 +16,8 @@ public abstract class AbstractMeshGenerator implements MeshGenerator {
 
     /**
      *
+     * @param generators The array of color generators [vertex, segments, polygons]
+     * @param thickness The thickness of the vertices and segments
      * @param width The width of the mesh to generate
      * @param height The height of the mesh to generate
      */
@@ -32,10 +33,18 @@ public abstract class AbstractMeshGenerator implements MeshGenerator {
         this.polygonColorGenerator = generators[2];
     }
 
+    /**
+     *
+     * @return The thickness, diameter, of the vertices
+     */
     protected float getVerticesThickness(){
         return verticesThickness;
     }
 
+    /**
+     *
+     * @return The thickness of the segments
+     */
     protected float getSegmentsThickness(){
         return segmentsThickness;
     }

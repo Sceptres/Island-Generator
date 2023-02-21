@@ -22,6 +22,11 @@ import java.util.Objects;
 
 public class Main {
 
+    /**
+     *
+     * @param handler The {@link InputHandler} to extract thickness input from
+     * @return The given thicknesses of the vertices and segments
+     */
     private static float[] getThickness(InputHandler handler){
         String[] thickness = handler.getOptionValues(
                 GeneratorInputHandler.getGeneratorOption(ThicknessOption.OPTION_STR),
@@ -247,7 +252,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         InputHandler handler = GeneratorInputHandler.getInputHandler(args);
-
         DotGen generator = new DotGen(getMeshGenerator(handler));
         Mesh myMesh = generator.generate();
         MeshFactory factory = new MeshFactory();
