@@ -1,5 +1,6 @@
 import ca.mcmaster.cas.se2aa4.a2.generator.DotGen;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.GeneratorInputHandler;
+import ca.mcmaster.cas.se2aa4.a2.generator.cli.exceptions.NotSquareMeshException;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.exceptions.SquaresFittingException;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.options.*;
 import ca.mcmaster.cas.se2aa4.a2.generator.coloring.ColorGenerator;
@@ -72,7 +73,9 @@ public class Main {
 
             try {
                 return new GridMeshGenerator(generators, thickness, meshDimensions, squareSize);
-            } catch (SquaresFittingException e) {
+            } catch(NotSquareMeshException e) { // Mesh does not have square dimensions?
+                handler.printHelp("Dimensions must be equal for grid mesh!");
+            } catch(SquaresFittingException e) { // Not all squares fit within the grid?
                 String message = String.format(
                         "Not all squares of size %.2f can fit in %dx%d\n",
                         squareSize,
