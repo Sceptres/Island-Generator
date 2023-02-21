@@ -14,7 +14,8 @@ public class GeneratorInputHandler {
             MeshDimensionsOption.OPTION_STR, new MeshDimensionsOption(),
             NumberPolygonsOption.OPTION_STR, new NumberPolygonsOption(),
             RelaxationLevelOption.OPTION_STR, new RelaxationLevelOption(),
-            SquareSizeOption.OPTION_STR, new SquareSizeOption()
+            SquareSizeOption.OPTION_STR, new SquareSizeOption(),
+            ColorOption.OPTION_STR, new ColorOption()
     );
 
     /**
