@@ -82,7 +82,6 @@ public class GridMeshGenerator extends AbstractMeshGenerator {
      */
     private Segment getSegmentWithColor(Vertex v1, Vertex v2) {
         Segment segment = new Segment(v1, v2);
-        segment.calculateColor();
         return segment;
     }
 }
