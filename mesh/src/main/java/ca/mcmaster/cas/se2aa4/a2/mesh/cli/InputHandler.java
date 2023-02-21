@@ -98,6 +98,18 @@ public class InputHandler {
 
     /**
      *
+     * @param option The {@link Option} to get values of
+     * @param defaultValues The default values to pass in if no arguments were given
+     * @return The values of the given option. If there are none the default values given
+     */
+    public String[] getOptionValues(Option option, String[] defaultValues) {
+        String[] values = this.getOptionValues(option);
+
+        return values.length != 0 ? values : defaultValues;
+    }
+
+    /**
+     *
      * @param option The {@link Option} to get from the command line
      * @return Whether this {@link Option} has been passed in or not
      */
