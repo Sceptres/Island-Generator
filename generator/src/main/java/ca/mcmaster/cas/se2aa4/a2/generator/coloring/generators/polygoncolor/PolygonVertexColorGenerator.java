@@ -2,7 +2,6 @@ package ca.mcmaster.cas.se2aa4.a2.generator.coloring.generators.polygoncolor;
 
 import ca.mcmaster.cas.se2aa4.a2.generator.coloring.ColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Colorable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.awt.*;
