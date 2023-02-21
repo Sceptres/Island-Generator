@@ -9,7 +9,7 @@ public class ThicknessOption extends Option {
 
     public static final String OPTION_STR = "thickness";
     public static final String[] DEFAULT_VALUE = new String[]{"3", "3"};
-    private static final String DESCRIPTION = "Sets the the thickness for the vertices and segments.\n" +
+    private static final String DESCRIPTION = "Sets the thickness of the vertices and segments.\n" +
             "Format: vertices segments.\n" +
             "Vertex options: any postive real number.\n" +
             "Segment options: any postive real number.\n" +
