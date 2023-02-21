@@ -11,10 +11,10 @@ public class SetColorGenerator implements ColorGenerator<Colorable> {
 
     /**
      *
-     * @param rgba an array of red,green,blue, and alpha.
+     * @param color The color to use.
      */
-    public SetColorGenerator(int[] rgba){
-        this.color = new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
+    public SetColorGenerator(Color color){
+        this.color = color;
     }
 
 
