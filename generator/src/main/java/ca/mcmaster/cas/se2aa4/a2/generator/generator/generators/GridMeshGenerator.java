@@ -2,6 +2,7 @@ package ca.mcmaster.cas.se2aa4.a2.generator.generator.generators;
 
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.exceptions.NotSquareMeshException;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.exceptions.SquaresFittingException;
+import ca.mcmaster.cas.se2aa4.a2.generator.coloring.ColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.generator.generator.AbstractMeshGenerator;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
@@ -16,8 +17,8 @@ public class GridMeshGenerator extends AbstractMeshGenerator {
 
     private final double squareSize;
 
-    public GridMeshGenerator(int width, int height, double squareSize) {
-        super(width, height);
+    public GridMeshGenerator(ColorGenerator[] generators, int width, int height, double squareSize) {
+        super(generators, width, height);
 
         if(width != height) // Not square dimensions?
             throw new NotSquareMeshException();
@@ -54,6 +55,7 @@ public class GridMeshGenerator extends AbstractMeshGenerator {
 
                 // Add polygon
                 Polygon polygon = new Polygon(List.of(s0, s1, s2, s3));
+                super.getPolygonColorGenerator().generateColor(polygon);
                 mesh.addVertex(polygon.getCentroid());
                 mesh.addPolygon(polygon);
             }
@@ -67,9 +69,8 @@ public class GridMeshGenerator extends AbstractMeshGenerator {
      * @return The {@link Vertex} instance
      */
     private Vertex getVertexWithColor(double x, double y) {
-        Color color = Util.generateRandomColor(false);
         Vertex vertex = new Vertex(x, y);
-        vertex.setColor(color);
+        super.getVertexColorGenerator().generateColor(vertex);
 
         return vertex;
     }
@@ -82,6 +83,8 @@ public class GridMeshGenerator extends AbstractMeshGenerator {
      */
     private Segment getSegmentWithColor(Vertex v1, Vertex v2) {
         Segment segment = new Segment(v1, v2);
+        super.getSegmentColorGenerator().generateColor(segment);
+
         return segment;
     }
 }
