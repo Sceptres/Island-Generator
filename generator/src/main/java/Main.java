@@ -1,10 +1,7 @@
 import ca.mcmaster.cas.se2aa4.a2.generator.DotGen;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.GeneratorInputHandler;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.exceptions.SquaresFittingException;
-import ca.mcmaster.cas.se2aa4.a2.generator.cli.options.ColorOption;
-import ca.mcmaster.cas.se2aa4.a2.generator.cli.options.MeshDimensionsOption;
-import ca.mcmaster.cas.se2aa4.a2.generator.cli.options.MeshTypeOption;
-import ca.mcmaster.cas.se2aa4.a2.generator.cli.options.SquareSizeOption;
+import ca.mcmaster.cas.se2aa4.a2.generator.cli.options.*;
 import ca.mcmaster.cas.se2aa4.a2.generator.coloring.ColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.generator.coloring.generators.RandomColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.generator.coloring.generators.SetColorGenerator;
@@ -21,9 +18,32 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.options.OutputOption;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Main {
+
+    private static float[] getThickness(InputHandler handler){
+        String[] thickness = handler.getOptionValues(
+                GeneratorInputHandler.getGeneratorOption(ThicknessOption.OPTION_STR),
+                ThicknessOption.DEFAULT_VALUE
+        );
+        if(!thickness[0].matches("[0-9]+")) { // Given input is not a number?
+            System.out.printf("%s is not a number!\n", thickness[0]);
+            handler.printHelp();
+            System.exit(1);
+        }
+
+        else if(!thickness[1].matches("[0-9]+")) { // Given input is not a number?
+            System.out.printf("%s is not a number!\n", thickness[1]);
+            handler.printHelp();
+            System.exit(1);
+        }
+
+
+        return new float[]{Float.parseFloat(thickness[0]), Float.parseFloat(thickness[1])};
+
+    }
 
 
     /**
@@ -41,11 +61,14 @@ public class Main {
         int[] meshDimensions = getMeshDimensions(handler);
         ColorGenerator[] generators = getColorGenerator(handler);
 
+        // get thickness
+        float[] thickness = getThickness(handler);
+
         if(meshType.equals("grid")) {
             double squareSize = getGridMeshSquareSize(handler);
 
             try {
-                return new GridMeshGenerator(generators, meshDimensions[0], meshDimensions[1], squareSize);
+                return new GridMeshGenerator(generators, thickness, meshDimensions[0], meshDimensions[1], squareSize);
             } catch (SquaresFittingException e) {
                 System.out.printf(
                         "Not all squares of size %.2f can fit in %dx%d\n",

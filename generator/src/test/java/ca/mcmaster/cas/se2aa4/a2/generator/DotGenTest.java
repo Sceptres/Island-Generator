@@ -17,7 +17,7 @@ public class DotGenTest {
                 new RandomColorGenerator(),
                 new RandomColorGenerator()
         };
-        DotGen generator = new DotGen(new GridMeshGenerator(generators, 500, 500, 20));
+        DotGen generator = new DotGen(new GridMeshGenerator(generators, new float[]{3,3} , 500, 500, 20));
         Structs.Mesh aMesh = generator.generate();
         assertNotNull(aMesh);
     }

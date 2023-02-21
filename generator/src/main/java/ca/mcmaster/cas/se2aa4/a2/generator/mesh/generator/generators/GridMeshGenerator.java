@@ -15,8 +15,8 @@ public class GridMeshGenerator extends AbstractMeshGenerator {
 
     private final double squareSize;
 
-    public GridMeshGenerator(ColorGenerator[] generators, int width, int height, double squareSize) {
-        super(generators, width, height);
+    public GridMeshGenerator(ColorGenerator[] generators, float[] thickness, int width, int height, double squareSize) {
+        super(generators, thickness, width, height);
 
         if(width != height) // Not square dimensions?
             throw new NotSquareMeshException();
