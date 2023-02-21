@@ -8,7 +8,7 @@ import org.apache.commons.cli.Option;
 public class ColorOption extends Option {
 
     public static final String OPTION_STR = "color";
-    public static final String DEFAULT_VALUE = "random random random";
+    public static final String[] DEFAULT_VALUE = new String[]{"random", "random", "random"};
     private static final String DESCRIPTION = "Sets the color generation for all the elements of the mesh.\n" +
             "Format: vertices segments polygons.\n" +
             "Vertex options: random | r,g,b | r,g,b,a.\n" +
