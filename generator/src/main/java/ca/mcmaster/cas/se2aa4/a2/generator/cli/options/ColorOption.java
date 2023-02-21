@@ -14,7 +14,6 @@ public class ColorOption extends Option {
             "Vertex options: random | r,g,b | r,g,b,a.\n" +
             "Segment options: random | r,g,b | r,g,b,a | vertices (average color of vertices).\n" +
             "Polygon options: random | r,g,b | r,g,b,a | transparent | vertices (average color of vertices) | " +
-            "" +
             "segments (average color of segments).\n" +
             "Default is random for all 3.";
 
