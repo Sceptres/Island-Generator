@@ -28,14 +28,13 @@ public class Main {
                 ThicknessOption.DEFAULT_VALUE
         );
         if(!thickness[0].matches("[0-9]+.?[0-9]*")) { // Given input is not a number?
-            System.out.printf("%s is not a number!\n", thickness[0]);
-            handler.printHelp();
-            System.exit(1);
+            String message = String.format("%s is not a number!\n", thickness[0]);
+            handler.printHelp(message);
         }
 
         else if(!thickness[1].matches("[0-9]+.?[0-9]*")) { // Given input is not a number?
-            System.out.printf("%s is not a number!\n", thickness[1]);
-            handler.printHelp();
+            String message = String.format("%s is not a number!\n", thickness[1]);
+            handler.printHelp(message);
             System.exit(1);
         }
 
@@ -69,14 +68,13 @@ public class Main {
             try {
                 return new GridMeshGenerator(generators, thickness, meshDimensions[0], meshDimensions[1], squareSize);
             } catch (SquaresFittingException e) {
-                System.out.printf(
+                String message = String.format(
                         "Not all squares of size %.2f can fit in %dx%d\n",
                         squareSize,
                         meshDimensions[0],
                         meshDimensions[1]
                 );
-                handler.printHelp();
-                System.exit(1);
+                handler.printHelp(message);
             }
         } else if(meshType.equals("irregular")) {
             System.out.println("This option is coming soon!");
@@ -102,9 +100,7 @@ public class Main {
 
         // Check that input matches expected widthxheight format
         if(!dimensionInput.matches("[0-9]+.?[0-9]*(x)[0-9]+.?[0-9]*")) {
-            System.out.println("Input does not match expected format!");
-            handler.printHelp();
-            System.exit(1);
+            handler.printHelp("Input does not match expected format!");
         }
 
         // Get given dimensions
@@ -115,9 +111,7 @@ public class Main {
         double height = Integer.parseInt(dimensionStr[1]);
 
         if((width % 1) != 0 || (height % 1) != 0) { // Is the given dimensions floating point numbers?
-            System.out.println("Cannot have floating point dimensions!");
-            handler.printHelp();
-            System.exit(1);
+            handler.printHelp("Cannot have floating point dimensions!");
         }
 
         return new int[]{(int) width, (int) height};
@@ -135,9 +129,8 @@ public class Main {
         );
 
         if(!squareSizeInput.matches("[0-9]+")) { // Given input is not a number?
-            System.out.printf("%s is not a number!\n", squareSizeInput);
-            handler.printHelp();
-            System.exit(1);
+            String message = String.format("%s is not a number!\n", squareSizeInput);
+            handler.printHelp(message);
         }
 
         return Double.parseDouble(squareSizeInput);
@@ -181,9 +174,7 @@ public class Main {
                 return new SetColorGenerator(Util.getColorFromStr(rgbaStr));
             }
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid RGB/RGBA input.");
-            handler.printHelp();
-            System.exit(1);
+            handler.printHelp("Invalid RGB/RGBA input.");
         }
 
         return null;
@@ -199,9 +190,8 @@ public class Main {
         ColorGenerator generator = getGeneralColorGenerator(handler, input);
 
         if(Objects.isNull(generator)) { // Nothing chosen from general options?
-            System.out.printf("Invalid color generation method %s for vertex!\n", input);
-            handler.printHelp();
-            System.exit(1);
+            String message = String.format("Invalid color generation method %s for vertex!\n", input);
+            handler.printHelp(message);
         }
 
         return generator;
@@ -220,9 +210,8 @@ public class Main {
             if(input.equals("vertices")) { // User request segments color to be average color of vertices?
                 generator = new SegmentColorGenerator();
             } else {
-                System.out.printf("Invalid color generation method %s for segment!\n", input);
-                handler.printHelp();
-                System.exit(1);
+                String message = String.format("Invalid color generation method %s for segment!\n", input);
+                handler.printHelp(message);
             }
         }
 
@@ -247,9 +236,8 @@ public class Main {
                 case "transparent" -> // User request polygon color to be transparent?
                         generator = new PolygonTransparentColorGenerator();
                 default -> {
-                    System.out.printf("Invalid color generation method %s for polygon!\n", input);
-                    handler.printHelp();
-                    System.exit(1);
+                    String message = String.format("Invalid color generation method %s for polygon!\n", input);
+                    handler.printHelp(message);
                 }
             }
         }

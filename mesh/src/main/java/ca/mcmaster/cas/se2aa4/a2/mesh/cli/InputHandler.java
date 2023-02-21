@@ -52,6 +52,16 @@ public class InputHandler {
     }
 
     /**
+     * Print the help string to the user then exits the program
+     * @param message The error message to display to the user
+     */
+    public void printHelp(String message) {
+        System.out.println(message);
+        this.formatter.printHelp(200, "Mesh Generation", "", options, "");
+        System.exit(1);
+    }
+
+    /**
      * Print the help string to the user
      */
     public void printHelp() {
