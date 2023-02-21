@@ -1,0 +1,208 @@
+@startuml
+
+hide empty members
+skinparam linetype polyline
+
+title "Mesh ADT Format"
+
+class Mesh {
+    - vertices: Vertices
+    - segments: Segments
+    - polygons: Polygons
+    ---
+    + this()
+    + this(polygons: Polygons, segments: Segments, vertices: Vertices)
+    + this(mesh: Structs.Mesh)
+    ---
+    + getVertices(): List<Vertex>
+    + getNonCentroidVertices(): List<Vertex>
+    + getCentroidVertices(): List<Vertex>
+    + getSegments(): List<Segment>
+    + getPolygons(): List<Polygon>
+    + addVertex(vertex: Vertex)
+    + addAllVertices(vertices: List<? extends Vertex>)
+    + addSegment(segment: Segment)
+    + addAllSegments(segments: List<? extends Segment>)
+    + addPolygon(polygon: Polygon)
+    + addAllPolygons(polygons: List<? extends Polygon>)
+}
+
+class UniqueList<T> {}
+
+class Polygons {}
+
+class Polygon {
+    - centroid: Vertex
+    - segments: Segments
+    - properties: Properties
+    - neighbors: Polygons
+    - wasRendered: boolean
+    - index: int
+    ---
+    + this(segments: List<? extends Segment>)
+    + this(polygon: Structs.Polygon, segments: List<? extends Segment>, centroid: Vertex)
+    + this(polygon: Structs.Polygon, segments: List<? extends Structs.Segment>, vertices: List<? extends Vertex>, centroid: Structs.Vertex)
+    ---
+    + getVertices(): List<? extends Vertex>
+    + getSegments(): List<? extends Segment>
+    + getCentroid(): Vertex
+    + calculateCentroid()
+    + getNeighbors(): List<? extends Polygon>
+    + addNeighbor(polygon: Polygon)
+    + addNeighbors(polygons: List<? extends Polygon>)
+    + isNeighbor(polygon: Polygon)
+}
+
+class Segments {}
+
+class Segment {
+    - v1: Vertex
+    - v2: Vertex
+    - properties: Properties
+    - wasRendered: boolean
+    - index: int
+    ---
+    + this(v1: Vertex, v2: Vertex)
+    + this(segment: Structs.Segment, v1: Structs.Vertex, v2: Structs.Vertex)
+    + this(segment: Structs.Segment, v1: Vertex, v2: Vertex)
+    ---
+    + getV1(): Vertex
+    + getV2(): Vertex
+    + shareVertex(segment: Segment) : boolean
+}
+
+class Vertices {}
+
+class Vertex {
+    - x: double
+    - y: double
+    - properties: Properties
+    - wasRendered: boolean
+    - index: int
+    ---
+    + this(x: double, y: double)
+    + this(vertex: Structs.Vertex)
+    ---
+    + getX(): double
+    + setX(x: double)
+    + getY(): double
+    + setY(y: double)
+    + isCentroid(): boolean
+    + setAsCentroid(isCentroid: boolean)
+}
+
+class Properties {}
+
+class Property {
+    + key: String
+    + value: String
+    ---
+    # this(key: String, value: String)
+    + this(property: Structs.Property)
+    ---
+    + getKey(): String
+    + getValue(): String
+}
+
+class CentroidProperty {}
+class ColorProperty {}
+class ThicknessProperty {}
+
+interface Colorable {
+    + setColor(color: java.awt.Color)
+    + getColor(): java.awt.Color
+}
+
+interface Converter<T> {
+    + getConverted(): T
+}
+
+interface Copier<T> {
+    + copy(t: T)
+}
+
+interface Indexable {
+    + setIndex(index: int)
+    + getIndex(): int
+}
+
+interface IProperties {
+    + addProperty(property: Property)
+    + addAllProperties(properties: List<? extends Property>)
+    + getProperty(key: String): Property
+    + getProperties(): List<Property>
+}
+
+interface Renderable {
+    + render(canvas: java.awt.Graphics2D)
+    + draw(canvas: java.awt.Graphics2D)
+}
+
+interface Thickenable {
+    + setThickness(x: float)
+    + getThickness(): float
+}
+
+Vertex *--> "1"  Properties
+Segment *--> "1" Properties
+Polygon *--> "1" Properties
+
+Mesh *--> "1" Polygons
+Mesh *--> "1" Segments
+Mesh *--> "1" Vertices
+Mesh -[dashed]-> Converter
+
+Polygons -[dashed]-> UniqueList
+Polygons -[dashed]-> Copier
+
+Segments -[dashed]-> UniqueList
+Segments -[dashed]-> Copier
+
+Vertices -[dashed]-> UniqueList
+Vertices -[dashed]-> Copier
+
+Polygons *--> "0..n\n{ordered}" Polygon
+Segments *--> "0..n\n{ordered}" Segment
+Vertices *--> "0..n\n{ordered}" Vertex
+Properties *--> "0..n\n{ordered}" Property
+
+Polygons -[dashed]-> Converter
+
+Polygon *--> "1" Vertex
+Polygon *--> "1" Segments
+Polygon *--> "1" Polygons
+Polygon -[dashed]-> Indexable
+Polygon -[dashed]-> IProperties
+Polygon -[dashed]-> Renderable
+Polygon -[dashed]-> Colorable
+Polygon -[dashed]-> Copier
+Polygon -[dashed]-> Converter
+
+Segments -[dashed]-> Converter
+
+Segment *--> "2" Vertex
+Segment -[dashed]-> Indexable
+Segment -[dashed]-> IProperties
+Segment -[dashed]-> Renderable
+Segment -[dashed]-> Colorable
+Segment -[dashed]-> Copier
+Segment -[dashed]-> Converter
+Segment -[dashed]-> Thickenable
+
+Vertices -[dashed]-> Converter
+
+Vertex -[dashed]-> Indexable
+Vertex -[dashed]-> IProperties
+Vertex -[dashed]-> Renderable
+Vertex -[dashed]-> Colorable
+Vertex -[dashed]-> Copier
+Vertex -[dashed]-> Converter
+Vertex -[dashed]-> Thickenable
+
+Property -[dashed]-> Converter
+
+CentroidProperty -[dashed]-> Property
+ColorProperty -[dashed]-> Property
+ThicknessProperty -[dashed]-> Property
+
+@enduml
