@@ -177,7 +177,7 @@ public class Main {
         ColorGenerator generator = getGeneralColorGenerator(handler, input);
 
         if(Objects.isNull(generator)) { // Nothing chosen from general options?
-            System.out.printf("Invalid color generation method %s for vertex!", input);
+            System.out.printf("Invalid color generation method %s for vertex!\n", input);
             handler.printHelp();
             System.exit(1);
         }
@@ -198,7 +198,7 @@ public class Main {
             if(input.equals("vertices")) { // User request segments color to be average color of vertices?
                 generator = new SegmentColorGenerator();
             } else {
-                System.out.printf("Invalid color generation method %s for segment!", input);
+                System.out.printf("Invalid color generation method %s for segment!\n", input);
                 handler.printHelp();
                 System.exit(1);
             }
@@ -225,7 +225,7 @@ public class Main {
                 case "transparent" -> // User request polygon color to be transparent?
                         generator = new PolygonTransparentColorGenerator();
                 default -> {
-                    System.out.printf("Invalid color generation method %s for polygon!", input);
+                    System.out.printf("Invalid color generation method %s for polygon!\n", input);
                     handler.printHelp();
                     System.exit(1);
                 }
