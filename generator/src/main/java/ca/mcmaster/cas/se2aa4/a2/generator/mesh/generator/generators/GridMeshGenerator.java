@@ -69,6 +69,7 @@ public class GridMeshGenerator extends AbstractMeshGenerator {
     private Vertex getVertexWithColor(double x, double y) {
         Vertex vertex = new Vertex(x, y);
         super.getVertexColorGenerator().generateColor(vertex);
+        vertex.setThickness(super.getVerticesThickness());
 
         return vertex;
     }
@@ -82,6 +83,7 @@ public class GridMeshGenerator extends AbstractMeshGenerator {
     private Segment getSegmentWithColor(Vertex v1, Vertex v2) {
         Segment segment = new Segment(v1, v2);
         super.getSegmentColorGenerator().generateColor(segment);
+        segment.setThickness(super.getSegmentsThickness());
 
         return segment;
     }

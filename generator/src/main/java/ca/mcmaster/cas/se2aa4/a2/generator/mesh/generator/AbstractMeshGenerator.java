@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator;
 
 import ca.mcmaster.cas.se2aa4.a2.generator.coloring.ColorGenerator;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 
 public abstract class AbstractMeshGenerator implements MeshGenerator {
@@ -22,8 +23,8 @@ public abstract class AbstractMeshGenerator implements MeshGenerator {
     protected AbstractMeshGenerator(ColorGenerator[] generators, float[] thickness, int width, int height) {
         if(width <= 0 || height <= 0)
             throw new IllegalArgumentException("Cannot have a dimension less than or equal to 0!");
-        this.verticesThickness = thickness[0];
-        this.segmentsThickness = thickness[1];
+        this.verticesThickness = (float) Util.precision(thickness[0]);
+        this.segmentsThickness = (float) Util.precision(thickness[1]);
         this.width = width;
         this.height = height;
         this.vertexColorGenerator = generators[0];

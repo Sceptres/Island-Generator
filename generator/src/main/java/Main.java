@@ -18,7 +18,6 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.options.OutputOption;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Main {
@@ -28,13 +27,13 @@ public class Main {
                 GeneratorInputHandler.getGeneratorOption(ThicknessOption.OPTION_STR),
                 ThicknessOption.DEFAULT_VALUE
         );
-        if(!thickness[0].matches("[0-9]+")) { // Given input is not a number?
+        if(!thickness[0].matches("[0-9]+.?[0-9]*")) { // Given input is not a number?
             System.out.printf("%s is not a number!\n", thickness[0]);
             handler.printHelp();
             System.exit(1);
         }
 
-        else if(!thickness[1].matches("[0-9]+")) { // Given input is not a number?
+        else if(!thickness[1].matches("[0-9]+.?[0-9]*")) { // Given input is not a number?
             System.out.printf("%s is not a number!\n", thickness[1]);
             handler.printHelp();
             System.exit(1);
