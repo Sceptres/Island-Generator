@@ -5,6 +5,7 @@ import org.apache.commons.cli.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class InputHandler {
     private static final HelpOption HELP_OPTION = new HelpOption();
@@ -105,7 +106,7 @@ public class InputHandler {
     public String[] getOptionValues(Option option, String[] defaultValues) {
         String[] values = this.getOptionValues(option);
 
-        return values.length != 0 ? values : defaultValues;
+        return Objects.isNull(values) || values.length == 0 ? defaultValues : values;
     }
 
     /**
