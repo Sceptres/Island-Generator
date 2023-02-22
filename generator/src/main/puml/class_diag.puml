@@ -1,0 +1,97 @@
+@startuml
+
+hide empty members
+skinparam linetype polyline
+
+title "Generator Format"
+
+interface MeshGenerator {
+    + generate(mesh: Mesh)
+    + getWidth(): int
+    + getHeight(): int
+}
+
+class AbstractMeshGenerator {
+    - verticesThickness: float
+    - segmentsThickness: float
+    - width: int
+    - height: int
+    - vertexColorGenerator: ColorGenerator
+    - segmentColorGenerator: ColorGenerator
+    - polygonColorGenerator: ColorGenerator
+    ---
+    + this(generators: ColorGenerator[], thickness: float[], dimensions: int[])
+    ---
+    # getVerticesThickness(): float
+    # getSegmentsThickness(): float
+    # getVertexColorGenerator(): ColorGenerator
+    # getSegmentColorGenerator(): ColorGenerator
+    # getPolygonColorGenerator(): ColorGenerator
+}
+
+class GridMeshGenerator {}
+
+interface ColorGenerator<T extends Colorable> {
+    generateColor(colorable: T)
+}
+
+class RandomColorGenerator {}
+class SetColorGenerator {
+    - color: java.awt.Color
+    ---
+    + this(color: java.awt.Color)
+}
+class SegmentColorGenerator {}
+class PolygonSegmentColorGenerator {}
+class PolygonVertexColorGenerator {}
+class PolygonTransparentColorGenerator {}
+
+AbstractMeshGenerator -[dashed]-> MeshGenerator
+GridMeshGenerator -[dashed]-> AbstractMeshGenerator
+
+AbstractMeshGenerator *--> "3" ColorGenerator
+
+ColorGenerator <-[dashed]- RandomColorGenerator
+ColorGenerator <-[dashed]- SetColorGenerator
+ColorGenerator <-[dashed]- SegmentColorGenerator
+ColorGenerator <-[dashed]- PolygonVertexColorGenerator
+ColorGenerator <-[dashed]- PolygonSegmentColorGenerator
+ColorGenerator <-[dashed]- PolygonTransparentColorGenerator
+
+newpage
+title "Generator Options Format"
+
+class Option {}
+
+class ColorOption {}
+class MeshDimensionOption {}
+class MeshTypeOption {}
+class NumberPolygonsOption {}
+class RelaxationLevelOption {}
+class SquareSizeOption {}
+class ThicknessOption {}
+
+class GeneratorInputHandler {
+    {static} GENERATOR_OPTIONS: Map<String, Option>
+    ---
+    {static} getGeneratorOption(opt: String): Option
+    {static} getInputHandler(args: String): InputHandler
+}
+
+Option <-[dashed]- ColorOption
+Option <-[dashed]- MeshDimensionOption
+Option <-[dashed]- MeshTypeOption
+Option <-[dashed]- NumberPolygonsOption
+Option <-[dashed]- RelaxationLevelOption
+Option <-[dashed]- SquareSizeOption
+Option <-[dashed]- ThicknessOption
+
+ColorOption             "1" <--*        GeneratorInputHandler
+MeshDimensionOption     "1" <--*        GeneratorInputHandler
+MeshTypeOption          "1" <--*        GeneratorInputHandler
+NumberPolygonsOption    "1" <--*        GeneratorInputHandler
+RelaxationLevelOption   "1" <--*        GeneratorInputHandler
+SquareSizeOption        "1" <--*        GeneratorInputHandler
+ThicknessOption         "1" <--*        GeneratorInputHandler
+
+@enduml
