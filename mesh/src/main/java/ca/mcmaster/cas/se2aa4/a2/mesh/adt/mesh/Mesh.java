@@ -4,36 +4,48 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygons;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.DimensionProperty;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segments;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.IProperties;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertices;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-public class Mesh implements Converter<Structs.Mesh> {
+public class Mesh implements IProperties, Converter<Structs.Mesh> {
     private final Vertices vertices;
     private final Segments segments;
     private final Polygons polygons;
+    private final Properties properties;
 
     public Mesh() {
         this.vertices = new Vertices();
         this.segments = new Segments();
         this.polygons = new Polygons();
+        this.properties = new Properties();
     }
 
     public Mesh(Polygons polygons, Segments segments, Vertices vertices) {
         this.polygons = polygons;
         this.segments = segments;
         this.vertices = vertices;
+        this.properties = new Properties();
     }
 
     public Mesh(Structs.Mesh mesh) {
         this.vertices = Util.toVertices(mesh.getVerticesList());
         this.segments = Util.toSegmentsVertex(mesh.getSegmentsList(), this.vertices);
         this.polygons = Util.toPolygons(mesh.getPolygonsList(), this.segments, this.vertices);
+        this.properties = Util.toProperties(mesh.getPropertiesList());
     }
 
     /**
@@ -129,6 +141,40 @@ public class Mesh implements Converter<Structs.Mesh> {
         return Structs.Mesh.newBuilder().addAllVertices(this.vertices.getConverted())
                 .addAllSegments(this.segments.getConverted())
                 .addAllPolygons(this.polygons.getConverted())
+                .addAllProperties(this.properties.getConverted())
                 .build();
+    }
+
+    @Override
+    public void addProperty(Property property) {
+        this.properties.add(property);
+    }
+
+    @Override
+    public void addAllProperties(Iterable<? extends Property> properties) {
+        properties.forEach(this::addProperty);
+    }
+
+    @Override
+    public Property getProperty(String key) {
+        Optional<Property> property = this.properties.stream().filter(p -> p.getKey().equals(key)).findFirst();
+        return property.orElse(null);
+    }
+
+    @Override
+    public List<Property> getProperties() {
+        return new ArrayList<>(this.properties);
+    }
+
+    public void setDimension(int[] dimensions) {
+        Property property = new DimensionProperty(dimensions);
+        this.addProperty(property);
+    }
+
+    public int[] getDimension() {
+
+        String[] dimensionStr = this.getProperty(DimensionProperty.KEY).getValue().split("x");
+        return Arrays.stream(dimensionStr).mapToInt(Integer::parseInt).toArray();
+
     }
 }

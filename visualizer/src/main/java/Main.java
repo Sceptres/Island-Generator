@@ -1,5 +1,6 @@
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.options.OutputOption;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer;
@@ -25,21 +26,21 @@ public class Main {
         String output = getOutputFile(handler);
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
-        double max_x = Double.MIN_VALUE;
-        double max_y = Double.MIN_VALUE;
-        for (Structs.Vertex v: aMesh.getVerticesList()) {
-            max_x = (Double.compare(max_x, v.getX()) < 0? v.getX(): max_x);
-            max_y = (Double.compare(max_y, v.getY()) < 0? v.getY(): max_y);
-        }
+
+        Mesh mesh = new Mesh(aMesh);
+
         // Creating the Canvas to draw the mesh
-        Graphics2D canvas = SVGCanvas.build((int) Math.ceil(max_x), (int) Math.ceil(max_y));
+        int[] dimensions = mesh.getDimension();
+        int width = dimensions[0];
+        int height = dimensions[1];
+        Graphics2D canvas = SVGCanvas.build(width, height);
 
         // Is the visualizer in debug mode?
         boolean isDebug = handler.hasOption(VisualizerInputHandler.getVisualizerOption(DebugOption.OPTION_STR));
 
         GraphicRenderer renderer = new GraphicRenderer(isDebug);
         // Painting the mesh on the canvas
-        renderer.render(aMesh, canvas);
+        renderer.render(mesh, canvas);
         // Storing the result in an SVG file
         SVGCanvas.write(canvas, output);
         // Dump the mesh to stdout
