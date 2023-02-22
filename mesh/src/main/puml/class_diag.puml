@@ -25,11 +25,8 @@ class Mesh {
     + addAllSegments(segments: List<? extends Segment>)
     + addPolygon(polygon: Polygon)
     + addAllPolygons(polygons: List<? extends Polygon>)
+    + getConverted(): Structs.Mesh
 }
-
-class UniqueList<T> {}
-
-class Polygons {}
 
 class Polygon {
     - centroid: Vertex
@@ -51,9 +48,19 @@ class Polygon {
     + addNeighbor(polygon: Polygon)
     + addNeighbors(polygons: List<? extends Polygon>)
     + isNeighbor(polygon: Polygon)
+    + setColor(color: java.awt.Color)
+    + getColor(): java.awt.Color
+    + getConverted(): Structs.Polygon
+    + addProperty(property: Property)
+    + addAllProperties(properties: Iterable<? extends Property>)
+    + getProperty(key: String): Property
+    + getProperties(): List<? extends Property>
+    + setIndex(index: int)
+    + getIndex(): int
+    + render(canvas: java.awt.Graphics2D)
+    + draw(canvas: java.awt.Graphics2D)
+    + copy(polygon: Polygon))
 }
-
-class Segments {}
 
 class Segment {
     - v1: Vertex
@@ -69,9 +76,19 @@ class Segment {
     + getV1(): Vertex
     + getV2(): Vertex
     + shareVertex(segment: Segment) : boolean
+    + setColor(color: java.awt.Color)
+    + getColor(): java.awt.Color
+    + getConverted(): Structs.Segment
+    + addProperty(property: Property)
+    + addAllProperties(properties: Iterable<? extends Property>)
+    + getProperty(key: String): Property
+    + getProperties(): List<? extends Property>
+    + setIndex(index: int)
+    + getIndex(): int
+    + render(canvas: java.awt.Graphics2D)
+    + draw(canvas: java.awt.Graphics2D)
+    + copy(segment: Segment)
 }
-
-class Vertices {}
 
 class Vertex {
     - x: double
@@ -89,9 +106,19 @@ class Vertex {
     + setY(y: double)
     + isCentroid(): boolean
     + setAsCentroid(isCentroid: boolean)
+    + setColor(color: java.awt.Color)
+    + getColor(): java.awt.Color
+    + getConverted(): Structs.Vertex
+    + addProperty(property: Property)
+    + addAllProperties(properties: Iterable<? extends Property>)
+    + getProperty(key: String): Property
+    + getProperties(): List<? extends Property>
+    + setIndex(index: int)
+    + getIndex(): int
+    + render(canvas: java.awt.Graphics2D)
+    + draw(canvas: java.awt.Graphics2D)
+    + copy(vertex: Vertex)
 }
-
-class Properties {}
 
 class Property {
     + key: String
@@ -102,104 +129,26 @@ class Property {
     ---
     + getKey(): String
     + getValue(): String
+    + getConverted(): Structs.Property
 }
 
 class CentroidProperty {}
 class ColorProperty {}
 class ThicknessProperty {}
 
-interface Colorable {
-    + setColor(color: java.awt.Color)
-    + getColor(): java.awt.Color
-}
+Vertex *--> "0..n\n{ordered}"  Property
+Segment *--> "0..n\n{ordered}" Property
+Polygon *--> "0..n\n{ordered}" Property
 
-interface Converter<T> {
-    + getConverted(): T
-}
-
-interface Copier<T> {
-    + copy(t: T)
-}
-
-interface Indexable {
-    + setIndex(index: int)
-    + getIndex(): int
-}
-
-interface IProperties {
-    + addProperty(property: Property)
-    + addAllProperties(properties: List<? extends Property>)
-    + getProperty(key: String): Property
-    + getProperties(): List<Property>
-}
-
-interface Renderable {
-    + render(canvas: java.awt.Graphics2D)
-    + draw(canvas: java.awt.Graphics2D)
-}
-
-interface Thickenable {
-    + setThickness(x: float)
-    + getThickness(): float
-}
-
-Vertex *--> "1"  Properties
-Segment *--> "1" Properties
-Polygon *--> "1" Properties
-
-Mesh *--> "1" Polygons
-Mesh *--> "1" Segments
-Mesh *--> "1" Vertices
-Mesh -[dashed]-> Converter
-
-Polygons -[dashed]-> UniqueList
-Polygons -[dashed]-> Copier
-
-Segments -[dashed]-> UniqueList
-Segments -[dashed]-> Copier
-
-Vertices -[dashed]-> UniqueList
-Vertices -[dashed]-> Copier
-
-Polygons *--> "0..n\n{ordered}" Polygon
-Segments *--> "0..n\n{ordered}" Segment
-Vertices *--> "0..n\n{ordered}" Vertex
-Properties *--> "0..n\n{ordered}" Property
-
-Polygons -[dashed]-> Converter
+Mesh *--> "0..n\n{ordered}" Polygon
+Mesh *--> "0..n\n{ordered}" Segment
+Mesh *--> "0..n\n{ordered}" Vertex
 
 Polygon *--> "1" Vertex
-Polygon *--> "1" Segments
-Polygon *--> "1" Polygons
-Polygon -[dashed]-> Indexable
-Polygon -[dashed]-> IProperties
-Polygon -[dashed]-> Renderable
-Polygon -[dashed]-> Colorable
-Polygon -[dashed]-> Copier
-Polygon -[dashed]-> Converter
-
-Segments -[dashed]-> Converter
+Polygon *--> "3..n\n{ordered}" Segment
+Polygon *--> "0..n\n{ordered}" Polygon
 
 Segment *--> "2" Vertex
-Segment -[dashed]-> Indexable
-Segment -[dashed]-> IProperties
-Segment -[dashed]-> Renderable
-Segment -[dashed]-> Colorable
-Segment -[dashed]-> Copier
-Segment -[dashed]-> Converter
-Segment -[dashed]-> Thickenable
-
-Vertices -[dashed]-> Converter
-
-Vertex -[dashed]-> Indexable
-Vertex -[dashed]-> IProperties
-Vertex -[dashed]-> Renderable
-Vertex -[dashed]-> Colorable
-Vertex -[dashed]-> Copier
-Vertex -[dashed]-> Converter
-Vertex -[dashed]-> Thickenable
-
-Property -[dashed]-> Converter
 
 CentroidProperty -[dashed]-> Property
 ColorProperty -[dashed]-> Property
