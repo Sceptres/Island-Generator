@@ -121,8 +121,8 @@ class Vertex {
 }
 
 class Property {
-    + key: String
-    + value: String
+    - key: String
+    - value: String
     ---
     # this(key: String, value: String)
     + this(property: Structs.Property)
