@@ -18,15 +18,17 @@ public class DotGen {
 
     public Structs.Mesh generate() {
         Mesh mesh = new Mesh();
-        
+
+        // Get mesh dimensions
         int width = this.generator.getWidth();
         int height = this.generator.getHeight();
-        
+
+        // Create mesh dimension
         int[] dimensions = new int[2];
-        
         dimensions[0] = width;
         dimensions[1] = height;
 
+        // Set mesh dimensions
         mesh.setDimension(dimensions);
         // Generate mesh
         this.generator.generate(mesh);

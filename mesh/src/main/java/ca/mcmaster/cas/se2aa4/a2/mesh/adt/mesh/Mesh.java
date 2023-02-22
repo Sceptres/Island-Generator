@@ -4,7 +4,6 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygons;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.ColorProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.DimensionProperty;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Property;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
@@ -15,7 +14,6 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertices;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -166,13 +164,20 @@ public class Mesh implements IProperties, Converter<Structs.Mesh> {
         return new ArrayList<>(this.properties);
     }
 
+    /**
+     *
+     * @param dimensions The dimensions of this mesh
+     */
     public void setDimension(int[] dimensions) {
         Property property = new DimensionProperty(dimensions);
         this.addProperty(property);
     }
 
+    /**
+     *
+     * @return The dimensions of this mesh in format [width, height]
+     */
     public int[] getDimension() {
-
         String[] dimensionStr = this.getProperty(DimensionProperty.KEY).getValue().split("x");
         return Arrays.stream(dimensionStr).mapToInt(Integer::parseInt).toArray();
 
