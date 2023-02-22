@@ -17,9 +17,8 @@ public abstract class AbstractMeshGenerator implements MeshGenerator {
     /**
      *
      * @param generators The array of color generators [vertex, segments, polygons]
-     * @param thickness The thickness of the vertices and segments
-     * @param width The width of the mesh to generate
-     * @param height The height of the mesh to generate
+     * @param thickness The thickness of the vertices and segments [vertex thickness, segment thickness]
+     * @param dimensions The dimensions of the mesh. [width, height]
      */
     protected AbstractMeshGenerator(ColorGenerator[] generators, float[] thickness, int[] dimensions) {
         if(dimensions[0] <= 0 || dimensions[1] <= 0)
