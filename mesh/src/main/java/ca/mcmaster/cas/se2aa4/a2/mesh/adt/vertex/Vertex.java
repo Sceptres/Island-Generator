@@ -175,7 +175,7 @@ public class Vertex implements Indexable,Thickenable, IProperties, Renderable, C
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, properties, index);
+        return Objects.hash(x, y);
     }
 
     @Override
