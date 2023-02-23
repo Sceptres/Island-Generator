@@ -212,7 +212,22 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
     public void draw(Graphics2D canvas) {
         if(!this.wasRendered) {
             Path2D area = new Path2D.Double();
-            area.moveTo(this.segments.get(0).getV1().getX(), this.segments.get(0).getV1().getY());
+
+            // Get first two segments
+            Segment s1 = this.segments.get(0);
+            Segment s2 = this.segments.get(1);
+
+            // Get shared vertex between two segments
+            Vertex v = s1.getSharedVertex(s2);
+
+            // Start at the vertex that is not shared by both
+            Vertex initialVertex;
+            if(s1.getV1().equals(v))
+                initialVertex = s1.getV2();
+            else
+                initialVertex = s1.getV1();
+
+            area.moveTo(initialVertex.getX(), initialVertex.getY());
 
             // Keep track of the position of the last loop
             AtomicReference<Point2D> lastPos = new AtomicReference<>(area.getCurrentPoint());
@@ -233,6 +248,7 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
             });
             area.closePath();
 
+            // Draw area
             canvas.setColor(this.getColor());
             canvas.fill(area);
 
