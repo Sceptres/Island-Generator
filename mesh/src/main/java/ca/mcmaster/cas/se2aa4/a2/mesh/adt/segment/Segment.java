@@ -191,4 +191,9 @@ public class Segment implements Indexable,Thickenable, IProperties, Renderable, 
     public float getThickness() {
         return Util.extractThickness(this);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.v1, this.v2, this.index);
+    }
 }

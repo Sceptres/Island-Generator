@@ -312,4 +312,9 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
         this.neighbors.copy(polygon.neighbors);
         this.index = polygon.getIndex();
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.segments, this.index);
+    }
 }
