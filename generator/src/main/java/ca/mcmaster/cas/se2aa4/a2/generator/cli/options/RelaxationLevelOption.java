@@ -8,7 +8,7 @@ import org.apache.commons.cli.Option;
 public class RelaxationLevelOption extends Option {
 
     public static final String OPTION_STR = "relaxationLevel";
-    public static final String DEFAULT_VALUE = "3";
+    public static final String DEFAULT_VALUE = "20";
     private static final String DESCRIPTION = "Sets the relaxation level of an irregular mesh. Will be ignored by grid mesh";
 
     public RelaxationLevelOption() throws IllegalArgumentException {
