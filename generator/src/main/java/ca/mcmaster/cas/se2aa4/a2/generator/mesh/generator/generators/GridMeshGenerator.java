@@ -58,6 +58,13 @@ public class GridMeshGenerator extends AbstractMeshGenerator {
                 mesh.addPolygon(polygon);
             }
         }
+
+        // Match neighboring polygons
+        for(Polygon p1 : mesh.getPolygons()) {
+            for(Polygon p2 : mesh.getPolygons()) {
+                p1.addNeighbor(p2);
+            }
+        }
     }
 
     /**
