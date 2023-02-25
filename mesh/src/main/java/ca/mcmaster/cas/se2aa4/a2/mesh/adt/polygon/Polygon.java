@@ -133,8 +133,6 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
             Segment segment2 = this.segments.get((i+1) % this.segments.size());
 
             if(!segment1.shareVertex(segment2)) { // Second vertex of first segment and first of second segment dont match?
-                System.out.println(segment1);
-                System.out.println(segment2);
                 return false;
             }
         }

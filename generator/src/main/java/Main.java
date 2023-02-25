@@ -1,5 +1,6 @@
 import ca.mcmaster.cas.se2aa4.a2.generator.DotGen;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.GeneratorInputHandler;
+import ca.mcmaster.cas.se2aa4.a2.generator.cli.exceptions.InvalidPolygonNumberException;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.exceptions.NotSquareMeshException;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.exceptions.SquaresFittingException;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.options.*;
@@ -12,6 +13,7 @@ import ca.mcmaster.cas.se2aa4.a2.generator.coloring.generators.polygoncolor.Poly
 import ca.mcmaster.cas.se2aa4.a2.generator.coloring.generators.segmentcolor.SegmentColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator.MeshGenerator;
 import ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator.generators.GridMeshGenerator;
+import ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator.generators.IrregularMeshGenerator;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
@@ -85,12 +87,16 @@ public class Main {
                 handler.printHelp(message);
             }
         } else if(meshType.equals("irregular")) {
-            System.out.println("This option is coming soon!");
-            System.exit(1);
+            try {
+                int relaxationLevel = getRelaxationLevel(handler);
+                int numPolygons = getNumPolygons(handler);
+                return new IrregularMeshGenerator(generators, thickness, meshDimensions, relaxationLevel, numPolygons);
+            } catch (InvalidPolygonNumberException e) { // Invalid number of polygons passed in?
+                handler.printHelp(e.getMessage());
+            }
         }
 
-        System.out.println("Mesh type should only be grid or irregular!");
-        System.exit(1);
+        handler.printHelp("Mesh type should only be grid or irregular!");
 
         return null;
     }
@@ -251,6 +257,44 @@ public class Main {
         }
 
         return generator;
+    }
+
+    /**
+     *
+     * @param handler The {@link InputHandler} to extract the relaxation level from
+     * @return The given relaxation level
+     */
+    private static int getRelaxationLevel(InputHandler handler) {
+        String value = handler.getOptionValue(
+                GeneratorInputHandler.getGeneratorOption(RelaxationLevelOption.OPTION_STR),
+                RelaxationLevelOption.DEFAULT_VALUE
+        );
+
+        if(value.matches("[0-9]+")) { // The given input is a number?
+            return Integer.parseInt(value);
+        } else
+            handler.printHelp("Given relaxation level is not an integer!");
+
+        return -1;
+    }
+
+    /**
+     *
+     * @param handler The {@link InputHandler} to extract the number of polygons from
+     * @return The number of polygons passed in by the user
+     */
+    private static int getNumPolygons(InputHandler handler) {
+        String value = handler.getOptionValue(
+                GeneratorInputHandler.getGeneratorOption(NumberPolygonsOption.OPTION_STR),
+                NumberPolygonsOption.DEFAULT_VALUE
+        );
+
+        if(value.matches("[0-9]+")) { // Is the given input a number?
+            return Integer.parseInt(value);
+        } else
+            handler.printHelp("The given number of polygons is not a number!");
+
+        return -1;
     }
 
     public static void main(String[] args) throws IOException {
