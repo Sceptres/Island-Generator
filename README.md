@@ -37,7 +37,8 @@ Generator options include:
 
 ```
 mosser@azrael A2 % cd generator 
-mosser@azrael generator % java -jar generator.jar -out sample.mesh
+mosser@azrael generator % java -jar generator.jar -out sample.mesh -m grid (Generates a grid mesh)
+mosser@azrael generator % java -jar generator.jar -out sample.mesh -m irregular (Generates an irregular mesh)
 mosser@azrael generator % ls -lh sample.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael generator % 
@@ -84,13 +85,12 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Product Backlog
 
-- | Id | Feature title                        | Who?          | Start     |     End   |   Status |
-- | 01 |Creating a mesh ADT (fix generator)   |Abdallah,Beshoy| 8-2-2023  | 16-2-2023 |   Complete|
-- | 02 |Producing full meshes                 |Omar           | 8-2-2023  | 16-2-2023 |   Complete|
-- | 03 |Playing with rendering                |Beshoy         | 16-2-2023 | 16-2-2023 |   Complete|
-- | 04 |Visualization mode                    |Omar           | 16-2-2023 | 17-2-2023 |   Complete|
-- | 05 |Mesh configuration                    |Abdallah,Beshoy| 19-2-2023 | 21-2-2023 |   Complete|
-- | 04 |Irregular mesh generation             |Omar & Beshoy  |  |  |    Pending|
-- | .. |...                                   |...            | ...       |           |   ...    |
-- 
+- | Id | Feature title                        | Who?          | Start     |     End   |   Status  |
+- | 01 |Creating a mesh ADT (fix generator)   |Abdallah,Beshoy| 8-2-2023  | 16-2-2023 |  Complete |
+- | 02 |Producing full meshes                 |Omar           | 8-2-2023  | 16-2-2023 |  Complete |
+- | 03 |Playing with rendering                |Beshoy         | 16-2-2023 | 16-2-2023 |  Complete |
+- | 04 |Visualization mode                    |Omar           | 16-2-2023 | 17-2-2023 |  Complete |
+- | 05 |Mesh configuration                    |Abdallah,Beshoy| 19-2-2023 | 21-2-2023 |  Complete |
+- | 04 |Irregular mesh generation             |Omar & Beshoy  | 22-2-2023 | 25-2-2023 |  Complete |
+
 

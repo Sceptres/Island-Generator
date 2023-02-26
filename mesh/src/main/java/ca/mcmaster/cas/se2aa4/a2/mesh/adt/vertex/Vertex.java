@@ -59,7 +59,7 @@ public class Vertex implements Indexable,Thickenable, IProperties, Renderable, C
      * @param y y coordinate of vertex
      */
     public void setY(double y){
-       this.y = Util.precision(y);
+        this.y = Util.precision(y);
     }
 
     /**
@@ -175,7 +175,7 @@ public class Vertex implements Indexable,Thickenable, IProperties, Renderable, C
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, properties, index);
+        return Objects.hash(x, y);
     }
 
     @Override

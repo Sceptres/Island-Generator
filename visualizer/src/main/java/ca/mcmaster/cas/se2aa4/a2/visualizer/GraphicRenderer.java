@@ -1,6 +1,5 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
@@ -17,8 +16,8 @@ public class GraphicRenderer {
         this.isDebug = isDebug;
     }
 
-    public void render(Structs.Mesh aMesh, Graphics2D canvas) {
-        Mesh mesh = new Mesh(aMesh);
+    public void render(Mesh mesh, Graphics2D canvas) {
+
 
         canvas.setColor(Color.BLACK);
 
