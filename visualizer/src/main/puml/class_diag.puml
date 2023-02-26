@@ -1,0 +1,29 @@
+@startuml
+
+hide empty members
+skinparam linetype polyline
+
+title "Visualizer Options Format"
+
+class Option {}
+
+class DebugOption{}
+class InputOption {}
+
+class VisualizerInputHandler {
+    {static} GENERATOR_OPTIONS: Map<String, Option>
+    ---
+    {static} getVisualizerOption(opt: String): Option
+    {static} getInputHandler(args: String): InputHandler
+    {static} getInputMesh(handler: InputHandler): String
+    {static} getOutputFile(handler: InputHandler): String
+}
+
+
+Option <-[dashed]- DebugOption
+Option <-[dashed]- InputOption
+
+DebugOption             "1" <--*        VisualizerInputHandler
+InputOption             "1" <--*        VisualizerInputHandler
+
+@enduml
