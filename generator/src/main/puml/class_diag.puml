@@ -20,7 +20,7 @@ class AbstractMeshGenerator {
     - segmentColorGenerator: ColorGenerator
     - polygonColorGenerator: ColorGenerator
     ---
-    + this(generators: ColorGenerator[], thickness: float[], dimensions: int[])
+    # this(generators: ColorGenerator[], thickness: float[], dimensions: int[])
     ---
     # getVerticesThickness(): float
     # getSegmentsThickness(): float
@@ -29,7 +29,20 @@ class AbstractMeshGenerator {
     # getPolygonColorGenerator(): ColorGenerator
 }
 
-class GridMeshGenerator {}
+class GridMeshGenerator {
+    - squareSize: double
+    ---
+    + this(generators: ColorGenerator[], thickness: float[], dimensions: int[], squareSize: double)
+}
+
+class IrregularMeshGenerator {
+    - numPolygons: int
+    - mesh: JTSMesh
+    - voronoi: VoronoiDiagram
+    - relaxation: LloydRelaxation
+    ---
+    + this(generators: ColorGenerator[], thickness: float[], dimensions: int[], relaxationLevel: int, numPolygons: int)
+}
 
 interface ColorGenerator<T extends Colorable> {
     generateColor(colorable: T)
@@ -48,6 +61,7 @@ class PolygonTransparentColorGenerator {}
 
 AbstractMeshGenerator -[dashed]-> MeshGenerator
 GridMeshGenerator -[dashed]-> AbstractMeshGenerator
+IrregularMeshGenerator -[dashed]-> AbstractMeshGenerator
 
 AbstractMeshGenerator *--> "3" ColorGenerator
 
@@ -76,6 +90,13 @@ class GeneratorInputHandler {
     ---
     {static} getGeneratorOption(opt: String): Option
     {static} getInputHandler(args: String): InputHandler
+    {static} getThickness(handler: InputHandler): float[]
+    {static} getMeshGenerator(handler: InputHandler): MeshGenerator
+    {static} getMeshDimensions(handler: InputHandler): int[]
+    {static} getGridMeshSquareSize(handler: InputHandler): double
+    {static} getColorGenerator(handler: InputHandler): ColorGenerator[]
+    {static} getRelaxationLevel(handler: InputHandler): int
+    {static} getNumPolygons(handler: InputHandler): int
 }
 
 Option <-[dashed]- ColorOption
@@ -93,5 +114,48 @@ NumberPolygonsOption    "1" <--*        GeneratorInputHandler
 RelaxationLevelOption   "1" <--*        GeneratorInputHandler
 SquareSizeOption        "1" <--*        GeneratorInputHandler
 ThicknessOption         "1" <--*        GeneratorInputHandler
+
+newpage
+title "Geometry Class Format"
+
+class JTSMesh {
+    - jtsPolygons: List<org.locationtech.jts.geom.Polygo>
+    - vertices: Vertices
+    - segments: Segments
+    - polygons: Polygons
+    ---
+    + putPolygons(polygons: List<org.locationtech.jts.geom.Polygon>)
+    + getPolygons(): List<org.locationtech.jts.geom.Polygon>
+    + getConverted(): Mesh
+}
+
+class VoronoiDiagram {
+    - voronoi: VoronoiDiagramBuilder
+    - envelope: Envelope
+    ---
+    + this(width: int, height: int)
+    ---
+    + generateDiagram(coordinates: List<Coordinate>, precision: double): List<org.locationtech.jts.geom.Polygon>
+    + reset()
+}
+
+class LloydRelaxation {
+    - relaxationLevel: int
+    - voronoi: VoronoiDiagram
+    ---
+    this(voronoi: VoronoiDiagram, relaxationLevel: int)
+    ---
+    + apply(polygons: List<org.locationtech.jts.geom.Polygon>)): List<org.locationtech.jts.geom.Polygon>
+}
+
+class PolygonNeighborFinder {
+    - polygons: List<Polygon>
+    ---
+    + this(polygons: List<Polygon>)
+    ---
+    + findNeighbors(): Map<Polygon, List<Polygon>>
+}
+
+VoronoiDiagram             "1" <--*        LloydRelaxation
 
 @enduml
