@@ -37,7 +37,8 @@ Generator options include:
 
 ```
 mosser@azrael A2 % cd generator 
-mosser@azrael generator % java -jar generator.jar -out sample.mesh
+mosser@azrael generator % java -jar generator.jar -out sample.mesh -m grid (Generates a grid mesh)
+mosser@azrael generator % java -jar generator.jar -out sample.mesh -m irregular (Generates an irregular mesh)
 mosser@azrael generator % ls -lh sample.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael generator % 
