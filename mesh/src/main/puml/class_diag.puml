@@ -6,10 +6,6 @@ skinparam linetype polyline
 title "Mesh ADT Format"
 
 class Mesh {
-    - vertices: Vertices
-    - segments: Segments
-    - polygons: Polygons
-    ---
     + this()
     + this(polygons: Polygons, segments: Segments, vertices: Vertices)
     + this(mesh: Structs.Mesh)
@@ -29,11 +25,6 @@ class Mesh {
 }
 
 class Polygon {
-    - centroid: Vertex
-    - segments: Segments
-    - properties: Properties
-    - neighbors: Polygons
-    - wasRendered: boolean
     - index: int
     ---
     + this(segments: List<? extends Segment>)
@@ -63,9 +54,6 @@ class Polygon {
 }
 
 class Segment {
-    - v1: Vertex
-    - v2: Vertex
-    - properties: Properties
     - wasRendered: boolean
     - index: int
     ---
@@ -93,7 +81,6 @@ class Segment {
 class Vertex {
     - x: double
     - y: double
-    - properties: Properties
     - wasRendered: boolean
     - index: int
     ---

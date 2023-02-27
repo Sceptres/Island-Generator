@@ -16,9 +16,6 @@ class AbstractMeshGenerator {
     - segmentsThickness: float
     - width: int
     - height: int
-    - vertexColorGenerator: ColorGenerator
-    - segmentColorGenerator: ColorGenerator
-    - polygonColorGenerator: ColorGenerator
     ---
     # this(generators: ColorGenerator[], thickness: float[], dimensions: int[])
     ---
@@ -37,9 +34,6 @@ class GridMeshGenerator {
 
 class IrregularMeshGenerator {
     - numPolygons: int
-    - mesh: JTSMesh
-    - voronoi: VoronoiDiagram
-    - relaxation: LloydRelaxation
     ---
     + this(generators: ColorGenerator[], thickness: float[], dimensions: int[], relaxationLevel: int, numPolygons: int)
 }
@@ -86,8 +80,6 @@ class SquareSizeOption {}
 class ThicknessOption {}
 
 class GeneratorInputHandler {
-    {static} GENERATOR_OPTIONS: Map<String, Option>
-    ---
     {static} getGeneratorOption(opt: String): Option
     {static} getInputHandler(args: String): InputHandler
     {static} getThickness(handler: InputHandler): float[]
@@ -119,20 +111,12 @@ newpage
 title "Geometry Class Format"
 
 class JTSMesh {
-    - jtsPolygons: List<org.locationtech.jts.geom.Polygo>
-    - vertices: Vertices
-    - segments: Segments
-    - polygons: Polygons
-    ---
     + putPolygons(polygons: List<org.locationtech.jts.geom.Polygon>)
     + getPolygons(): List<org.locationtech.jts.geom.Polygon>
     + getConverted(): Mesh
 }
 
 class VoronoiDiagram {
-    - voronoi: VoronoiDiagramBuilder
-    - envelope: Envelope
-    ---
     + this(width: int, height: int)
     ---
     + generateDiagram(coordinates: List<Coordinate>, precision: double): List<org.locationtech.jts.geom.Polygon>
@@ -141,7 +125,6 @@ class VoronoiDiagram {
 
 class LloydRelaxation {
     - relaxationLevel: int
-    - voronoi: VoronoiDiagram
     ---
     this(voronoi: VoronoiDiagram, relaxationLevel: int)
     ---
@@ -149,8 +132,6 @@ class LloydRelaxation {
 }
 
 class PolygonNeighborFinder {
-    - polygons: List<Polygon>
-    ---
     + this(polygons: List<Polygon>)
     ---
     + findNeighbors(): Map<Polygon, List<Polygon>>

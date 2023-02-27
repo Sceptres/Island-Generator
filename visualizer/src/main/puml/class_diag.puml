@@ -11,8 +11,6 @@ class DebugOption{}
 class InputOption {}
 
 class VisualizerInputHandler {
-    {static} GENERATOR_OPTIONS: Map<String, Option>
-    ---
     {static} getVisualizerOption(opt: String): Option
     {static} getInputHandler(args: String): InputHandler
     {static} getInputMesh(handler: InputHandler): String
