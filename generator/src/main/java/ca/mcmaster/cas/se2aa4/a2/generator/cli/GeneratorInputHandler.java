@@ -57,6 +57,20 @@ public class GeneratorInputHandler {
 
     /**
      *
+     * @param handler The {@link InputHandler} to extract the output file from
+     * @return The name of the file to export to
+     */
+    public static String getOutputFile(InputHandler handler) {
+        String file = handler.getOptionValue(GeneratorInputHandler.getGeneratorOption(OutputOption.OPTION_STR));
+
+        if(!file.endsWith(".mesh") && !file.endsWith(".obj"))
+            handler.printHelp("Can only write to .mesh and .obj files.");
+
+        return file;
+    }
+
+    /**
+     *
      * @param handler The {@link InputHandler} to extract thickness input from
      * @return The given thicknesses of the vertices and segments
      */

@@ -1,7 +1,8 @@
 import ca.mcmaster.cas.se2aa4.a2.generator.DotGen;
 import ca.mcmaster.cas.se2aa4.a2.generator.cli.GeneratorInputHandler;
+import ca.mcmaster.cas.se2aa4.a2.generator.waveform.OBJWriter;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.options.OutputOption;
 
@@ -11,9 +12,16 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         InputHandler handler = GeneratorInputHandler.getInputHandler(args);
+
+        // Generate the mesh
         DotGen generator = new DotGen(GeneratorInputHandler.getMeshGenerator(handler));
         Mesh myMesh = generator.generate();
+
+        // File name
+        String file = handler.getOptionValue(GeneratorInputHandler.getGeneratorOption(OutputOption.OPTION_STR));
+
+        // Write to mesh file
         MeshFactory factory = new MeshFactory();
-        factory.write(myMesh, handler.getOptionValue(GeneratorInputHandler.getGeneratorOption(OutputOption.OPTION_STR)));
+        factory.write(myMesh.getConverted(), file);
     }
 }
