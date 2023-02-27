@@ -1,7 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator.MeshGenerator;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 
 public class DotGen {
@@ -12,7 +11,7 @@ public class DotGen {
         this.generator = generator;
     }
 
-    public Structs.Mesh generate() {
+    public Mesh generate() {
         Mesh mesh = new Mesh();
 
         // Get mesh dimensions
@@ -29,6 +28,6 @@ public class DotGen {
         // Generate mesh
         this.generator.generate(mesh);
 
-        return mesh.getConverted();
+        return mesh;
     }
 }
