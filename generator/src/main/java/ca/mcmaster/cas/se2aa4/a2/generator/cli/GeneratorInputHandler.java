@@ -63,8 +63,8 @@ public class GeneratorInputHandler {
     public static String getOutputFile(InputHandler handler) {
         String file = handler.getOptionValue(GeneratorInputHandler.getGeneratorOption(OutputOption.OPTION_STR));
 
-        if(!file.endsWith(".mesh") && !file.endsWith(".obj"))
-            handler.printHelp("Can only write to .mesh and .obj files.");
+        if(!file.endsWith(".mesh"))
+            handler.printHelp("Can only write to .mesh files.");
 
         return file;
     }
