@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Tile implements Neighborable<Tile>, Converter<Polygon> {
 
+    private TileType type;
     private final Polygon polygon;
     private final List<Tile> neighbors;
 
@@ -20,6 +21,15 @@ public class Tile implements Neighborable<Tile>, Converter<Polygon> {
     public Tile(Polygon polygon) {
         this.polygon = polygon;
         this.neighbors = new Tiles();
+        this.type = TileType.GENERIC_TILE;
+    }
+
+    /**
+     *
+     * @return The {@link TileType} of this tile
+     */
+    public TileType getType() {
+        return this.type;
     }
 
     /**
