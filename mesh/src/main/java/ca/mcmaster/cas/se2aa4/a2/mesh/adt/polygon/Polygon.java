@@ -21,7 +21,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Polygon implements Indexable, IProperties, Renderable, Colorable, Copier<Polygon>, Converter<Structs.Polygon> {
+public class Polygon implements Indexable, IProperties, Renderable, Colorable, Copier<Polygon>,
+        Converter<Structs.Polygon>, Neighborable<Polygon> {
 
     private Vertex centroid;
     private final Segments segments;
@@ -254,36 +255,23 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
         }
     }
 
-    /**
-     *
-     * @return A {@link List} with all the neighbor polygons to this one
-     */
+    @Override
     public List<Polygon> getNeighbors() {
         return new ArrayList<>(this.neighbors);
     }
 
-    /**
-     *
-     * @param polygon The polygon to add as a neighbor to this one
-     */
+    @Override
     public void addNeighbor(Polygon polygon) {
         if(this.isNeighbor(polygon))
             this.neighbors.add(polygon);
     }
 
-    /**
-     *
-     * @param polygons The {@link Polygons} to add as neighbors to this polygon
-     */
-    public void addNeighbors(List<? extends Polygon> polygons) {
+    @Override
+    public void addNeighbors(List<Polygon> polygons) {
         polygons.forEach(this::addNeighbor);
     }
 
-    /**
-     *
-     * @param polygon The polygon to check if it is a neighbor to this one
-     * @return True if the given polygon is a neighbor to this one
-     */
+    @Override
     public boolean isNeighbor(Polygon polygon) {
         // Look for common vertices
         List<Vertex> vertices = this.getVertices();
