@@ -11,7 +11,7 @@ import java.util.List;
 public class Tile implements Neighborable<Tile>, Converter<Polygon> {
 
     protected TileType type;
-    private final Polygon polygon;
+    protected final Polygon polygon;
     private final List<Tile> neighbors;
 
     /**
