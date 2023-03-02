@@ -7,6 +7,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Tile implements Neighborable<Tile>, Converter<Polygon> {
 
@@ -80,5 +81,17 @@ public class Tile implements Neighborable<Tile>, Converter<Polygon> {
     @Override
     public void addNeighbors(List<Tile> tiles) {
         tiles.forEach(this::addNeighbor);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tile tile)) return false;
+        return type == tile.type && Objects.equals(polygon, tile.polygon) && Objects.equals(neighbors, tile.neighbors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, polygon, neighbors);
     }
 }
