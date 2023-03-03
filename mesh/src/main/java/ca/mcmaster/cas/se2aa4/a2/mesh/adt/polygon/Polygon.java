@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Polygon implements Indexable, IProperties, Renderable, Colorable, Copier<Polygon>,
-        Converter<Structs.Polygon>, Neighborable<Polygon> {
+        Converter<Structs.Polygon>, Neighborable<Polygon>, Positionable<Double> {
 
     private Vertex centroid;
     private final Segments segments;
@@ -302,5 +302,20 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
     @Override
     public int hashCode() {
         return Objects.hash(this.segments, this.index);
+    }
+
+    @Override
+    public Double getX() {
+        return this.centroid.getX();
+    }
+
+    @Override
+    public Double getY() {
+        return this.centroid.getY();
+    }
+
+    @Override
+    public Double[] getPosition() {
+        return new Double[]{this.getX(), this.getY()};
     }
 }

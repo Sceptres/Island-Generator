@@ -3,13 +3,13 @@ package ca.mcmaster.cas.se2aa4.a2.island.tile;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Tile implements Neighborable<Tile>, Converter<Polygon> {
+public class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double> {
 
     protected TileType type;
     protected final Polygon polygon;
@@ -33,29 +33,19 @@ public class Tile implements Neighborable<Tile>, Converter<Polygon> {
         return this.type;
     }
 
-    /**
-     *
-     * @return The X position of the centroid of the tile
-     */
-    public double getX() {
+    @Override
+    public Double getX() {
         return this.polygon.getCentroid().getX();
     }
 
-    /**
-     *
-     * @return The Y position of the centroid of the tile
-     */
-    public double getY() {
+    @Override
+    public Double getY() {
         return this.polygon.getCentroid().getY();
     }
 
-    /**
-     *
-     * @return A 2 element double array with the X and Y position of the centroid
-     */
-    public double[] getPosition() {
-        Vertex centroid = this.polygon.getCentroid();
-        return new double[]{centroid.getX(), centroid.getY()};
+    @Override
+    public Double[] getPosition() {
+        return new Double[]{this.getX(), this.getY()};
     }
 
     @Override

@@ -11,7 +11,8 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 
-public class Vertex implements Indexable,Thickenable, IProperties, Renderable, Colorable, Copier<Vertex>, Converter<Structs.Vertex> {
+public class Vertex implements Indexable,Thickenable, IProperties, Renderable, Colorable, Copier<Vertex>,
+        Converter<Structs.Vertex>, Positionable<Double> {
     private double x;
     private double y;
     private boolean wasRendered;
@@ -108,20 +109,19 @@ public class Vertex implements Indexable,Thickenable, IProperties, Renderable, C
         return this.index;
     }
 
-    /**
-     *
-     * @return the x coordinate of the vertex
-     */
-    public double getX(){
+    @Override
+    public Double getX(){
         return this.x;
     }
 
-    /**
-     *
-     * @return the y coordinate of the vertex
-     */
-    public double getY(){
+    @Override
+    public Double getY(){
         return this.y;
+    }
+
+    @Override
+    public Double[] getPosition() {
+        return new Double[]{this.getX(), this.getY()};
     }
 
     @Override

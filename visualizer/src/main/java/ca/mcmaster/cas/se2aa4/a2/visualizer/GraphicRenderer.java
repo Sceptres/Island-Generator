@@ -30,8 +30,8 @@ public class GraphicRenderer {
 
                 polygon.getNeighbors().forEach(p -> {
                     // Calculate center point between centroids of polygon and its neighbors
-                    double midX = (p.getCentroid().getX() + polygon.getCentroid().getX()) / 2;
-                    double midY = (p.getCentroid().getY() + polygon.getCentroid().getY()) / 2;
+                    double midX = (p.getX() + polygon.getX()) / 2;
+                    double midY = (p.getY() + polygon.getY()) / 2;
                     Vertex midVertex = new Vertex(midX, midY);
 
                     // Segment that will be drawn to show neighborhood

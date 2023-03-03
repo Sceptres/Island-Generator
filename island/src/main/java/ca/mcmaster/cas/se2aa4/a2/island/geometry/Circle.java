@@ -1,6 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island.geometry;
 
-import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 /**
@@ -9,6 +9,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 public class Circle {
     private double radius;
     private final Vertex vertex;
+
 
     /**
      *
@@ -37,17 +38,15 @@ public class Circle {
     }
 
     /**
-     * if tile is on the perimeter or inside the perimeter return true
-     * @param tile pass in tile to check if it is inside the circle or not
-     * @return if tile is on the perimeter or inside the perimeter return true else return false
+     * if t is on the perimeter or inside the perimeter return true
+     * @param t pass in t to check if it is inside the circle or not
+     * @param <T> Any positionable element
+     * @return if t is on the perimeter or inside the perimeter return true else return false
      */
-    public boolean isInside(Tile tile){
+    public <T extends Positionable<Double>> boolean isInside(T t){
        //double distance = Math.hypot(x1-x2, y1-y2);
-        double distance = Math.sqrt(Math.pow(tile.getX() - vertex.getX(), 2) + Math.pow((tile.getY()- vertex.getY()), 2));
-        if(distance <= radius){
-            return true;
-        }
-        return false;
+        double distance = Math.sqrt(Math.pow(t.getX() - vertex.getX(), 2) + Math.pow((t.getY()- vertex.getY()), 2));
+        return distance <= this.radius;
     }
 
     /**
