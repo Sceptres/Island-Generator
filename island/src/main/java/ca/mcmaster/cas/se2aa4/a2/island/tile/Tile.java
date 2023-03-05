@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island.tile;
 
+import ca.mcmaster.cas.se2aa4.a2.island.tile.color.TileColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
@@ -9,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double> {
+public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double> {
 
-    protected TileType type;
-    protected final Polygon polygon;
+    private TileType type;
+    private TileColorGenerator colorGenerator;
+    private final Polygon polygon;
     private final List<Tile> neighbors;
 
     /**
@@ -22,7 +24,27 @@ public class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionabl
     public Tile(Polygon polygon) {
         this.polygon = polygon;
         this.neighbors = new Tiles();
-        this.type = TileType.GENERIC_TILE;
+        this.setType(TileType.LAND_TILE);
+    }
+
+    /**
+     *
+     * @param polygon The {@link Polygon} to create the Tile from
+     * @param type The {@link TileType} of the Tile
+     */
+    public Tile(Polygon polygon, TileType type) {
+        this(polygon);
+        this.setType(type);
+    }
+
+    /**
+     *
+     * @param type The new {@link TileType} of this tile
+     */
+    public void setType(TileType type) {
+        this.type = type;
+        this.colorGenerator = type.getColorGenerator();
+        this.polygon.setColor(this.colorGenerator.generateColor());
     }
 
     /**
@@ -55,7 +77,7 @@ public class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionabl
 
     @Override
     public boolean isNeighbor(Tile tile) {
-        return this.polygon.isNeighbor(tile.polygon);
+        return this.polygon.getNeighbors().contains(tile.polygon);
     }
 
     @Override
