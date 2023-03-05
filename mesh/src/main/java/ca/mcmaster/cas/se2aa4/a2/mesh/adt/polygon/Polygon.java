@@ -249,6 +249,7 @@ public class Polygon implements Indexable, IProperties, Renderable, Colorable, C
 
             // Draw area
             canvas.setColor(this.getColor());
+            canvas.draw(area);
             canvas.fill(area);
 
             this.wasRendered = true;

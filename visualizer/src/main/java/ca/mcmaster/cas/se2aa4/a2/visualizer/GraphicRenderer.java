@@ -47,16 +47,18 @@ public class GraphicRenderer {
 
         // Render segments
         mesh.getSegments().forEach(segment -> {
-            if(this.isDebug)
+            if(this.isDebug) {
                 segment.setColor(Color.BLACK);
-            segment.render(canvas);
+                segment.render(canvas);
+            }
         });
 
         // Render vertices
         mesh.getNonCentroidVertices().forEach(vertex -> {
-            if(this.isDebug)
+            if(this.isDebug) {
                 vertex.setColor(Color.BLACK);
-            vertex.render(canvas);
+                vertex.render(canvas);
+            }
         });
 
         if(this.isDebug) {
