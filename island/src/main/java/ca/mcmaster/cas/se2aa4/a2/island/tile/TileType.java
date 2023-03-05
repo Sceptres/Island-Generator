@@ -2,11 +2,13 @@ package ca.mcmaster.cas.se2aa4.a2.island.tile;
 
 import ca.mcmaster.cas.se2aa4.a2.island.tile.color.TileColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.color.colors.BeachColorGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.color.colors.LandColorGenerator;
 
 public enum TileType {
-    BEACH_TILE(new BeachColorGenerator());
+    BEACH_TILE(new BeachColorGenerator()),
+    LAND_TILE(new LandColorGenerator());
 
-    
+
     private final TileColorGenerator generator;
 
     TileType(TileColorGenerator generator) {
