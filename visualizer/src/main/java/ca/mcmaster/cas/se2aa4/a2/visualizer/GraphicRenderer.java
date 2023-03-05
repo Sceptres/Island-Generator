@@ -4,7 +4,6 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segments;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.awt.*;
 
@@ -17,8 +16,6 @@ public class GraphicRenderer {
     }
 
     public void render(Mesh mesh, Graphics2D canvas) {
-
-
         canvas.setColor(Color.BLACK);
 
         Segments debugSegments = new Segments();
@@ -29,17 +26,11 @@ public class GraphicRenderer {
                 Color color = Util.generateRandomColor(false);
 
                 polygon.getNeighbors().forEach(p -> {
-                    // Calculate center point between centroids of polygon and its neighbors
-                    double midX = (p.getX() + polygon.getX()) / 2;
-                    double midY = (p.getY() + polygon.getY()) / 2;
-                    Vertex midVertex = new Vertex(midX, midY);
-
                     // Segment that will be drawn to show neighborhood
-                    Segment segment = new Segment(polygon.getCentroid(), midVertex);
-                    segment.setColor(color);
+                    Segment segment = new Segment(polygon.getCentroid(), p.getCentroid());
+                    segment.setColor(Color.GRAY);
                     debugSegments.add(segment);
                 });
-                polygon.setColor(new Color(0, 0, 0, 0));
             }
 
             polygon.render(canvas);
@@ -63,7 +54,10 @@ public class GraphicRenderer {
 
         if(this.isDebug) {
             debugSegments.forEach(s -> s.render(canvas));
-            mesh.getCentroidVertices().forEach(vertex -> vertex.render(canvas));
+            mesh.getCentroidVertices().forEach(vertex -> {
+                vertex.setColor(Color.GRAY);
+                vertex.render(canvas);
+            });
         }
     }
 }
