@@ -1,8 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a2.island.generator;
 
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.neighborhood.NeighborhoodRelation;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.neighborhood.TileNeighborhood;
+import ca.mcmaster.cas.se2aa4.a2.island.neighborhood.NeighborhoodRelation;
+import ca.mcmaster.cas.se2aa4.a2.island.neighborhood.TileNeighborhood;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 
 import java.util.List;
