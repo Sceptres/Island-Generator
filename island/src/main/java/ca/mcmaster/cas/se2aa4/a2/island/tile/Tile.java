@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.island.tile;
 
 import ca.mcmaster.cas.se2aa4.a2.island.tile.color.TileColorGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
