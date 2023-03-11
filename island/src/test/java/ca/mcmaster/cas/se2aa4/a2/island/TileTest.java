@@ -45,11 +45,16 @@ public class TileTest {
 
     @Test
     public void tileTypeTest() {
-        TileType beachTile = TileType.BEACH_TILE;
+        TileType type = TileType.BEACH_TILE;
 
-        this.tile.setType(beachTile);
+        this.tile.setType(type);
+        assertEquals(this.tile.getType(), type);
+        assertEquals(this.polygon.getColor(), type.getColorGenerator().generateColor());
 
-        assertEquals(this.tile.getType(), beachTile);
-        assertEquals(this.polygon.getColor(), beachTile.getColorGenerator().generateColor());
+        type = TileType.OCEAN_TILE;
+
+        this.tile = new Tile(this.polygon, type);
+        assertEquals(this.tile.getType(), type);
+        assertEquals(this.polygon.getColor(), type.getColorGenerator().generateColor());
     }
 }
