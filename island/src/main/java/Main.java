@@ -17,12 +17,12 @@ public class Main {
 
         String mode = IslandInputHandler.getIslandMode(handler);
 
-        MeshReader meshReader = new MeshReader(args[0]);
+        MeshReader meshReader = new MeshReader(input);
         Mesh mesh = meshReader.getMesh();
 
         mesh.getPolygons().forEach(Tile::new);
 
         MeshWriter writer = new MeshWriter();
-        writer.write(mesh, args[0]);
+        writer.write(mesh, output);
     }
 }

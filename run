@@ -2,9 +2,13 @@
 mvn install
 
 cd generator/
-java -jar generator.jar -out sample.mesh
+java -jar generator.jar -out sample.mesh -m irregular -np 2000
+cd ../
+
+cd island/
+java -jar island.jar -i ../generator/sample.mesh -o island.mesh --mode lagoon
 cd ../
 
 cd visualizer/
-java -jar visualizer.jar -in ../generator/sample.mesh -out sample.svg
+java -jar visualizer.jar -in ../island/island.mesh -out sample.svg
 cd ../
