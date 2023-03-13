@@ -1,7 +1,5 @@
 package ca.mcmaster.cas.se2aa4.a2.island.cli;
 
-import ca.mcmaster.cas.se2aa4.a2.generator.cli.GeneratorInputHandler;
-import ca.mcmaster.cas.se2aa4.a2.generator.cli.options.RelaxationLevelOption;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.InputOption;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.ModeOption;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.OutputOption;
@@ -85,20 +83,4 @@ public class IslandInputHandler {
 
         return value;
     }
-
-
-
-    /*public static int getRelaxationLevel(InputHandler handler) {
-        String value = handler.getOptionValue(
-                GeneratorInputHandler.getGeneratorOption(RelaxationLevelOption.OPTION_STR),
-                RelaxationLevelOption.DEFAULT_VALUE
-        );
-
-        if(value.matches("[0-9]+")) { // The given input is a number?
-            return Integer.parseInt(value);
-        } else
-            handler.printHelp("Given relaxation level is not an integer!");
-
-        return -1;
-    }*/
 }
