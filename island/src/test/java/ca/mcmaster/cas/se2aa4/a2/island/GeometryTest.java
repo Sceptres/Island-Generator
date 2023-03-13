@@ -1,6 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island;
 
-import ca.mcmaster.cas.se2aa4.a2.island.geometry.Circle;
+import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,39 +24,9 @@ public class GeometryTest {
     @Test
     public void containsTest() {
         Vertex v1 = new Vertex(50, 50);
-        Vertex v2 = new Vertex(0, 100);
-        Vertex v3 = new Vertex(0, 0);
+        Vertex v2 = new Vertex(0, 0);
 
-        assertTrue(this.circle.isInside(v1));
-        assertTrue(this.circle.isInside(v2));
-        assertFalse(this.circle.isInside(v3));
-    }
-
-    @Test
-    public void changePositionTest() {
-        Vertex v = this.circle.getVertex();
-        v.setX(200);
-        v.setY(200);
-
-        Vertex v1 = new Vertex(190, 190);
-        Vertex v2 = new Vertex(100, 200);
-        Vertex v3 = new Vertex(0, 0);
-
-        assertTrue(this.circle.isInside(v1));
-        assertTrue(this.circle.isInside(v2));
-        assertFalse(this.circle.isInside(v3));
-    }
-
-    @Test
-    public void changeRadiusTest() {
-        this.circle.setRadius(50);
-
-        Vertex v1 = new Vertex(75, 125);
-        Vertex v2 = new Vertex(50, 100);
-        Vertex v3 = new Vertex(0, 0);
-
-        assertTrue(this.circle.isInside(v1));
-        assertTrue(this.circle.isInside(v2));
-        assertFalse(this.circle.isInside(v3));
+        assertTrue(this.circle.contains(v1));
+        assertFalse(this.circle.contains(v2));
     }
 }

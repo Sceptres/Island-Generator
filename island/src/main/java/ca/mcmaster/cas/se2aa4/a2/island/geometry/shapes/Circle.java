@@ -1,5 +1,6 @@
-package ca.mcmaster.cas.se2aa4.a2.island.geometry;
+package ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes;
 
+import ca.mcmaster.cas.se2aa4.a2.island.geometry.AbstractShape;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
@@ -32,6 +33,4 @@ public class Circle extends AbstractShape {
     public Circle(double radius, Vertex vertex){
         super(createCircle(vertex.getX(), vertex.getY(), radius));
     }
-
-
 }
