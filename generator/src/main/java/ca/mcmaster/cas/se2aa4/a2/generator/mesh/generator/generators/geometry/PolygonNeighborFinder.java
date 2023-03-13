@@ -37,10 +37,7 @@ public class PolygonNeighborFinder {
     }
 
     private List<org.locationtech.jts.geom.Polygon> getDelaunayTriangulation() {
-        List<Coordinate> centroidCoordinates = this.polygons.stream().map(p -> {
-            Vertex centroid = p.getCentroid();
-            return new Coordinate(centroid.getX(), centroid.getY());
-        }).toList();
+        List<Coordinate> centroidCoordinates = this.polygons.stream().map(p -> new Coordinate(p.getX(), p.getY())).toList();
 
         // Triangulation builder
         DelaunayTriangulationBuilder delaunayTriangulationBuilder = new DelaunayTriangulationBuilder();

@@ -1,4 +1,4 @@
-package ca.mcmaster.cas.se2aa4.a2.mesh.cli.options;
+package ca.mcmaster.cas.se2aa4.a2.island.cli.options;
 
 import org.apache.commons.cli.Option;
 
@@ -12,8 +12,8 @@ public class OutputOption extends Option {
 
 
     public OutputOption() throws IllegalArgumentException {
-        super(OPTION_STR.substring(0, 3), OPTION_STR, true, DESCRIPTION);
-        super.setArgName("output file>");
+        super(OPTION_STR.substring(0, 1), OPTION_STR, true, DESCRIPTION);
+        super.setArgName("output file");
         super.setRequired(true);
         super.setArgs(1);
     }
