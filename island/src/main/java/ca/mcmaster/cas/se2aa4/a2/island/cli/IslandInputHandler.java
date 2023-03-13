@@ -3,6 +3,8 @@ package ca.mcmaster.cas.se2aa4.a2.island.cli;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.InputOption;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.ModeOption;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.OutputOption;
+import ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.generator.generators.LagoonIslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 
 import org.apache.commons.cli.*;
@@ -55,13 +57,20 @@ public class IslandInputHandler {
         return file;
     }
 
-    public static String getIslandMode(InputHandler handler){
+    public static IslandGenerator getIslandMode(InputHandler handler){
         String mode = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(ModeOption.OPTION_STR),
                 ModeOption.DEFAULT_VALUE
         );
 
-        return mode;
+        IslandGenerator generator = null;
+
+        if(mode.equals("lagoon"))
+            generator = new LagoonIslandGenerator();
+        else
+            handler.printHelp("Invalid mode: " + mode);
+
+        return generator;
 
     }
 
