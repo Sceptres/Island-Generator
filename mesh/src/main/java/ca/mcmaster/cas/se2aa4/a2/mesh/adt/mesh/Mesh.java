@@ -14,10 +14,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertices;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.properties.Properties;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Mesh implements IProperties, Converter<Structs.Mesh> {
     private final Vertices vertices;
@@ -178,8 +175,19 @@ public class Mesh implements IProperties, Converter<Structs.Mesh> {
      * @return The dimensions of this mesh in format [width, height]
      */
     public int[] getDimension() {
-        String[] dimensionStr = this.getProperty(DimensionProperty.KEY).getValue().split("x");
-        return Arrays.stream(dimensionStr).mapToInt(Integer::parseInt).toArray();
+        Property property = this.getProperty(DimensionProperty.KEY);
+
+        int[] dimension = null;
+
+        if(!Objects.isNull(property)) {
+            String[] dimensionStr = property.getValue().split("x");
+            dimension = Arrays.stream(dimensionStr).mapToInt(Integer::parseInt).toArray();
+        } else {
+            int maxX = (int) Math.ceil(this.vertices.stream().mapToDouble(Vertex::getX).max().getAsDouble());
+            int maxY = (int) Math.ceil(this.vertices.stream().mapToDouble(Vertex::getY).max().getAsDouble());
+            dimension = new int[]{maxX, maxY};
+        }
+        return dimension;
 
     }
 }
