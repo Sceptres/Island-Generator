@@ -13,7 +13,7 @@ public class OutputOption extends Option {
 
     public OutputOption() throws IllegalArgumentException {
         super(OPTION_STR.substring(0, 1), OPTION_STR, true, DESCRIPTION);
-        super.setArgName("output file>");
+        super.setArgName("output file");
         super.setRequired(true);
         super.setArgs(1);
     }
