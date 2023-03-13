@@ -12,15 +12,14 @@ import org.locationtech.jts.util.GeometricShapeFactory;
 public class Circle extends AbstractShape {
     /**
      *
-     * @param x The x position of the circle
-     * @param y The y position of the circle
+     * @param v The centroid of the circle
      * @param r The radius of the circle
      * @return A circle geometry
      */
-    private static Geometry createCircle(double x, double y, final double r) {
+    private static Geometry createCircle(double r, Vertex v) {
         GeometricShapeFactory shapeFactory = new GeometricShapeFactory();
         shapeFactory.setNumPoints(500);
-        shapeFactory.setCentre(new Coordinate(x, y));
+        shapeFactory.setCentre(new Coordinate(v.getX(), v.getY()));
         shapeFactory.setSize(r * 2);
         return shapeFactory.createCircle();
     }
@@ -31,6 +30,6 @@ public class Circle extends AbstractShape {
      * @param vertex the center of the circle
      */
     public Circle(double radius, Vertex vertex){
-        super(createCircle(vertex.getX(), vertex.getY(), radius));
+        super(createCircle(radius, vertex));
     }
 }
