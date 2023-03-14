@@ -2,10 +2,9 @@ package ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes;
 
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.AbstractShape;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.util.GeometricShapeFactory;
+
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 public class Oval extends AbstractShape {
     /**
@@ -15,17 +14,8 @@ public class Oval extends AbstractShape {
      * @param v The center vertex of this oval
      * @return The oval geometry
      */
-    private static Geometry createOval(double hRadius, double vRadius, Vertex v) {
-        GeometryFactory factory = new GeometryFactory();
-        Coordinate center = new Coordinate(v.getX(), v.getY());
-
-        GeometricShapeFactory shapeFactory = new GeometricShapeFactory(factory);
-        shapeFactory.setCentre(center);
-        shapeFactory.setWidth(hRadius * 2);
-        shapeFactory.setHeight(vRadius * 2);
-
-        // create an ellipse geometry using the shape factory
-        return shapeFactory.createEllipse();
+    private static Shape createOval(double hRadius, double vRadius, Vertex v) {
+        return new Ellipse2D.Double(v.getX()-hRadius, v.getY()-vRadius, hRadius*2, vRadius*2);
     }
 
     public Oval(double hRadius, double vRadius, Vertex center) {

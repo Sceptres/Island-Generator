@@ -2,9 +2,9 @@ package ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes;
 
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.AbstractShape;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.util.GeometricShapeFactory;
+
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 /**
  * This class is to make a perimeter for the lagoon and the beach
@@ -16,12 +16,9 @@ public class Circle extends AbstractShape {
      * @param r The radius of the circle
      * @return A circle geometry
      */
-    private static Geometry createCircle(double r, Vertex v) {
-        GeometricShapeFactory shapeFactory = new GeometricShapeFactory();
-        shapeFactory.setNumPoints(500);
-        shapeFactory.setCentre(new Coordinate(v.getX(), v.getY()));
-        shapeFactory.setSize(r * 2);
-        return shapeFactory.createCircle();
+    private static Shape createCircle(double r, Vertex v) {
+        double diameter = r*2f;
+        return new Ellipse2D.Double(v.getX()-r, v.getY()-r, diameter, diameter);
     }
 
     /**

@@ -1,22 +1,20 @@
 package ca.mcmaster.cas.se2aa4.a2.island.geometry;
 
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
-import org.locationtech.jts.geom.*;
-import org.locationtech.jts.geom.impl.CoordinateArraySequence;
+
+import java.awt.geom.Point2D;
 
 public class AbstractShape implements Shape {
 
-    protected final Geometry geometry;
+    protected final java.awt.Shape shape;
 
-    protected AbstractShape(Geometry geometry) {
-        this.geometry = geometry;
+    protected AbstractShape(java.awt.Shape shape) {
+        this.shape = shape;
     }
 
     @Override
     public <T extends Positionable<Double>> boolean contains(T t) {
-        Coordinate coordinate = new Coordinate(t.getX(), t.getY());
-        CoordinateSequence sequence = new CoordinateArraySequence(new Coordinate[]{coordinate});
-        Point point = new Point(sequence, new GeometryFactory());
-        return this.geometry.contains(point);
+        Point2D point = new Point2D.Double(t.getX(), t.getY());
+        return this.shape.contains(point);
     }
 }
