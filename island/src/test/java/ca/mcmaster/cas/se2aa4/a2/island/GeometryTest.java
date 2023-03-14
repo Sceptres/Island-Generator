@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a2.island;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Oval;
+import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Star;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,5 +43,16 @@ public class GeometryTest {
 
         assertTrue(circle.contains(v1));
         assertFalse(circle.contains(v2));
+    }
+
+    @Test
+    public void starTest() {
+        Shape star = new Star(100, 200, 9, this.center);
+
+        Vertex v1 = new Vertex(120, 120);
+        Vertex v2 = new Vertex(0, 0);
+
+        assertTrue(star.contains(v1));
+        assertFalse(star.contains(v2));
     }
 }
