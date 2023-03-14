@@ -30,7 +30,7 @@ Generator options include:
 3. -h,--help                                                            Displays program usage.
 4. -m,--mesh <mesh type>                                                The type of mesh to generate. Either `grid` or `irregular`.
 5. -np,--numPolygons <number of polygons>                               Sets the number of polygons to generate in the irregular mesh. Will be ignored if the mesh is a grid.
-6. -out,--output <output file>>                                         The file to output to.
+6. -out,--output <output file>                                          The file to output to.
 7. -rl,--relaxationLevel <relaxation level>                             Sets the relaxation level of an irregular mesh. Will be ignored by grid mesh
 8. -ss,--squareSize <square size>                                       Sets the size of the squares in the grid mesh. Ignored by irregular mesh.
 9. -t,--thickness <vertex thickness> <segment thickness>                Sets the thickness for the vertices and segments.
@@ -44,14 +44,31 @@ mosser@azrael generator % ls -lh sample.mesh
 mosser@azrael generator % 
 ```
 
+### Island Generator
+
+To run the island generator, go to the `island` directory, and use `java -jar` to run the product.
+
+Island Generator options include:
+1. -i,--input <input file>          Sets the file to read the mesh from.
+2. -o,--output <output file>        Sets the file to output the new island mesh to.
+3. -h,--help                        Displays program usage.
+4. -m,--mode <mode>                 The island generation mode. At the moment only `lagoon`.
+```
+mosser@azrael A2 % cd island 
+mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m lagoon 
+mosser@azrael island % ls -lh island.mesh
+-rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
+mosser@azrael island % 
+```
+
 ### Visualizer
 
 To visualize an existing mesh, go to the `visualizer` directory, and use `java -jar` to run the product. The product take two arguments (so far): the file containing the mesh, and the name of the file to store the visualization (as an SVG image).
 
 Visualizer options include:
 1. -h,--help                      Displays program usage.
-2. -in,--input <input file>>      Takes in the mesh file to read from.
-3. -out,--output <output file>>   The file to output to.
+2. -in,--input <input file>       Takes in the mesh file to read from.
+3. -out,--output <output file>    The file to output to.
 4. -X,--debug                     Enable debug mode when rendering the mesh.
 
 ```
@@ -92,5 +109,11 @@ When you develop features and enrich the product, remember that you have first t
 - | 04 |Visualization mode                    |Omar           | 16-2-2023 | 17-2-2023 |  Complete |
 - | 05 |Mesh configuration                    |Abdallah,Beshoy| 19-2-2023 | 21-2-2023 |  Complete |
 - | 04 |Irregular mesh generation             |Omar & Beshoy  | 22-2-2023 | 25-2-2023 |  Complete |
-
-
+- | 05 |Tile System                           |Abdallah&Beshoy| 01-3-2023 | 03-3-2023 |  Complete |
+- | 06 |Lagoon Tile                           |Abdallah&Beshoy| 03-3-2023 | 04-3-2023 |  Complete |
+- | 07 |Beach Tile                            |Abdallah&Beshoy| 03-3-2023 | 04-3-2023 |  Complete |
+- | 08 |Ocean Tile                            |Abdallah&Beshoy| 03-3-2023 | 04-3-2023 |  Complete |
+- | 09 |Land Tile                             |Abdallah&Beshoy| 03-3-2023 | 04-3-2023 |  Complete |
+- | 10 |Input Handling                        |Omar           | 01-3-2023 | 03-3-2023 |  Complete |
+- | 11 |Lagoon Island Generation              |Abdallah&Beshoy| 01-3-2023 | 03-3-2023 |  Complete |
+- | 12 |Island Shape Generation               |Abdallah&Beshoy| 03-3-2023 | 10-3-2023 |  Complete |
