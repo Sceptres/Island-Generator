@@ -6,7 +6,7 @@ import java.awt.Color;
  * This class stores the colors of the tiles
  */
 public class TileColors {
-    public static Color OCEAN = new Color(0,87,143);
+    public static Color OCEAN = new Color(5,64,96);
 
     public static Color BEACH = new Color(252,255,202);
 
