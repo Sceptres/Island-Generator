@@ -12,7 +12,7 @@ public class Oval extends AbstractShape {
      * @param hRadius The horizontal radius of the oval
      * @param vRadius The vertical radius of the oval
      * @param v The center vertex of this oval
-     * @return The oval geometry
+     * @return The oval shape
      */
     private static Shape createOval(double hRadius, double vRadius, Vertex v) {
         return new Ellipse2D.Double(v.getX()-hRadius, v.getY()-vRadius, hRadius*2, vRadius*2);

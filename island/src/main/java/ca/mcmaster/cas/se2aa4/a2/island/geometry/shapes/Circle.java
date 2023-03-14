@@ -14,7 +14,7 @@ public class Circle extends AbstractShape {
      *
      * @param v The centroid of the circle
      * @param r The radius of the circle
-     * @return A circle geometry
+     * @return A circle shape
      */
     private static Shape createCircle(double r, Vertex v) {
         double diameter = r*2f;
