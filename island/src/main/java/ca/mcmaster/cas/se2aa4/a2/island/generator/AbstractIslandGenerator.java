@@ -19,8 +19,8 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
     }
 
     @Override
-    public final void generate(Mesh mesh) {
-        List<Tile> tiles = mesh.getPolygons().stream().map(Tile::new).toList();
+    public final void generate() {
+        List<Tile> tiles = this.mesh.getPolygons().stream().map(Tile::new).toList();
 
         // Calculate the tiles neighborhood relationship
         NeighborhoodRelation neighborhood = new TileNeighborhood();

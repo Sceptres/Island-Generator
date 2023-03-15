@@ -19,7 +19,7 @@ public class Main {
         Mesh mesh = meshReader.getMesh();
 
         IslandGenerator generator = IslandInputHandler.getIslandMode(handler, mesh);
-        generator.generate(mesh);
+        generator.generate();
 
         MeshWriter writer = new MeshWriter();
         writer.write(mesh, output);
