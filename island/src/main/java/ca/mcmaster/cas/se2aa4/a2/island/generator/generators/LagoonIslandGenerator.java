@@ -12,16 +12,20 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import java.util.List;
 
 public class LagoonIslandGenerator extends AbstractIslandGenerator {
+    public LagoonIslandGenerator(Mesh mesh, Shape shape) {
+        super(mesh, shape);
+    }
+
     @Override
-    protected void generateIsland(Mesh mesh, List<Tile> tiles) {
+    protected void generateIsland(List<Tile> tiles) {
         // Find mesh center vertex
-        int[] meshDimension = mesh.getDimension();
+        int[] meshDimension = super.mesh.getDimension();
         Vertex meshCenter = new Vertex(meshDimension[0]/2f, meshDimension[1]/2f);
 
         // Create circles
         double diagonalLength = Math.hypot(meshDimension[0], meshDimension[1]);
         Shape circle = new Circle(diagonalLength/8f, meshCenter);
-        Shape circle1 = new Circle(diagonalLength/4f, meshCenter);
+        Shape circle1 = super.shape;
 
         // Make water tiles
         tiles.stream().filter(circle::contains).forEach(t -> t.setType(TileType.LAGOON_TILE));

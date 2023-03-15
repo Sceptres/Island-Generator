@@ -10,6 +10,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Oval;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Star;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 
@@ -64,7 +65,7 @@ public class IslandInputHandler {
         return file;
     }
 
-    public static IslandGenerator getIslandMode(InputHandler handler){
+    public static IslandGenerator getIslandMode(InputHandler handler, Mesh mesh){
         String mode = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(ModeOption.OPTION_STR),
                 ModeOption.DEFAULT_VALUE
@@ -72,8 +73,14 @@ public class IslandInputHandler {
 
         IslandGenerator generator = null;
 
+        int[] meshDimension = mesh.getDimension();
+        Vertex meshCenter = new Vertex(meshDimension[0]/2f, meshDimension[1]/2f);
+        double diagonalLength = Math.hypot(meshDimension[0], meshDimension[1]);
+
+        Shape shape = IslandInputHandler.getShapeInput(handler, meshCenter, diagonalLength);
+
         if(mode.equals("lagoon"))
-            generator = new LagoonIslandGenerator();
+            generator = new LagoonIslandGenerator(mesh, shape);
         else
             handler.printHelp("Invalid mode: " + mode);
 
@@ -117,8 +124,8 @@ public class IslandInputHandler {
 
         switch (value) {
             case "circle"   -> shape = new Circle(diagonalLength/4f, center);
-            case "oval"     -> shape = new Oval(diagonalLength/4f, diagonalLength/8f, center);
-            case "star"     -> shape = new Star(diagonalLength/4f, diagonalLength/8f, 8, center);
+            case "oval"     -> shape = new Oval(diagonalLength/6f, diagonalLength/3f, center);
+            case "star"     -> shape = new Star(diagonalLength/3f, diagonalLength/6f, 8, center);
             default         -> handler.printHelp("Invalid shape!");
         }
 
