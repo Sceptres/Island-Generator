@@ -3,8 +3,14 @@ package ca.mcmaster.cas.se2aa4.a2.island.cli;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.InputOption;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.ModeOption;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.OutputOption;
+import ca.mcmaster.cas.se2aa4.a2.island.cli.options.ShapeOption;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.generators.LagoonIslandGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
+import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle;
+import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Oval;
+import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Star;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 
 import org.apache.commons.cli.*;
@@ -18,7 +24,8 @@ public class IslandInputHandler {
     private final static Map<String, Option> ISLAND_OPTIONS = Map.of(
             ModeOption.OPTION_STR,  new ModeOption(),
             InputOption.OPTION_STR, new InputOption(),
-            OutputOption.OPTION_STR, new OutputOption()
+            OutputOption.OPTION_STR, new OutputOption(),
+            ShapeOption.OPTION_STR, new ShapeOption()
 
     );
 
@@ -91,5 +98,30 @@ public class IslandInputHandler {
         }
 
         return value;
+    }
+
+    /**
+     *
+     * @param handler The {@link InputHandler} to extract the data from
+     * @param center The center {@link Vertex} of the mesh
+     * @param diagonalLength The length from the center to a corner in the mesh
+     * @return The {@link Shape} that matches cmd input
+     */
+    private static Shape getShapeInput(InputHandler handler, Vertex center, double diagonalLength) {
+        String value = handler.getOptionValue(
+                IslandInputHandler.getIslandOption(ShapeOption.OPTION_STR),
+                ShapeOption.DEFAULT_VALUE
+        );
+
+        Shape shape = null;
+
+        switch (value) {
+            case "circle"   -> shape = new Circle(diagonalLength/4f, center);
+            case "oval"     -> shape = new Oval(diagonalLength/4f, diagonalLength/8f, center);
+            case "star"     -> shape = new Star(diagonalLength/4f, diagonalLength/8f, 8, center);
+            default         -> handler.printHelp("Invalid shape!");
+        }
+
+        return shape;
     }
 }
