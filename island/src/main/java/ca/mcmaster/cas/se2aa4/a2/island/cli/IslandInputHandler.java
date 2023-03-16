@@ -1,11 +1,9 @@
 package ca.mcmaster.cas.se2aa4.a2.island.cli;
 
-import ca.mcmaster.cas.se2aa4.a2.island.cli.options.InputOption;
-import ca.mcmaster.cas.se2aa4.a2.island.cli.options.ModeOption;
-import ca.mcmaster.cas.se2aa4.a2.island.cli.options.OutputOption;
-import ca.mcmaster.cas.se2aa4.a2.island.cli.options.ShapeOption;
+import ca.mcmaster.cas.se2aa4.a2.island.cli.options.*;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.generators.LagoonIslandGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.generator.generators.RandomIslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Oval;
@@ -13,8 +11,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Star;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
-
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.Option;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,7 +23,8 @@ public class IslandInputHandler {
             ModeOption.OPTION_STR,  new ModeOption(),
             InputOption.OPTION_STR, new InputOption(),
             OutputOption.OPTION_STR, new OutputOption(),
-            ShapeOption.OPTION_STR, new ShapeOption()
+            ShapeOption.OPTION_STR, new ShapeOption(),
+            LakesOption.OPTION_STR, new LakesOption()
 
     );
 
@@ -65,6 +63,12 @@ public class IslandInputHandler {
         return file;
     }
 
+    /**
+     *
+     * @param handler The {@link InputHandler} to retrieve generation mode from
+     * @param mesh The {@link Mesh} to generate island from
+     * @return The {@link IslandGenerator} to use
+     */
     public static IslandGenerator getIslandMode(InputHandler handler, Mesh mesh){
         String mode = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(ModeOption.OPTION_STR),
@@ -81,7 +85,10 @@ public class IslandInputHandler {
 
         if(mode.equals("lagoon"))
             generator = new LagoonIslandGenerator(mesh, shape);
-        else
+        else if(mode.equals("random")) {
+            int numLakes = IslandInputHandler.getNumLakes(handler);
+            generator = new RandomIslandGenerator(mesh, shape, numLakes);
+        } else
             handler.printHelp("Invalid mode: " + mode);
 
         return generator;
@@ -105,6 +112,29 @@ public class IslandInputHandler {
         }
 
         return value;
+    }
+
+    /**
+     *
+     * @param handler The {@link InputHandler} to get the lakes input from
+     * @return The number of lakes set by the user
+     */
+    public static int getNumLakes(InputHandler handler) {
+        String value = handler.getOptionValue(
+                IslandInputHandler.getIslandOption(LakesOption.OPTION_STR),
+                LakesOption.DEFAULT_VALUE
+        );
+
+        int numLakes = -1;
+
+        try {
+            numLakes = Integer.parseInt(value);
+        } catch(NumberFormatException e) {
+            String message = String.format("Invalid number %s!", value);
+            handler.printHelp(message);
+        }
+
+        return numLakes;
     }
 
     /**

@@ -64,4 +64,7 @@ public class RandomIslandGenerator extends AbstractIslandGenerator {
             generateLakePath(random, neighbor);
         }
     }
+
+
+
 }
