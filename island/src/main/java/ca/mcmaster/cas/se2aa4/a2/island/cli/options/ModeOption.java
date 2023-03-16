@@ -11,5 +11,7 @@ public class ModeOption extends org.apache.commons.cli.Option{
     public ModeOption() throws IllegalArgumentException {
         super(OPTION_STR.substring(0, 1), OPTION_STR, false, DESCRIPTION);
         super.setRequired(false);
+        super.setArgs(1);
+        super.setArgName("mode");
     }
 }
