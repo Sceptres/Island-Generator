@@ -55,7 +55,6 @@ public class RandomIslandGenerator extends AbstractIslandGenerator {
                 )
         );
 
-        System.out.println(num);
 
         if(!shouldStop) {
             start.setType(TileType.LAND_WATER_TILE);
