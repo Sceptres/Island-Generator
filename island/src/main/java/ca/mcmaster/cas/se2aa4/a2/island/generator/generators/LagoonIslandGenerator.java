@@ -31,8 +31,8 @@ public class LagoonIslandGenerator extends AbstractIslandGenerator {
         int[] meshDimension = super.mesh.getDimension();
         Vertex meshCenter = new Vertex(meshDimension[0]/2f, meshDimension[1]/2f);
 
-        double diagonalLength = Math.hypot(meshDimension[0], meshDimension[1]);
-        Shape circle = new Circle(diagonalLength/8f, meshCenter);
+        double diagonalLength = Math.hypot(meshDimension[0]/2f, meshDimension[1]/2f);
+        Shape circle = new Circle(diagonalLength/4f, meshCenter);
 
         mainLandTiles.stream().filter(circle::contains).forEach(t -> t.setType(TileType.LAGOON_TILE));
         mainLandTiles.stream().filter(t -> !circle.contains(t)).filter( t ->

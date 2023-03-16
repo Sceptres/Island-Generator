@@ -75,7 +75,7 @@ public class IslandInputHandler {
 
         int[] meshDimension = mesh.getDimension();
         Vertex meshCenter = new Vertex(meshDimension[0]/2f, meshDimension[1]/2f);
-        double diagonalLength = Math.hypot(meshDimension[0], meshDimension[1]);
+        double diagonalLength = Math.hypot(meshDimension[0]/2f, meshDimension[1]/2f);
 
         Shape shape = IslandInputHandler.getShapeInput(handler, meshCenter, diagonalLength);
 
@@ -123,9 +123,9 @@ public class IslandInputHandler {
         Shape shape = null;
 
         switch (value) {
-            case "circle"   -> shape = new Circle(diagonalLength/4f, center);
-            case "oval"     -> shape = new Oval(diagonalLength/6f, diagonalLength/3f, center);
-            case "star"     -> shape = new Star(diagonalLength/3f, diagonalLength/6f, 8, center);
+            case "circle"   -> shape = new Circle(diagonalLength/2f, center);
+            case "oval"     -> shape = new Oval(diagonalLength/3f, diagonalLength/1.5f, center);
+            case "star"     -> shape = new Star(diagonalLength/1.5f, diagonalLength/3f, 8, center);
             default         -> handler.printHelp("Invalid shape!");
         }
 
