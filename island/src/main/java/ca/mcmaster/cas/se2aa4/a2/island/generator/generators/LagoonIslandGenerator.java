@@ -13,28 +13,30 @@ import java.util.List;
 
 public class LagoonIslandGenerator extends AbstractIslandGenerator {
     public LagoonIslandGenerator(Mesh mesh, Shape shape) {
-        super(mesh, shape);
+        super(mesh, shape, 1);
     }
 
     @Override
-    protected void generateIsland(List<Tile> tiles) {
-        // Find mesh center vertex
+    protected void generateIsland(List<Tile> tiles, Shape shape) {
+        tiles.stream().filter(t -> !shape.contains(t)).forEach(t -> t.setType(TileType.OCEAN_TILE));
+
+        List<Tile> landTiles = tiles.stream().filter(t -> t.getType().getGroup() == TileGroup.LAND).toList();
+        landTiles.stream().filter(t ->
+                t.getNeighbors().stream().anyMatch(t1 -> t1.getType() == TileType.OCEAN_TILE)
+        ).forEach(t -> t.setType(TileType.BEACH_TILE));
+    }
+
+    @Override
+    protected void generateLakes(List<Tile> mainLandTiles, int numLakes) {
         int[] meshDimension = super.mesh.getDimension();
         Vertex meshCenter = new Vertex(meshDimension[0]/2f, meshDimension[1]/2f);
 
-        // Create circles
-        double diagonalLength = Math.hypot(meshDimension[0], meshDimension[1]);
-        Shape circle = new Circle(diagonalLength/8f, meshCenter);
-        Shape circle1 = super.shape;
+        double diagonalLength = Math.hypot(meshDimension[0]/2f, meshDimension[1]/2f);
+        Shape circle = new Circle(diagonalLength/4f, meshCenter);
 
-        // Make water tiles
-        tiles.stream().filter(circle::contains).forEach(t -> t.setType(TileType.LAGOON_TILE));
-        tiles.stream().filter(t -> !circle1.contains(t)).forEach(t -> t.setType(TileType.OCEAN_TILE));
-
-        // Generate land tiles
-        List<Tile> landTiles = tiles.stream().filter(t -> circle1.contains(t) && !circle.contains(t)).toList();
-        landTiles.stream().filter(t ->
-                t.getNeighbors().stream().anyMatch(t1 -> t1.getType().getGroup() == TileGroup.WATER)
+        mainLandTiles.stream().filter(circle::contains).forEach(t -> t.setType(TileType.LAND_WATER_TILE));
+        mainLandTiles.stream().filter(t -> !circle.contains(t)).filter( t ->
+                t.getNeighbors().stream().anyMatch(t1 -> t1.getType() == TileType.LAND_WATER_TILE)
         ).forEach(t -> t.setType(TileType.BEACH_TILE));
     }
 }
