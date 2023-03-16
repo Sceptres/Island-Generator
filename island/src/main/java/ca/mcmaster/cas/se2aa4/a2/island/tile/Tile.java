@@ -1,6 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island.tile;
 
-import ca.mcmaster.cas.se2aa4.a2.island.tile.color.TileColorGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
@@ -14,7 +14,7 @@ import java.util.Objects;
 public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double> {
 
     private TileType type;
-    private TileColorGenerator colorGenerator;
+    private Configurator configurator;
     private final Polygon polygon;
     private final List<Tile> neighbors;
 
@@ -44,8 +44,8 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
      */
     public void setType(TileType type) {
         this.type = type;
-        this.colorGenerator = type.getColorGenerator();
-        this.polygon.setColor(this.colorGenerator.generateColor());
+        this.configurator = type.getConfigurator();
+        this.polygon.setColor(this.configurator.apply());
     }
 
     /**
