@@ -5,9 +5,9 @@ import ca.mcmaster.cas.se2aa4.a2.island.tile.color.TileColorGenerator;
 
 import java.awt.*;
 
-public class LagoonColorGenerator implements TileColorGenerator {
+public class LandWaterColorGenerator implements TileColorGenerator {
     @Override
     public Color generateColor() {
-        return TileColors.LAGOON;
+        return TileColors.LAND_WATER;
     }
 }

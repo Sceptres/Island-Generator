@@ -34,9 +34,9 @@ public class LagoonIslandGenerator extends AbstractIslandGenerator {
         double diagonalLength = Math.hypot(meshDimension[0]/2f, meshDimension[1]/2f);
         Shape circle = new Circle(diagonalLength/4f, meshCenter);
 
-        mainLandTiles.stream().filter(circle::contains).forEach(t -> t.setType(TileType.LAGOON_TILE));
+        mainLandTiles.stream().filter(circle::contains).forEach(t -> t.setType(TileType.LAND_WATER_TILE));
         mainLandTiles.stream().filter(t -> !circle.contains(t)).filter( t ->
-                t.getNeighbors().stream().anyMatch(t1 -> t1.getType() == TileType.LAGOON_TILE)
+                t.getNeighbors().stream().anyMatch(t1 -> t1.getType() == TileType.LAND_WATER_TILE)
         ).forEach(t -> t.setType(TileType.BEACH_TILE));
     }
 }

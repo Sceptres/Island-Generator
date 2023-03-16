@@ -12,5 +12,5 @@ public class TileColors {
 
     public static Color REGULAR = new Color(255,255,255);
 
-    public static Color LAGOON = new Color(103,168,209);
+    public static Color LAND_WATER = new Color(4,100,151);
 }
