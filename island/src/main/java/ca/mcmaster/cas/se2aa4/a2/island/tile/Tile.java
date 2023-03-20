@@ -1,5 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a2.island.tile;
 
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation;
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler;
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.profiles.ElevationProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
@@ -11,10 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double> {
+public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double>, IElevation {
 
     private TileType type;
     private Configurator configurator;
+    private ElevationProfile elevation;
     private final Polygon polygon;
     private final List<Tile> neighbors;
 
@@ -26,6 +30,7 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
         this.polygon = polygon;
         this.neighbors = new Tiles();
         this.setType(TileType.LAND_TILE);
+        this.elevation = new ElevationProfile();
     }
 
     /**
@@ -94,6 +99,18 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
     @Override
     public void addNeighbors(List<Tile> tiles) {
         tiles.forEach(this::addNeighbor);
+    }
+
+
+    @Override
+    public double getElevation() {
+        return this.elevation.getElevation();
+    }
+
+    @Override
+    public void setElevation(double elevation) {
+        ElevationHandler handler = this.configurator.getElevationHandler();
+        handler.takeElevation(this.elevation, elevation);
     }
 
     @Override
