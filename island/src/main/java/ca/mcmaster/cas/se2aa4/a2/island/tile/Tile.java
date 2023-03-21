@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a2.island.tile;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.profiles.ElevationProfile;
+import ca.mcmaster.cas.se2aa4.a2.island.geography.Aquiferable;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
@@ -14,13 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double>, IElevation {
+public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double>, IElevation, Aquiferable {
 
     private TileType type;
     private Configurator configurator;
     private ElevationProfile elevation;
     private final Polygon polygon;
     private final List<Tile> neighbors;
+    private boolean aquifer;
 
     /**
      *
@@ -114,6 +116,21 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
     }
 
     @Override
+    public boolean hasAquifer() {
+        return this.aquifer;
+    }
+
+    @Override
+    public void putAquifer() {
+        this.aquifer = true;
+    }
+
+    @Override
+    public void removeAquifer() {
+        this.aquifer = false;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Tile tile)) return false;
@@ -124,4 +141,5 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
     public int hashCode() {
         return Objects.hash(type, polygon, neighbors);
     }
+
 }
