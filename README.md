@@ -49,10 +49,13 @@ mosser@azrael generator %
 To run the island generator, go to the `island` directory, and use `java -jar` to run the product.
 
 Island Generator options include:
-1. -i,--input <input file>          Sets the file to read the mesh from.
-2. -o,--output <output file>        Sets the file to output the new island mesh to.
-3. -h,--help                        Displays program usage.
-4. -m,--mode <mode>                 The island generation mode. At the moment only `lagoon`.
+1. -i,--input <input file>                            Sets the file to read the mesh from.
+2. -o,--output <output file>                          Sets the file to output the new island mesh to.
+3. -h,--help                                          Displays program usage.
+4. -m,--mode <mode>                                   The island generation mode. At the moment only `lagoon` and `random`.
+5. -a,--altitude <altimetric profile>                 The island altimetric profile generation mode. At the moment only `lagoon`, `volcano`, or `hills`.
+6. -l,--lakes <# of lakes>                            The number of lakes to place on the island. Note that lakes can merge.
+7. -s,--shape <shape>                                 The shape to set the island to. Available shapes are circle, oval, and star.
 ```
 mosser@azrael A2 % cd island 
 mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m lagoon 
@@ -118,3 +121,4 @@ When you develop features and enrich the product, remember that you have first t
 - | 11 |Lagoon Island Generation              |Abdallah&Beshoy| 01-3-2023 | 03-3-2023 |  Complete |
 - | 12 |Island Shape Generation               |Abdallah&Beshoy| 03-3-2023 | 10-3-2023 |  Complete |
 - | 13 |Island Lake Generation                |Abdallah&Beshoy| 03-3-2023 | 14-3-2023 |  Complete |
+- | 14 |Island Elevation Generation           |Abdallah       | 03-3-2023 | 12-3-2023 |  Complete |
