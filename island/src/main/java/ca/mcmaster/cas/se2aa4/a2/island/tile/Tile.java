@@ -6,6 +6,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.elevation.profiles.ElevationProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
@@ -21,6 +22,11 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
     private ElevationProfile elevation;
     private final Polygon polygon;
     private final List<Tile> neighbors;
+
+
+    public static boolean hasPolygon(Tile tile, Polygon polygon){
+        return tile.polygon == polygon;
+    }
 
     /**
      *
