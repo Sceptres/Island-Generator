@@ -33,6 +33,7 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
         this.neighbors = new Tiles();
         this.setType(TileType.LAND_TILE);
         this.elevation = new ElevationProfile();
+        this.aquifer = false;
     }
 
     /**
