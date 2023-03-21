@@ -1,6 +1,10 @@
 package ca.mcmaster.cas.se2aa4.a2.island.cli;
 
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.*;
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile;
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.HillyAltimeter;
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.LagoonAltimeter;
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.VolcanoAltimeter;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.generators.LagoonIslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.generators.RandomIslandGenerator;
@@ -24,7 +28,8 @@ public class IslandInputHandler {
             InputOption.OPTION_STR, new InputOption(),
             OutputOption.OPTION_STR, new OutputOption(),
             ShapeOption.OPTION_STR, new ShapeOption(),
-            LakesOption.OPTION_STR, new LakesOption()
+            LakesOption.OPTION_STR, new LakesOption(),
+            AltimeterProfileOption.OPTION_STR, new AltimeterProfileOption()
 
     );
 
@@ -82,12 +87,13 @@ public class IslandInputHandler {
         double diagonalLength = Math.hypot(meshDimension[0]/2f, meshDimension[1]/2f);
 
         Shape shape = IslandInputHandler.getShapeInput(handler, meshCenter, diagonalLength);
+        AltimeterProfile altimeterProfile = IslandInputHandler.getAltimeterInput(handler);
 
         if(mode.equals("lagoon"))
             generator = new LagoonIslandGenerator(mesh, shape);
         else if(mode.equals("random")) {
             int numLakes = IslandInputHandler.getNumLakes(handler);
-            generator = new RandomIslandGenerator(mesh, shape, numLakes);
+            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, numLakes);
         } else
             handler.printHelp("Invalid mode: " + mode);
 
@@ -160,5 +166,28 @@ public class IslandInputHandler {
         }
 
         return shape;
+    }
+
+    /**
+     *
+     * @param handler The {@link InputHandler} to extract the {@link AltimeterProfile} from
+     * @return The {@link AltimeterProfile} that matches user input
+     */
+    private static AltimeterProfile getAltimeterInput(InputHandler handler) {
+        String value = handler.getOptionValue(
+                IslandInputHandler.getIslandOption(AltimeterProfileOption.OPTION_STR),
+                AltimeterProfileOption.DEFAULT_VALUE
+        );
+
+        AltimeterProfile profile = null;
+
+        switch(value) {
+            case "hills"        -> profile = new HillyAltimeter();
+            case "volcano"      -> profile = new VolcanoAltimeter();
+            case "lagoon"       -> profile = new LagoonAltimeter();
+            default -> handler.printHelp("Invalid altimeter option!");
+        }
+
+        return profile;
     }
 }

@@ -49,12 +49,12 @@ public class TileTest {
 
         this.tile.setType(type);
         assertEquals(this.tile.getType(), type);
-        assertEquals(this.polygon.getColor(), type.getColorGenerator().generateColor());
+        assertEquals(this.polygon.getColor(), type.getConfigurator().getColorGenerator().generateColor());
 
         type = TileType.OCEAN_TILE;
 
         this.tile = new Tile(this.polygon, type);
         assertEquals(this.tile.getType(), type);
-        assertEquals(this.polygon.getColor(), type.getColorGenerator().generateColor());
+        assertEquals(this.polygon.getColor(), type.getConfigurator().getColorGenerator().generateColor());
     }
 }

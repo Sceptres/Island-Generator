@@ -1,24 +1,25 @@
 package ca.mcmaster.cas.se2aa4.a2.island.tile.type;
 
 import ca.mcmaster.cas.se2aa4.a2.island.tile.color.TileColorGenerator;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.color.colors.BeachColorGenerator;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.color.colors.LandWaterColorGenerator;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.color.colors.LandColorGenerator;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.color.colors.OceanColorGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.BeachConfigurator;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.LandConfigurator;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.LandWaterConfigurator;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.OceanConfigurator;
 
 public enum TileType {
-    BEACH_TILE(TileGroup.LAND, new BeachColorGenerator()),
-    LAND_TILE(TileGroup.LAND, new LandColorGenerator()),
-    LAND_WATER_TILE(TileGroup.WATER, new LandWaterColorGenerator()),
-    OCEAN_TILE(TileGroup.WATER, new OceanColorGenerator());
+    BEACH_TILE(TileGroup.LAND, new BeachConfigurator()),
+    LAND_TILE(TileGroup.LAND, new LandConfigurator()),
+    LAND_WATER_TILE(TileGroup.WATER, new LandWaterConfigurator()),
+    OCEAN_TILE(TileGroup.WATER, new OceanConfigurator());
 
 
     private final TileGroup group;
-    private final TileColorGenerator generator;
+    private final Configurator configurator;
 
-    TileType(TileGroup group, TileColorGenerator generator) {
+    TileType(TileGroup group, Configurator configurator) {
         this.group = group;
-        this.generator = generator;
+        this.configurator = configurator;
     }
 
     /**
@@ -33,7 +34,7 @@ public enum TileType {
      *
      * @return The {@link TileColorGenerator} of this type
      */
-    public TileColorGenerator getColorGenerator() {
-        return this.generator;
+    public Configurator getConfigurator() {
+        return this.configurator;
     }
 }
