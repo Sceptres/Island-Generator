@@ -16,8 +16,8 @@ import java.util.Random;
 
 public class RandomIslandGenerator extends AbstractIslandGenerator {
 
-    public RandomIslandGenerator(Mesh mesh, Shape shape, AltimeterProfile profile, int numLakes) {
-        super(mesh, shape, profile, numLakes);
+    public RandomIslandGenerator(Mesh mesh, Shape shape, AltimeterProfile profile, int numLakes, int numAquifers) {
+        super(mesh, shape, profile, numLakes, numAquifers);
     }
 
     @Override

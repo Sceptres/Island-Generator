@@ -6,7 +6,7 @@ java -jar generator.jar -out sample.mesh -m irregular -np 2000
 cd ../
 
 cd island/
-java -jar island.jar -i ../generator/sample.mesh -o island.mesh --mode lagoon
+java -jar island.jar -i ../generator/sample.mesh -o island.mesh --mode random --aquifers 11
 cd ../
 
 cd visualizer/

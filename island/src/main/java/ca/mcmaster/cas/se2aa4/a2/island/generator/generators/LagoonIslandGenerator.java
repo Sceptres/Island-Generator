@@ -13,8 +13,8 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import java.util.List;
 
 public class LagoonIslandGenerator extends AbstractIslandGenerator {
-    public LagoonIslandGenerator(Mesh mesh, Shape shape) {
-        super(mesh, shape, new LagoonAltimeter(), 1);
+    public LagoonIslandGenerator(Mesh mesh, Shape shape,int numAquifers) {
+        super(mesh, shape, new LagoonAltimeter(), 1, numAquifers);
     }
 
     @Override
