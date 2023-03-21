@@ -1,14 +1,13 @@
 package ca.mcmaster.cas.se2aa4.a2.island.generator;
 
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile;
-import ca.mcmaster.cas.se2aa4.a2.island.geography.Lake;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.neighborhood.NeighborhoodRelation;
 import ca.mcmaster.cas.se2aa4.a2.island.neighborhood.TileNeighborhood;
+import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 
 import java.util.List;
@@ -37,6 +36,7 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
     @Override
     public final void generate() {
         List<Tile> tiles = this.mesh.getPolygons().stream().map(Tile::new).toList();
+        List<Path> paths = this.mesh.getSegments().stream().map(Path::new).toList();
 
         // Calculate the tiles neighborhood relationship
         NeighborhoodRelation neighborhood = new TileNeighborhood();

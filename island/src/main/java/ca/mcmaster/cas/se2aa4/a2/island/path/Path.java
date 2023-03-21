@@ -31,6 +31,31 @@ public class Path {
 
     /**
      *
+     * @return The width of this path
+     */
+    public float getWidth() {
+        return this.segment.getThickness();
+    }
+
+    /**
+     *
+     * @param width The new width of this path
+     */
+    public void setWidth(float width) {
+        this.segment.setThickness(width);
+    }
+
+    /**
+     *
+     * @param increment The amount to increase the width of this path by
+     */
+    public void addWidth(float increment) {
+        float oldWidth = this.getWidth();
+        this.segment.setThickness(oldWidth + increment);
+    }
+
+    /**
+     *
      * @return The {@link PathType} of this path
      */
     public PathType getType() {
