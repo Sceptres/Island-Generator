@@ -11,7 +11,6 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -124,7 +123,6 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
     @Override
     public void putAquifer() {
         this.aquifer = true;
-        this.polygon.setColor(Color.RED);
     }
 
     @Override
