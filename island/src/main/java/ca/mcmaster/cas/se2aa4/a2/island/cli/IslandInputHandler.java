@@ -29,7 +29,8 @@ public class IslandInputHandler {
             OutputOption.OPTION_STR, new OutputOption(),
             ShapeOption.OPTION_STR, new ShapeOption(),
             LakesOption.OPTION_STR, new LakesOption(),
-            AltimeterProfileOption.OPTION_STR, new AltimeterProfileOption()
+            AltimeterProfileOption.OPTION_STR, new AltimeterProfileOption(),
+            AquiferOption.OPTION_STR, new AquiferOption()
 
     );
 
@@ -86,14 +87,15 @@ public class IslandInputHandler {
         Vertex meshCenter = new Vertex(meshDimension[0]/2f, meshDimension[1]/2f);
         double diagonalLength = Math.hypot(meshDimension[0]/2f, meshDimension[1]/2f);
 
+        int numAquifers = IslandInputHandler.getNumAquifers(handler);
         Shape shape = IslandInputHandler.getShapeInput(handler, meshCenter, diagonalLength);
-        AltimeterProfile altimeterProfile = IslandInputHandler.getAltimeterInput(handler);
 
         if(mode.equals("lagoon"))
-            generator = new LagoonIslandGenerator(mesh, shape);
+            generator = new LagoonIslandGenerator(mesh, shape, numAquifers);
         else if(mode.equals("random")) {
             int numLakes = IslandInputHandler.getNumLakes(handler);
-            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, numLakes);
+            AltimeterProfile altimeterProfile = IslandInputHandler.getAltimeterInput(handler);
+            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, numLakes, numAquifers);
         } else
             handler.printHelp("Invalid mode: " + mode);
 
@@ -141,6 +143,30 @@ public class IslandInputHandler {
         }
 
         return numLakes;
+    }
+
+    private static int getNumAquifers(InputHandler handler) {
+        String value = handler.getOptionValue(
+                IslandInputHandler.getIslandOption(AquiferOption.OPTION_STR),
+                AquiferOption.DEFAULT_VALUE
+        );
+
+        int numAquifers = -1;
+
+        try {
+            numAquifers = Integer.parseInt(value);
+
+            if(numAquifers < 0)
+                throw new IllegalArgumentException();
+        } catch(NumberFormatException e) {
+            String message = String.format("Invalid number %s!", value);
+            handler.printHelp(message);
+        } catch(IllegalArgumentException e) {
+            String message = "Cannot have negative number of aquifers";
+            handler.printHelp(message);
+        }
+
+        return numAquifers;
     }
 
     /**
