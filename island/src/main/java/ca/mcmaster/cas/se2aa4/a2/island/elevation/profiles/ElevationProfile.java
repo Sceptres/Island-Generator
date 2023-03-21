@@ -16,8 +16,8 @@ public class ElevationProfile implements IElevation {
 
     @Override
     public void setElevation(double elevation) {
-        if(elevation > 100)
-            this.setElevation(100);
+        if(elevation > 1)
+            this.setElevation(1);
         else if(elevation < 0)
             this.setElevation(0);
         else
