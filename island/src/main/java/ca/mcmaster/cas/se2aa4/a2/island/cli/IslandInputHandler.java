@@ -12,6 +12,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Oval;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Star;
+import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
@@ -75,7 +76,7 @@ public class IslandInputHandler {
      * @param mesh The {@link Mesh} to generate island from
      * @return The {@link IslandGenerator} to use
      */
-    public static IslandGenerator getIslandMode(InputHandler handler, Mesh mesh){
+    public static IslandGenerator getIslandMode(InputHandler handler, IslandMesh mesh){
         String mode = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(ModeOption.OPTION_STR),
                 ModeOption.DEFAULT_VALUE

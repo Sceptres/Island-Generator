@@ -7,10 +7,10 @@ import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.River;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
+import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class RandomIslandGenerator extends AbstractIslandGenerator {
 
-    public RandomIslandGenerator(Mesh mesh, Shape shape, AltimeterProfile profile, int numLakes, int numAquifers) {
+    public RandomIslandGenerator(IslandMesh mesh, Shape shape, AltimeterProfile profile, int numLakes, int numAquifers) {
         super(mesh, shape, profile, numLakes, numAquifers);
     }
 
@@ -63,7 +63,7 @@ public class RandomIslandGenerator extends AbstractIslandGenerator {
 
         River river = new River(start);
 
-        River.drawRiver(river.getRiverPath(), mesh);
+//        River.drawRiver(river.getRiverPath(), mesh);
     }
 
     /**

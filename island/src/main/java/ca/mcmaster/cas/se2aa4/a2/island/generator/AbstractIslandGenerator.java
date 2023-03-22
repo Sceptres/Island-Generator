@@ -4,11 +4,9 @@ import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
-import ca.mcmaster.cas.se2aa4.a2.island.neighborhood.NeighborhoodRelation;
-import ca.mcmaster.cas.se2aa4.a2.island.neighborhood.TileNeighborhood;
+import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 
 import java.util.List;
 import java.util.Random;
@@ -21,9 +19,9 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
     private final int numAquifers;
     private final Shape shape;
     private final AltimeterProfile altimeterProfile;
-    protected final Mesh mesh;
+    protected final IslandMesh mesh;
 
-    protected AbstractIslandGenerator(Mesh mesh, Shape shape, AltimeterProfile altimeterProfile, int numLakes, int numAquifers) {
+    protected AbstractIslandGenerator(IslandMesh mesh, Shape shape, AltimeterProfile altimeterProfile, int numLakes, int numAquifers) {
         this.land = new Land();
         this.ocean = new Ocean();
         this.mesh = mesh;
@@ -35,12 +33,8 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
 
     @Override
     public final void generate() {
-        List<Tile> tiles = this.mesh.getPolygons().stream().map(Tile::new).toList();
-        List<Path> paths = this.mesh.getSegments().stream().map(Path::new).toList();
-
-        // Calculate the tiles neighborhood relationship
-        NeighborhoodRelation neighborhood = new TileNeighborhood();
-        neighborhood.calculateNeighbors(tiles);
+        List<Tile> tiles = this.mesh.getTiles();
+        List<Path> paths = this.mesh.getPaths();
 
         this.generateIsland(tiles, this.ocean, this.land, this.shape);
         this.generateElevation(this.land);

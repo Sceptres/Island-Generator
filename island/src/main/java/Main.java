@@ -2,7 +2,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.cli.IslandInputHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.io.MeshReader;
 import ca.mcmaster.cas.se2aa4.a2.island.io.MeshWriter;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class Main {
         String output = IslandInputHandler.getOutputFile(handler);
 
         MeshReader meshReader = new MeshReader(input);
-        Mesh mesh = meshReader.getMesh();
+        IslandMesh mesh = meshReader.getMesh();
 
         IslandGenerator generator = IslandInputHandler.getIslandMode(handler, mesh);
         generator.generate();

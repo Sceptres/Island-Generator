@@ -10,11 +10,11 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class River {
 
-    private Vertex start;
+    private final Vertex start;
+    private final List<Segment> riverPath;
 
     public Vertex getStart() {
         return start;
@@ -24,10 +24,9 @@ public class River {
         return riverPath;
     }
 
-    private List<Segment> riverPath = new ArrayList<>();
-
     public River(Vertex start){
         this.start = start;
+        this.riverPath = new ArrayList<>();
     }
 
     public static void createRiver(River river, List<Segment> riverPath, Vertex vertex, Mesh mesh, List<Tile> tiles, Land land){
@@ -98,9 +97,6 @@ public class River {
         }
 
         createRiver(river,riverPath, endVertex, mesh, tiles, land);
-
-
-
     }
 
     public static void drawRiver(List<Segment> riverPath, Mesh mesh){
