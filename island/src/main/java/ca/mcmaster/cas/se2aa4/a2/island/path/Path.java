@@ -10,7 +10,7 @@ public class Path {
 
     public Path(Segment segment) {
         this.segment = segment;
-        this.type = PathType.NONE;
+        this.setType(PathType.NONE);
     }
 
     /**
