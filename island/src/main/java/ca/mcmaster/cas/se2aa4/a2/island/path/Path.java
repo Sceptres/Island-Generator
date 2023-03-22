@@ -11,6 +11,7 @@ public final class Path {
     public Path(Segment segment) {
         this.segment = segment;
         this.setType(PathType.NONE);
+        this.setWidth(0.3f);
     }
 
     /**
