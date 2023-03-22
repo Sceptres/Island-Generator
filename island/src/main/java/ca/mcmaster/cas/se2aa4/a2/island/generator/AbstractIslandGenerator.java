@@ -40,6 +40,7 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
         this.generateIsland(tiles, this.ocean, this.land, this.shape);
         this.generateElevation(this.land);
         this.generateLakes(this.land, this.numLakes);
+        this.generateRivers(this.land, 1);
 
     }
 
@@ -54,6 +55,8 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
      * @param land All the land {@link Tile} since lakes can only be in land
      */
     protected abstract void generateLakes(Land land, int numLakes);
+
+    protected abstract void generateRivers(Land land, int numRivers);
 
     /**
      * Sets the elevation of land tiles. Ocean tiles are left at 0.

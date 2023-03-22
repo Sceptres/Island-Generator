@@ -6,6 +6,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segments;
 
 import java.awt.*;
+import java.util.Objects;
 
 public class GraphicRenderer {
 
@@ -40,6 +41,10 @@ public class GraphicRenderer {
         mesh.getSegments().forEach(segment -> {
             if(this.isDebug) {
                 segment.setColor(Color.BLACK);
+                segment.render(canvas);
+            }
+            Color color = new Color(14,240,37);
+            if(Objects.equals(segment.getColor(), color)){
                 segment.render(canvas);
             }
         });
