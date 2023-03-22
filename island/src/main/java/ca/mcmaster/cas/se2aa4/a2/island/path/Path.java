@@ -1,17 +1,25 @@
 package ca.mcmaster.cas.se2aa4.a2.island.path;
 
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation;
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler;
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.handlers.PathElevationHandler;
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.profiles.ElevationProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.path.type.PathType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
-public final class Path {
+public final class Path implements IElevation {
     private PathType type;
     private final Segment segment;
+    private final ElevationProfile elevationProfile;
+    private final ElevationHandler elevationHandler;
 
     public Path(Segment segment) {
         this.segment = segment;
         this.setType(PathType.NONE);
         this.setWidth(0.3f);
+        this.elevationProfile = new ElevationProfile();
+        this.elevationHandler = new PathElevationHandler();
     }
 
     /**
@@ -70,5 +78,15 @@ public final class Path {
     public void setType(PathType type) {
         this.type = type;
         this.segment.setColor(this.type.getColorGenerator().generateColor());
+    }
+
+    @Override
+    public double getElevation() {
+        return this.elevationProfile.getElevation();
+    }
+
+    @Override
+    public void setElevation(double elevation) {
+        this.elevationHandler.takeElevation(this.elevationProfile, elevation);
     }
 }

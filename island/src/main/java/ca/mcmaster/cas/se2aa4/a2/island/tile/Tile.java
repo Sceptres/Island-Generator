@@ -120,6 +120,7 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
     public void setElevation(double elevation) {
         ElevationHandler handler = this.configurator.getElevationHandler();
         handler.takeElevation(this.elevation, elevation);
+        this.paths.forEach(p -> p.setElevation(elevation));
     }
 
     @Override
