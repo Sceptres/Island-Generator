@@ -93,4 +93,23 @@ public final class Path implements IElevation {
     public void setElevation(double elevation) {
         this.elevationHandler.takeElevation(this.elevationProfile, elevation);
     }
+
+    /**
+     *
+     * @param path The {@link Path} to check connection with
+     * @return True if the 2 paths are connected. False otherwise.
+     */
+    public boolean isConnected(Path path) {
+        return this.segment.shareVertex(path.segment);
+    }
+
+    /**
+     *
+     * @param path The {@link Path} to check connection with
+     * @param vertex An end of the path to check connection to
+     * @return True if both paths are connected through the given vertex. False otherwise.
+     */
+    public boolean isConnected(Path path, Vertex vertex) {
+        return this.segment.shareVertex(path.segment) && this.segment.getSharedVertex(path.segment).equals(vertex);
+    }
 }
