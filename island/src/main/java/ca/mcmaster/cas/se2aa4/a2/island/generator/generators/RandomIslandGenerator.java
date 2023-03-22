@@ -5,11 +5,13 @@ import ca.mcmaster.cas.se2aa4.a2.island.generator.AbstractIslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Lake;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
+import ca.mcmaster.cas.se2aa4.a2.island.geography.River;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.util.List;
 import java.util.Random;
@@ -50,6 +52,18 @@ public class RandomIslandGenerator extends AbstractIslandGenerator {
                     t -> t.getNeighbors().stream().noneMatch(t1 -> t1.getType().getGroup() == TileGroup.WATER)
             ).toList();
         }
+    }
+
+    @Override
+    protected void generateRivers(Land land, int numRivers) {
+
+        Random random = new Random(numRivers);
+
+        Vertex start = land.getTiles().get(random.nextInt(land.getTiles().size())).getConverted().getVertices().get(0);
+
+        River river = new River(start);
+
+        River.drawRiver(river.getRiverPath(), mesh);
     }
 
     /**
