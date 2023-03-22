@@ -8,6 +8,8 @@ import ca.mcmaster.cas.se2aa4.a2.island.path.type.PathType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
+import java.util.Objects;
+
 public final class Path implements IElevation {
     private PathType type;
     private final Segment segment;
@@ -111,5 +113,17 @@ public final class Path implements IElevation {
      */
     public boolean isConnected(Path path, Vertex vertex) {
         return this.segment.shareVertex(path.segment) && this.segment.getSharedVertex(path.segment).equals(vertex);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Path path)) return false;
+        return type == path.type && Objects.equals(segment, path.segment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, segment);
     }
 }
