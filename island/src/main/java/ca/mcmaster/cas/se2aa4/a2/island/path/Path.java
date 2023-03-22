@@ -22,6 +22,8 @@ public final class Path implements IElevation {
         this.setWidth(1f);
         this.elevationProfile = new ElevationProfile();
         this.elevationHandler = new PathElevationHandler();
+
+        this.elevationProfile.setElevation(1);
     }
 
     /**
