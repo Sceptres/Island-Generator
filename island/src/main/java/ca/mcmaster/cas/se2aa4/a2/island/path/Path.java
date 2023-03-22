@@ -4,7 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.path.type.PathType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
-public class Path {
+public final class Path {
     private PathType type;
     private final Segment segment;
 
