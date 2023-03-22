@@ -17,23 +17,38 @@ public class IslandMesh implements Converter<Structs.Mesh> {
     private final List<Tile> tiles;
     private final List<Path> paths;
 
+    /**
+     *
+     * @param mesh The {@link Mesh} to get the polygons from
+     * @param paths All the paths in the mesh to tie to the tiles
+     * @return All the {@link Tile} in the mesh
+     */
     private static List<Tile> createTiles(Mesh mesh, List<Path> paths) {
         List<Polygon> polygons = mesh.getPolygons();
         List<Tile> tiles = new ArrayList<>();
 
         for(Polygon polygon : polygons) {
             List<Path> tilePaths = polygon.getConverted().getSegmentIdxsList().stream().map(paths::get).toList();
-            Tile tile = new Tile(polygon, paths);
+            Tile tile = new Tile(polygon, tilePaths);
             tiles.add(tile);
         }
 
         return tiles;
     }
 
+    /**
+     *
+     * @param mesh The {@link Mesh} to get the segments from
+     * @return The {@link List} of {@link Path}
+     */
     private static List<Path> createPaths(Mesh mesh) {
         return mesh.getSegments().stream().map(Path::new).toList();
     }
 
+    /**
+     *
+     * @param mesh The {@link Mesh} to read from
+     */
     public IslandMesh(Mesh mesh) {
         this.mesh = mesh;
         this.paths = IslandMesh.createPaths(mesh);
