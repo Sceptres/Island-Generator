@@ -17,7 +17,7 @@ public final class Path implements IElevation {
     public Path(Segment segment) {
         this.segment = segment;
         this.setType(PathType.NONE);
-        this.setWidth(0.3f);
+        this.setWidth(1f);
         this.elevationProfile = new ElevationProfile();
         this.elevationHandler = new PathElevationHandler();
     }
@@ -51,7 +51,10 @@ public final class Path implements IElevation {
      * @param width The new width of this path
      */
     public void setWidth(float width) {
-        this.segment.setThickness(width);
+        if(width > 3f)
+            this.segment.setThickness(3f);
+        else
+            this.segment.setThickness(Math.max(width, 1f));
     }
 
     /**
@@ -60,7 +63,8 @@ public final class Path implements IElevation {
      */
     public void addWidth(float increment) {
         float oldWidth = this.getWidth();
-        this.segment.setThickness(oldWidth + increment);
+        float newWidth = oldWidth + increment;
+        this.setWidth(newWidth);
     }
 
     /**
