@@ -92,11 +92,11 @@ public class IslandInputHandler {
         Shape shape = IslandInputHandler.getShapeInput(handler, meshCenter, diagonalLength);
 
         if(mode.equals("lagoon"))
-            generator = new LagoonIslandGenerator(mesh, shape, numAquifers);
+            generator = new LagoonIslandGenerator(mesh, shape, numAquifers, 20);
         else if(mode.equals("random")) {
             int numLakes = IslandInputHandler.getNumLakes(handler);
             AltimeterProfile altimeterProfile = IslandInputHandler.getAltimeterInput(handler);
-            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, numLakes, numAquifers);
+            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, numLakes, numAquifers, 20);
         } else
             handler.printHelp("Invalid mode: " + mode);
 

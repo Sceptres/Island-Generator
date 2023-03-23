@@ -1,202 +1,133 @@
 package ca.mcmaster.cas.se2aa4.a2.island.geography;
 
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler;
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.handlers.NoElevationHandler;
+import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
+import ca.mcmaster.cas.se2aa4.a2.island.path.type.PathType;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class River {
+public class River extends TiledGeography {
 
+    private Vertex end;
+    private final float flow;
     private final Vertex start;
-    private final List<Segment> riverPath;
+    private final List<Tile> tiles;
+    private final LinkedList<Path> riverPath;
+    private final ElevationHandler handler;
 
+    public River(Vertex start, float flow){
+        super(TileType.LAND_WATER_TILE);
+        this.start = start;
+        this.end = start;
+        this.flow = flow;
+        this.tiles = new LinkedList<>();
+        this.riverPath = new LinkedList<>();
+        this.handler = new NoElevationHandler();
+    }
+
+    /**
+     *
+     * @return The {@link Vertex} where river starts
+     */
     public Vertex getStart() {
         return start;
     }
 
-    public List<Segment> getRiverPath() {
-        return riverPath;
+    public Vertex getEnd() {
+        return this.end;
     }
 
-    public River(Vertex start){
-        this.start = start;
-        this.riverPath = new ArrayList<>();
+    public void setEnd(Vertex v) {
+        this.end = v;
     }
 
-    public static void createRiver(River river, List<Segment> riverPath, Vertex vertex, Mesh mesh, List<Tile> tiles, Land land){
-
-        List<Segment> possibleSegments = new ArrayList<>();
-        findSegments(vertex, mesh.getSegments(), possibleSegments);
-
-        List<List<Tile>> possibleTiles = new ArrayList<>();
-
-        possibleSegments.forEach(segment -> {
-            possibleTiles.add(findSegmentTiles(segment, mesh.getPolygons(), tiles));
-        });
-
-        List<Double> lowestElevations = new ArrayList<>();
-
-        possibleSegments.forEach(segment -> {
-            lowestElevations.add(findLowestElevation(segment, mesh, tiles));
-        });
-
-        double lowestElevation = lowestElevations.stream().min(Double::compare).get();
-
-        double currentLowestElevation = findLowestElevation(vertex, mesh, tiles);
-
-        List<Tile> currentVertexTiles = findVertexTiles(vertex, mesh, tiles);
-
-        if(currentLowestElevation > lowestElevation){
-
-            if(!currentVertexTiles.stream().anyMatch(tile -> (tile.getType() == TileType.OCEAN_TILE) || (tile.getType() == TileType.LAND_WATER_TILE))){
-                Tile lakeTile = null;
-
-                for(int i = 0; i < currentVertexTiles.size(); i++){
-                    if(Double.compare(currentVertexTiles.get(i).getElevation(), currentLowestElevation) == 0){
-                        lakeTile = currentVertexTiles.get(i);
-                        break;
-                    }
-                }
-
-                land.addLake(new Lake(lakeTile));
-            }
-            return;
-        }
-
-        Segment nextSegment = null;
-
-        for(int i = 0; i < possibleTiles.size(); i++){
-            for(int j = 0; j < possibleTiles.get(i).size(); j++){
-                if(Double.compare(possibleTiles.get(i).get(j).getElevation(), lowestElevation) == 0){
-                    nextSegment = possibleSegments.get(i);
-                }
-            }
-        }
-
-        riverPath.add(nextSegment);
-
-        Vertex endVertex = null;
-
-        if(nextSegment.getV1() == vertex){
-            endVertex = nextSegment.getV2();
-        }
-        else {
-            endVertex = nextSegment.getV1();
-        }
-
-        List<Tile> endVertexTiles = findVertexTiles(endVertex, mesh, tiles);
-
-        if(endVertexTiles.stream().anyMatch( tile -> (tile.getType() == TileType.OCEAN_TILE) || (tile.getType() == TileType.LAND_WATER_TILE))){
-            return;
-        }
-
-        createRiver(river,riverPath, endVertex, mesh, tiles, land);
+    /**
+     *
+     * @return The {@link Path}s of the river
+     */
+    public List<Path> getRiverPath() {
+        return new ArrayList<>(this.riverPath);
     }
 
-    public static void drawRiver(List<Segment> riverPath, Mesh mesh){
-        mesh.getSegments().forEach(segment -> {
-            if(riverPath.contains(segment)){
-                segment.setColor(new Color(14,240,37));
-            }
-        });
+    @Override
+    public List<Tile> getTiles() {
+        return new ArrayList<>(this.tiles);
     }
 
-    private static void findSegments(Vertex vertex, List<Segment> segments, List<Segment> segments2){
-        segments.forEach(segment -> {
-            if(segment.getV1() == vertex || segment.getV2() == vertex){
-                segments2.add(segment);
-            }
-        });
+    @Override
+    public void addTile(Tile tile) {
+        this.tiles.add(tile);
     }
 
-    private static void findPolygons(Segment segment, List<Polygon> polygons, List<Polygon> polygons2){
-        polygons.forEach(polygon -> {
-            if(polygon.getSegments().contains(segment)){
-                polygons2.add(polygon);
-            }
-        });
+    @Override
+    public void addAllTiles(List<Tile> tiles) {
+        tiles.forEach(this::addTile);
     }
 
-    private static void findPolygons(Vertex vertex, List<Polygon> polygons, List<Polygon> polygons2){
-        polygons.forEach(polygon -> {
-            if(polygon.getVertices().contains(vertex)){
-                polygons2.add(polygon);
-            }
-        });
+    @Override
+    public List<Tile> getNeighbors() {
+        return this.getTiles();
     }
 
-    private static double findLowestElevation(Segment segment, Mesh mesh, List<Tile> tiles){
-
-        List<Double> elevationList = new ArrayList<>();
-
-        List<Polygon> polygons = mesh.getPolygons();
-
-        List<Tile> segmentTiles = new ArrayList<>();
-
-        segmentTiles = findSegmentTiles(segment, polygons, tiles);
-
-        segmentTiles.forEach(tile -> {
-            elevationList.add(tile.getElevation());
-        });
-
-        return elevationList.stream().min(Double::compare).get();
+    @Override
+    public void setElevation(double elevation) {
+        this.handler.takeElevation(super.elevation, elevation);
     }
 
-    private static double findLowestElevation(Vertex vertex, Mesh mesh, List<Tile> tiles){
-
-        List<Double> elevationList = new ArrayList<>();
-
-        List<Tile> vertexTiles = new ArrayList<>();
-
-        vertexTiles = findVertexTiles(vertex, mesh, tiles);
-
-        vertexTiles.forEach(tile -> {
-            elevationList.add(tile.getElevation());
-        });
-
-        return elevationList.stream().min(Double::compare).get();
+    /**
+     *
+     * @return The base flow of the river
+     */
+    public float getFlow() {
+        return this.flow;
     }
 
-    private static List<Tile> findSegmentTiles(Segment segment, List<Polygon> polygons, List<Tile> tiles){
-        List<Polygon> segmentPolygons = new ArrayList<>();
+    /**
+     *
+     * @return Gets all the vertices in this river
+     */
+    public List<Vertex> getVertices() {
+        return this.riverPath.stream()
+                .flatMap(p -> Arrays.stream(new Vertex[]{p.getV1(), p.getV2()}))
+                .distinct()
+                .toList();
+    }
 
-        List<Tile> segmentTiles = new ArrayList<>();
+    /**
+     *
+     * @param path The {@link Path} to add to the river
+     * @param tiles The 2 {@link Tile}s that this path belong to
+     */
+    public void addPath(Path path, List<Tile> tiles) {
+        path.setWidth(this.flow);
+        path.setType(PathType.RIVER);
+        this.riverPath.add(path);
+        this.tiles.addAll(tiles);
+    }
 
-        findPolygons(segment, polygons, segmentPolygons);
+    public void update(Vertex v, float flow) {
+        Optional<Path> pathOptional = this.riverPath.stream().filter(p -> p.hasVertex(v)).findFirst();
+        if(pathOptional.isPresent()) {
+            Path path = pathOptional.get();
+            int pathIdx = this.riverPath.indexOf(path);
 
-        for(int i = 0; i < segmentPolygons.size(); i++){
-            for(int j = 0; j < tiles.size(); j++){
-                if(Tile.hasPolygon(tiles.get(j), segmentPolygons.get(i))){
-                    segmentTiles.add(tiles.get(j));
-                }
+            for(int i=pathIdx; i < this.riverPath.size(); i++) {
+                Path currentPath = this.riverPath.get(i);
+                currentPath.setWidth(flow);
             }
         }
-
-        return segmentTiles;
     }
 
-    private static List<Tile> findVertexTiles(Vertex vertex, Mesh mesh, List<Tile> tiles){
-        List<Polygon> vertexPolygons = new ArrayList<>();
+    public boolean intersect(Vertex vertex) {
+        return this.getVertices().contains(vertex);
+    }
 
-        List<Tile> vertexTiles = new ArrayList<>();
-
-        findPolygons(vertex, mesh.getPolygons(), vertexPolygons);
-
-        for(int i = 0; i < vertexPolygons.size(); i++){
-            for(int j = 0; j < tiles.size(); j++){
-                if(Tile.hasPolygon(tiles.get(j), vertexPolygons.get(i))){
-                    vertexTiles.add(tiles.get(j));
-                }
-            }
-        }
-
-        return vertexTiles;
+    public boolean intersect(River river) {
+        return this.intersect(river.end);
     }
 
 }

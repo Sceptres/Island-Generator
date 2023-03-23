@@ -4,9 +4,17 @@ import ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.color.colors.paths.ClearColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.color.colors.paths.RiverColorGenerator;
 
+import java.awt.*;
+
 public enum PathType {
     RIVER(new RiverColorGenerator()),
-    NONE(new ClearColorGenerator());
+    NONE(new ClearColorGenerator()),
+    TEST(new ColorGenerator() {
+        @Override
+        public Color generateColor() {
+            return new Color(0, 255, 0);
+        }
+    });
 
     private final ColorGenerator colorGenerator;
 
