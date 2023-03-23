@@ -15,7 +15,7 @@ public interface IHumidity {
 
     /**
      *
-     * @param h
+     * @param h The {@link IHumidity} element to give humidity
      */
     void giveHumidity(IHumidity h);
 
