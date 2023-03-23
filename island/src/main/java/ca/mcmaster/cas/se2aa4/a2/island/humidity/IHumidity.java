@@ -13,5 +13,11 @@ public interface IHumidity {
      */
     void setHumidity(double humidity);
 
+    /**
+     *
+     * @param h
+     */
+    void giveHumidity(IHumidity h);
+
 
 }
