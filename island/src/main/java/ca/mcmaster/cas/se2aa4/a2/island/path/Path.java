@@ -117,6 +117,15 @@ public final class Path implements IElevation {
         return this.segment.shareVertex(path.segment) && this.segment.getSharedVertex(path.segment).equals(vertex);
     }
 
+    /**
+     *
+     * @param vertex The {@link Vertex} to check if this path has
+     * @return True if this path contains the vertex. False otherwise
+     */
+    public boolean hasVertex(Vertex vertex) {
+        return this.getV1().equals(vertex) || this.getV2().equals(vertex);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
