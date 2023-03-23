@@ -4,17 +4,22 @@ import ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity;
 
 public class HumidityProfile implements IHumidity {
 
-    private double humidity;
+    private float humidity;
 
 
     @Override
-    public double getHumidity() {
+    public float getHumidity() {
         return this.humidity;
     }
 
     @Override
-    public void setHumidity(double humidity) {
-        this.humidity = humidity;
+    public void setHumidity(float humidity) {
+        if(humidity > 500)
+            this.humidity = 500;
+        else if(humidity < 0)
+            this.humidity = 0;
+        else
+            this.humidity = humidity;
     }
 
     @Override

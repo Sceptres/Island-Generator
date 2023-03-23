@@ -10,7 +10,7 @@ public class HumidityTransmitter implements IHumidityTransmitter {
     }
 
     @Override
-    public double giveHumidity(IHumidity humidity) {
+    public float giveHumidity(IHumidity humidity) {
         return this.ratio * humidity.getHumidity();
     }
 }

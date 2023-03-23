@@ -8,5 +8,5 @@ public interface IHumidityTransmitter {
      * @param humidity The humidity element that is giving off humidity
      * @return The humidity given off by the element
      */
-    double giveHumidity(IHumidity humidity);
+    float giveHumidity(IHumidity humidity);
 }
