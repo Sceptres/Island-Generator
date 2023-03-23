@@ -4,6 +4,10 @@ import ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.profiles.ElevationProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Aquiferable;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.HumidityReceiver;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.IReceiver;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.profiles.HumidityProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
@@ -15,35 +19,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double>, IElevation, Aquiferable {
+public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double>, IElevation, IHumidity, Aquiferable {
 
     private TileType type;
+    private boolean aquifer;
     private Configurator configurator;
-    private ElevationProfile elevation;
+    private final IReceiver humidityReceiver;
+    private final HumidityProfile humidity;
+    private final ElevationProfile elevation;
     private final Polygon polygon;
     private final List<Tile> neighbors;
-    private boolean aquifer;
 
     /**
      *
      * @param polygon The {@link Polygon} to create a Tile from
      */
-    public Tile(Polygon polygon) {
+    public Tile(Polygon polygon, IReceiver humidityReceiver) {
         this.polygon = polygon;
         this.neighbors = new Tiles();
         this.setType(TileType.LAND_TILE);
+        this.humidityReceiver = humidityReceiver;
+        this.humidity = new HumidityProfile();
         this.elevation = new ElevationProfile();
         this.aquifer = false;
     }
 
-    /**
-     *
-     * @param polygon The {@link Polygon} to create the Tile from
-     * @param type The {@link TileType} of the Tile
-     */
-    public Tile(Polygon polygon, TileType type) {
-        this(polygon);
-        this.setType(type);
+    public Tile(Polygon polygon) {
+        this(polygon, new HumidityReceiver(1));
     }
 
     /**
@@ -143,4 +145,19 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
         return Objects.hash(type, polygon, neighbors);
     }
 
+    @Override
+    public float getHumidity() {
+        return this.humidity.getHumidity();
+    }
+
+    @Override
+    public void setHumidity(float humidity) {
+        this.humidityReceiver.receiveHumidity(this.humidity, humidity);
+    }
+
+    @Override
+    public void giveHumidity(IHumidity h) {
+        float humidity = this.configurator.getHumidityTransmitter().giveHumidity(this);
+        h.setHumidity(humidity);
+    }
 }
