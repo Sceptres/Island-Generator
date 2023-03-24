@@ -8,7 +8,6 @@ import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double>, IElevation, Aquiferable {
+public final class Tile implements Neighborable<Tile>, Positionable<Double>, IElevation, Aquiferable {
 
     private TileType type;
     private Configurator configurator;
@@ -93,11 +92,6 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
      */
     public List<Vertex> getVertices() {
         return this.polygon.getVertices();
-    }
-
-    @Override
-    public Polygon getConverted() {
-        return this.polygon;
     }
 
     @Override

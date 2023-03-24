@@ -77,46 +77,51 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
             List<Vertex> springs = land.getSprings();
             Vertex spring = springs.get(random.nextInt(springs.size()));
 
-            River river = new River(spring, random.nextFloat(0.1f));
-            this.generateRiverPath(river, land, ocean, river.getStart());
-
-            List<Path> riverPaths = river.getRiverPath();
-
-//            river.getTiles().forEach(t -> t.setType(TileType.LAND_WATER_TILE));
-            if(riverPaths.size() != 0)
-                land.addRiver(river);
+            River river = new River(spring, random.nextFloat(1f, 1.5f));
+            land.addRiver(river);
+            this.generateRiverPath(river, land, ocean, spring);
         }
+
+        List<River> mergedRivers = new ArrayList<>();
 
         List<River> rivers = land.getRivers();
         for(River river : rivers) {
-            List<Path> riverPath = river.getRiverPath();
-            Path start = riverPath.get(0);
-            start.setType(PathType.TEST);
-
             List<River> intersectingRivers = rivers.stream()
                     .filter(r -> r != river && river.intersect(r))
                     .toList();
             for(River river1 : intersectingRivers) {
-//                river.getFlow()+river1.getFlow()
-                river.update(river1.getEnd(), 3f);
+                river.merge(river1);
+                mergedRivers.add(river1);
             }
 
-            boolean doesIntersectWithOther = rivers.stream()
-                    .anyMatch(r -> r != river && r.intersect(river));
+            List<Path> riverPaths = river.getRiverPath();
 
-            if(!doesIntersectWithOther) {
-                Path lastPath = riverPath.get(riverPath.size() - 1);
-                Vertex endVertex = river.getEnd();
-
-                Optional<Tile> oceanTile = land.getTiles().stream()
-                        .filter(t -> t.getVertices().contains(endVertex) && !t.getPaths().contains(lastPath))
-                        .findFirst();
-                if (oceanTile.isPresent()) {
-                    Tile tile = oceanTile.get();
-                    tile.setType(TileType.LAND_WATER_TILE);
-                }
+            if(riverPaths.size() == 0) {
+                mergedRivers.add(river);
             }
         }
+
+        mergedRivers.forEach(land::removeRiver);
+
+        land.getRivers().forEach(river -> {
+            Vertex endVertex = river.getEnd();
+            List<Path> riverPaths = river.getRiverPath();
+
+            river.getStartVertices().forEach(v -> {
+                List<Path> startPaths = riverPaths.stream().filter(p -> p.hasVertex(v)).toList();
+                startPaths.forEach(p -> p.setType(PathType.TEST));
+            });
+
+            Path lastPath = riverPaths.stream().filter(p -> p.hasVertex(endVertex)).findFirst().get();
+
+            Optional<Tile> oceanTile = land.getTiles().stream()
+                    .filter(t -> t.getVertices().contains(endVertex) && !t.getPaths().contains(lastPath))
+                    .findFirst();
+            if (oceanTile.isPresent()) {
+                Tile tile = oceanTile.get();
+                tile.setType(TileType.LAND_WATER_TILE);
+            }
+        });
     }
 
     /**
@@ -151,9 +156,10 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
         tiles.addAll(oceanTiles);
 
         List<Path> paths = land.getPaths();
+        List<Vertex> possibleSprings = land.getSprings();
 
         Optional<Path> newPath = paths.stream()
-                .filter(p -> p.hasVertex(start))
+                .filter(p -> p.hasVertex(start) && (possibleSprings.contains(p.getV1()) || possibleSprings.contains(p.getV2())))
                 .min(Comparator.comparingDouble(Path::getElevation));
 
         if (newPath.isPresent()) {
@@ -165,29 +171,37 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
 
             boolean isLowestElevation = false;
 
-            if (!river.getStart().equals(start)) {
-                List<Path> riverPath = river.getRiverPath();
-                Path lastPath = riverPath.get(riverPath.size() - 1);
+            if (!river.getStartVertices().contains(start)) {
+                Vertex endVertex = river.getEnd();
+                Path lastPath = river.getRiverPath().stream().filter(p -> p.hasVertex(endVertex)).findFirst().get();
                 isLowestElevation = lastPath.getElevation() < path.getElevation();
             }
 
             boolean reachedWater = tiles.stream()
                     .filter(t -> t.getVertices().contains(next))
-                    .anyMatch(t -> t.getType().getGroup() == TileGroup.WATER);
+                    .anyMatch(t -> t.getNeighbors().stream().anyMatch(t1 -> t1.getType().getGroup() == TileGroup.WATER));
 
-            boolean isLooping = river.intersect(next);
 
-            if (isLowestElevation || reachedWater || isLooping) {
-                river.setEnd(next);
-                return;
-            }
-
-            boolean hasIntersection = land.getRivers().stream().anyMatch(river::intersect);
-            if(hasIntersection)
+            if(isLowestElevation || reachedWater)
                 return;
 
             List<Tile> pathTiles = tiles.stream().filter(t -> t.getPaths().contains(path)).toList();
-            river.addPath(path, pathTiles);
+            river.addPath(path, start, pathTiles);
+
+            boolean hasIntersection = land.getRivers().stream()
+                    .filter(r -> !r.equals(river))
+                    .anyMatch(river::intersect);
+
+            Tile currentTile = river.getTiles().stream()
+                    .filter(t -> t.getPaths().contains(path) && t.getElevation() == path.getElevation())
+                    .findFirst().get();
+            List<Path> tilePaths = currentTile.getPaths();
+            tilePaths.retainAll(river.getRiverPath());
+            int numPaths = tilePaths.size();
+            boolean isLooping = numPaths > 2;
+
+            if(hasIntersection || isLooping)
+                return;
 
             generateRiverPath(river, land, ocean, next);
         }

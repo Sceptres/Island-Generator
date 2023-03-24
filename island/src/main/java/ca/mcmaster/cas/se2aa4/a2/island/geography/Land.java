@@ -8,7 +8,6 @@ import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Land extends TiledGeography {
@@ -62,6 +61,15 @@ public class Land extends TiledGeography {
 
     /**
      *
+     * @param river The {@link River}
+     */
+    public void removeRiver(River river) {
+        river.getRiverPath().forEach(p -> p.setType(PathType.NONE));
+        this.rivers.remove(river);
+    }
+
+    /**
+     *
      * @return The list of {@link River} found in this island
      */
     public List<River> getRivers() {
@@ -74,17 +82,12 @@ public class Land extends TiledGeography {
      */
     public List<Vertex> getSprings() {
         List<Vertex> usedSprings = this.rivers.stream()
-                .flatMap(r -> {
-                    return r.getRiverPath().stream()
-                            .flatMap(p -> Arrays.stream(new Vertex[]{p.getV1(), p.getV2()}))
-                            .distinct();
-                })
+                .flatMap(r -> r.getVertices().stream())
                 .distinct()
                 .toList();
         return this.tiles.stream()
                 .filter(t -> t.getType().getGroup() == TileGroup.LAND)
-                .flatMap(t -> t.getPaths().stream())
-                .flatMap(p -> Arrays.stream(new Vertex[]{p.getV1(), p.getV2()}))
+                .flatMap(t -> t.getVertices().stream())
                 .filter(v -> !usedSprings.contains(v))
                 .distinct()
                 .toList();
