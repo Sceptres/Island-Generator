@@ -9,8 +9,7 @@ public class BeachConfigurator extends AbstractConfigurator {
     public BeachConfigurator() {
         super(
                 new BeachColorGenerator(),
-                new NormalElevationHandler(),
-                new HumidityTransmitter(0.1f)
+                new NormalElevationHandler()
         );
     }
 }

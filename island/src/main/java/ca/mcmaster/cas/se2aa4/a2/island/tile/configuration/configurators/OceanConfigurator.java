@@ -9,8 +9,7 @@ public class OceanConfigurator extends AbstractConfigurator {
     public OceanConfigurator() {
         super(
                 new OceanColorGenerator(),
-                new NoElevationHandler(),
-                new HumidityTransmitter(-1f)
+                new NoElevationHandler()
         );
     }
 }

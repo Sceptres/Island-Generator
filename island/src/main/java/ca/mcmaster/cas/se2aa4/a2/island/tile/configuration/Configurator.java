@@ -21,12 +21,6 @@ public interface Configurator {
 
     /**
      *
-     * @return The {@link IHumidityTransmitter}
-     */
-    IHumidityTransmitter getHumidityTransmitter();
-
-    /**
-     *
      * @return The {@link Color} after applying configurations
      */
     Color apply();
