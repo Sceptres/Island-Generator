@@ -98,14 +98,6 @@ public class River extends TiledGeography {
 
     /**
      *
-     * @return The base flow of the river
-     */
-    public float getFlow() {
-        return this.flow;
-    }
-
-    /**
-     *
      * @return Gets all the vertices in this river
      */
     public List<Vertex> getVertices() {
