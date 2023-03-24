@@ -26,11 +26,6 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
     private final List<Tile> neighbors;
     private boolean aquifer;
 
-
-    public static boolean hasPolygon(Tile tile, Polygon polygon){
-        return tile.polygon == polygon;
-    }
-
     /**
      *
      * @param polygon The {@link Polygon} to create a Tile from
