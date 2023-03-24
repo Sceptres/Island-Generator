@@ -12,7 +12,6 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -125,9 +124,6 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
         ElevationHandler handler = this.configurator.getElevationHandler();
         handler.takeElevation(this.elevation, elevation);
         this.paths.forEach(p -> p.setElevation(elevation));
-
-        int b = (int) (this.getElevation() * 255);
-        this.polygon.setColor(new Color(0, 0, b));
     }
 
     @Override
