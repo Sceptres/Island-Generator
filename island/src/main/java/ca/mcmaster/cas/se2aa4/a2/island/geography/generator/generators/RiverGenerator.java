@@ -23,10 +23,18 @@ public class RiverGenerator implements GeographyGenerator<River> {
 
     @Override
     public List<River> generate(int num) {
+        Random random = new Random();
+
         List<River> generatedRivers = new ArrayList<>();
 
         for (int i = 0; i < num; i++) {
-            River river = this.generateRiver();
+            List<Vertex> springs = land.getSprings();
+
+            float flow = random.nextFloat(1f, 1.5f);
+            int randIdx = random.nextInt(springs.size()-1);
+            Vertex start = springs.get(randIdx);
+
+            River river = this.generateRiver(start, flow);
             generatedRivers.add(river);
         }
 
@@ -55,15 +63,10 @@ public class RiverGenerator implements GeographyGenerator<River> {
      *
      * @return A single {@link River}
      */
-    private River generateRiver() {
-        Random random = new Random();
-
-        List<Vertex> springs = this.land.getSprings();
-        Vertex spring = springs.get(random.nextInt(springs.size()));
-
-        River river = new River(spring, random.nextFloat(1f, 1.5f));
+    private River generateRiver(Vertex start, float flow) {
+        River river = new River(start, flow);
         land.addRiver(river);
-        this.generateRiverPath(river, this.land, this.ocean, spring);
+        this.generateRiverPath(river, this.land, this.ocean, start);
 
         return river;
     }
