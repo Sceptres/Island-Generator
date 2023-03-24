@@ -74,7 +74,11 @@ public class Land extends TiledGeography {
      */
     public List<Vertex> getSprings() {
         List<Vertex> usedSprings = this.rivers.stream()
-                .flatMap(r -> r.getRiverPath().stream().flatMap(p -> Arrays.stream(new Vertex[]{p.getV1(), p.getV2()})))
+                .flatMap(r -> {
+                    return r.getRiverPath().stream()
+                            .flatMap(p -> Arrays.stream(new Vertex[]{p.getV1(), p.getV2()}))
+                            .distinct();
+                })
                 .distinct()
                 .toList();
         return this.tiles.stream()
