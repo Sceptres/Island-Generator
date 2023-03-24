@@ -9,8 +9,7 @@ public class LandWaterConfigurator extends AbstractConfigurator {
     public LandWaterConfigurator() {
         super(
                 new LandWaterColorGenerator(),
-                new NormalElevationHandler(),
-                new HumidityTransmitter(1f)
+                new NormalElevationHandler()
         );
     }
 }

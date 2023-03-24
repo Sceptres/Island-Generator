@@ -10,16 +10,13 @@ public class AbstractConfigurator implements Configurator {
 
     private final ElevationHandler elevationHandler;
     private final TileColorGenerator colorGenerator;
-    private final IHumidityTransmitter humidityTransmitter;
 
     protected AbstractConfigurator(
             TileColorGenerator colorGenerator,
-            ElevationHandler elevationHandler,
-            IHumidityTransmitter humidityTransmitter
+            ElevationHandler elevationHandler
     ) {
         this.colorGenerator = colorGenerator;
         this.elevationHandler = elevationHandler;
-        this.humidityTransmitter = humidityTransmitter;
     }
 
     @Override
@@ -30,11 +27,6 @@ public class AbstractConfigurator implements Configurator {
     @Override
     public ElevationHandler getElevationHandler() {
         return this.elevationHandler;
-    }
-
-    @Override
-    public IHumidityTransmitter getHumidityTransmitter() {
-        return this.humidityTransmitter;
     }
 
     @Override

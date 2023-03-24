@@ -9,8 +9,7 @@ public class LandConfigurator extends AbstractConfigurator {
     public LandConfigurator() {
         super(
                 new LandColorGenerator(),
-                new NormalElevationHandler(),
-                new HumidityTransmitter(0.5f)
+                new NormalElevationHandler()
         );
     }
 }
