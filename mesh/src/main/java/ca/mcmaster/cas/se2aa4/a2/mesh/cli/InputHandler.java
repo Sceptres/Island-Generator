@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.cli;
 
+import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.options.HelpOption;
 import org.apache.commons.cli.*;
 
@@ -55,10 +56,10 @@ public class InputHandler {
      * Print the help string to the user then exits the program
      * @param message The error message to display to the user
      */
-    public void printHelp(String message) {
+    public void printHelp(String message) throws IllegalInputException {
         System.out.println(message);
         this.formatter.printHelp(200, "Mesh Generation", "", options, "");
-        System.exit(1);
+        throw new IllegalInputException();
     }
 
     /**
