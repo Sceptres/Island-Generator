@@ -61,15 +61,6 @@ public class Land extends TiledGeography {
 
     /**
      *
-     * @param river The {@link River}
-     */
-    public void removeRiver(River river) {
-        river.getRiverPath().forEach(p -> p.setType(PathType.NONE));
-        this.rivers.remove(river);
-    }
-
-    /**
-     *
      * @return The list of {@link River} found in this island
      */
     public List<River> getRivers() {
