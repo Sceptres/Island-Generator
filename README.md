@@ -60,7 +60,8 @@ Island Generator options include:
 9. -r, --rivers <# of rivers>                         The number of rivers to add to the island.
 ```
 mosser@azrael A2 % cd island 
-mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m lagoon 
+mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m lagoon
+mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m random --shape circle --altitude volcano
 mosser@azrael island % ls -lh island.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael island % 
