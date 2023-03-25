@@ -52,7 +52,7 @@ public class GeneratorInputHandler {
      * @param args The arguments passed in through the CMD
      * @return The input handler that has parsed these arguments
      */
-    public static InputHandler getInputHandler(String[] args) {
+    public static InputHandler getInputHandler(String[] args) throws IllegalInputException {
         return new InputHandler(args, GENERATOR_OPTIONS);
     }
 

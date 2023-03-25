@@ -54,7 +54,7 @@ public class IslandInputHandler {
      * @param args The arguments passed in through the CMD
      * @return The input handler that has parsed these arguments
      */
-    public static InputHandler getInputHandler(String[] args) {
+    public static InputHandler getInputHandler(String[] args) throws IllegalInputException {
         return new InputHandler(args, ISLAND_OPTIONS);
     }
 
@@ -153,7 +153,8 @@ public class IslandInputHandler {
 
         return numLakes;
     }
-    private static int getNumAquifers(InputHandler handler) throws IllegalInputException {
+
+    public static int getNumAquifers(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(AquiferOption.OPTION_STR),
                 AquiferOption.DEFAULT_VALUE
@@ -212,7 +213,7 @@ public class IslandInputHandler {
      * @param diagonalLength The length from the center to a corner in the mesh
      * @return The {@link Shape} that matches cmd input
      */
-    private static Shape getShapeInput(InputHandler handler, Vertex center, double diagonalLength) throws IllegalInputException {
+    public static Shape getShapeInput(InputHandler handler, Vertex center, double diagonalLength) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(ShapeOption.OPTION_STR),
                 ShapeOption.DEFAULT_VALUE
@@ -235,7 +236,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to extract the {@link AltimeterProfile} from
      * @return The {@link AltimeterProfile} that matches user input
      */
-    private static AltimeterProfile getAltimeterInput(InputHandler handler) throws IllegalInputException {
+    public static AltimeterProfile getAltimeterInput(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(AltimeterProfileOption.OPTION_STR),
                 AltimeterProfileOption.DEFAULT_VALUE
