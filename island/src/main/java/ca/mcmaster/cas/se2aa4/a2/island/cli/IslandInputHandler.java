@@ -16,6 +16,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
+import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 import org.apache.commons.cli.Option;
 
 import java.nio.file.Files;
@@ -62,7 +63,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to extract the output file from
      * @return The name of the file to export to
      */
-    public static String getOutputFile(InputHandler handler) {
+    public static String getOutputFile(InputHandler handler) throws IllegalInputException {
         String file = handler.getOptionValue(IslandInputHandler.getIslandOption(OutputOption.OPTION_STR));
 
         if(!file.endsWith(".mesh"))
@@ -77,7 +78,7 @@ public class IslandInputHandler {
      * @param mesh The {@link Mesh} to generate island from
      * @return The {@link IslandGenerator} to use
      */
-    public static IslandGenerator getIslandMode(InputHandler handler, IslandMesh mesh){
+    public static IslandGenerator getIslandMode(InputHandler handler, IslandMesh mesh) throws IllegalInputException {
         String mode = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(ModeOption.OPTION_STR),
                 ModeOption.DEFAULT_VALUE
@@ -111,7 +112,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to get the data from
      * @return The passed in data for the input mesh file path
      */
-    public static String getInputMesh(InputHandler handler) {
+    public static String getInputMesh(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(IslandInputHandler.getIslandOption(InputOption.OPTION_STR));
 
         if(!Files.exists(Path.of(value))) { // Does this file not exist?
@@ -130,7 +131,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to get the lakes input from
      * @return The number of lakes set by the user
      */
-    public static int getNumLakes(InputHandler handler) {
+    public static int getNumLakes(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(LakesOption.OPTION_STR),
                 LakesOption.DEFAULT_VALUE
@@ -152,8 +153,7 @@ public class IslandInputHandler {
 
         return numLakes;
     }
-
-    public static int getNumAquifers(InputHandler handler) {
+    private static int getNumAquifers(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(AquiferOption.OPTION_STR),
                 AquiferOption.DEFAULT_VALUE
@@ -182,7 +182,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to get the number of rivers from
      * @return The number of rivers inserted by the user. 0 otherwise
      */
-    public static int getNumRivers(InputHandler handler) {
+    public static int getNumRivers(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(RiversOption.OPTION_STR),
                 RiversOption.DEFAULT_VALUE
@@ -212,7 +212,7 @@ public class IslandInputHandler {
      * @param diagonalLength The length from the center to a corner in the mesh
      * @return The {@link Shape} that matches cmd input
      */
-    public static Shape getShapeInput(InputHandler handler, Vertex center, double diagonalLength) {
+    private static Shape getShapeInput(InputHandler handler, Vertex center, double diagonalLength) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(ShapeOption.OPTION_STR),
                 ShapeOption.DEFAULT_VALUE
@@ -235,7 +235,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to extract the {@link AltimeterProfile} from
      * @return The {@link AltimeterProfile} that matches user input
      */
-    public static AltimeterProfile getAltimeterInput(InputHandler handler) {
+    private static AltimeterProfile getAltimeterInput(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(AltimeterProfileOption.OPTION_STR),
                 AltimeterProfileOption.DEFAULT_VALUE

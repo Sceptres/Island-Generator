@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer.cli;
 
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
+import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.options.OutputOption;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.cli.options.DebugOption;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.cli.options.InputOption;
@@ -43,7 +44,7 @@ public class VisualizerInputHandler {
      * @param handler The {@link InputHandler} to get the data from
      * @return The passed in data for the input mesh file path
      */
-    public static String getInputMesh(InputHandler handler) {
+    public static String getInputMesh(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(VisualizerInputHandler.getVisualizerOption(InputOption.OPTION_STR));
 
         if(!Files.exists(Path.of(value))) { // Does this file not exist?
@@ -62,7 +63,7 @@ public class VisualizerInputHandler {
      * @param handler The {@link InputHandler} to get the data from
      * @return The path of the file to output the mesh to
      */
-    public static String getOutputFile(InputHandler handler) {
+    public static String getOutputFile(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(VisualizerInputHandler.getVisualizerOption(OutputOption.OPTION_STR));
 
         if(!value.endsWith(".svg")){

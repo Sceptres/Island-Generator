@@ -16,6 +16,7 @@ import ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator.generators.GridMeshGen
 import ca.mcmaster.cas.se2aa4.a2.generator.mesh.generator.generators.IrregularMeshGenerator;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.Util;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
+import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.options.OutputOption;
 import org.apache.commons.cli.Option;
 
@@ -60,7 +61,7 @@ public class GeneratorInputHandler {
      * @param handler The {@link InputHandler} to extract the output file from
      * @return The name of the file to export to
      */
-    public static String getOutputFile(InputHandler handler) {
+    public static String getOutputFile(InputHandler handler) throws IllegalInputException {
         String file = handler.getOptionValue(GeneratorInputHandler.getGeneratorOption(OutputOption.OPTION_STR));
 
         if(!file.endsWith(".mesh"))
@@ -74,7 +75,7 @@ public class GeneratorInputHandler {
      * @param handler The {@link InputHandler} to extract thickness input from
      * @return The given thicknesses of the vertices and segments
      */
-    public static float[] getThickness(InputHandler handler){
+    public static float[] getThickness(InputHandler handler) throws IllegalInputException {
         String[] thickness = handler.getOptionValues(
                 GeneratorInputHandler.getGeneratorOption(ThicknessOption.OPTION_STR),
                 ThicknessOption.DEFAULT_VALUE
@@ -101,7 +102,7 @@ public class GeneratorInputHandler {
      * @param handler The {@link InputHandler} to extract generator type from
      * @return The {@link MeshGenerator} matching given input
      */
-    public static MeshGenerator getMeshGenerator(InputHandler handler) {
+    public static MeshGenerator getMeshGenerator(InputHandler handler) throws IllegalInputException {
         String meshType = handler.getOptionValue(
                 GeneratorInputHandler.getGeneratorOption(MeshTypeOption.OPTION_STR),
                 MeshTypeOption.DEFAULT_VALUE
@@ -150,7 +151,7 @@ public class GeneratorInputHandler {
      * @param handler The {@link InputHandler} to extract mesh dimensions from
      * @return An array with the dimensions of the mesh. [width, height]
      */
-    public static int[] getMeshDimensions(InputHandler handler) {
+    public static int[] getMeshDimensions(InputHandler handler) throws IllegalInputException {
         String dimensionInput = handler.getOptionValue(
                 GeneratorInputHandler.getGeneratorOption(MeshDimensionsOption.OPTION_STR),
                 MeshDimensionsOption.DEFAULT_VALUE
@@ -180,7 +181,7 @@ public class GeneratorInputHandler {
      * @param handler The {@link InputHandler} to extract the square size from
      * @return The passed in square size
      */
-    public static double getGridMeshSquareSize(InputHandler handler) {
+    public static double getGridMeshSquareSize(InputHandler handler) throws IllegalInputException {
         String squareSizeInput = handler.getOptionValue(
                 GeneratorInputHandler.getGeneratorOption(SquareSizeOption.OPTION_STR),
                 SquareSizeOption.DEFAULT_VALUE
@@ -199,7 +200,7 @@ public class GeneratorInputHandler {
      * @param handler The {@link InputHandler} to extract color data from
      * @return An array with the vertex, segments, and polygon color generation methods in order
      */
-    public static ColorGenerator[] getColorGenerator(InputHandler handler) {
+    public static ColorGenerator[] getColorGenerator(InputHandler handler) throws IllegalInputException {
         String[] values = handler.getOptionValues(
                 GeneratorInputHandler.getGeneratorOption(ColorOption.OPTION_STR),
                 ColorOption.DEFAULT_VALUE
@@ -218,7 +219,7 @@ public class GeneratorInputHandler {
      * @param input The passed in CMD input by the user
      * @return The color generator matching the given input. Only covers common cases: random | r,g,b | r,g,b,a
      */
-    private static ColorGenerator getGeneralColorGenerator(InputHandler handler, String input) {
+    private static ColorGenerator getGeneralColorGenerator(InputHandler handler, String input) throws IllegalInputException {
         try {
             if (input.equals("random"))
                 return new RandomColorGenerator();
@@ -244,7 +245,7 @@ public class GeneratorInputHandler {
      * @param input The input for the vertex color generation
      * @return The {@link ColorGenerator} for the vertices
      */
-    private static ColorGenerator getVertexColorGenerator(InputHandler handler, String input) {
+    private static ColorGenerator getVertexColorGenerator(InputHandler handler, String input) throws IllegalInputException {
         ColorGenerator generator = getGeneralColorGenerator(handler, input);
 
         if(Objects.isNull(generator)) { // Nothing chosen from general options?
@@ -261,7 +262,7 @@ public class GeneratorInputHandler {
      * @param input The input for the segment color generation
      * @return The {@link ColorGenerator} for the segments
      */
-    private static ColorGenerator getSegmentColorGenerator(InputHandler handler, String input) {
+    private static ColorGenerator getSegmentColorGenerator(InputHandler handler, String input) throws IllegalInputException {
         ColorGenerator generator = getGeneralColorGenerator(handler, input);
 
         if(Objects.isNull(generator)) {  // Nothing chosen from general options?
@@ -282,7 +283,7 @@ public class GeneratorInputHandler {
      * @param input The input for the polygon color generation
      * @return The {@link ColorGenerator} for the polygons
      */
-    private static ColorGenerator getPolygonColorGenerator(InputHandler handler, String input) {
+    private static ColorGenerator getPolygonColorGenerator(InputHandler handler, String input) throws IllegalInputException {
         ColorGenerator generator = getGeneralColorGenerator(handler, input);
 
         if(Objects.isNull(generator)) {  // Nothing chosen from general options?
@@ -308,7 +309,7 @@ public class GeneratorInputHandler {
      * @param handler The {@link InputHandler} to extract the relaxation level from
      * @return The given relaxation level
      */
-    public static int getRelaxationLevel(InputHandler handler) {
+    public static int getRelaxationLevel(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 GeneratorInputHandler.getGeneratorOption(RelaxationLevelOption.OPTION_STR),
                 RelaxationLevelOption.DEFAULT_VALUE
@@ -327,7 +328,7 @@ public class GeneratorInputHandler {
      * @param handler The {@link InputHandler} to extract the number of polygons from
      * @return The number of polygons passed in by the user
      */
-    public static int getNumPolygons(InputHandler handler) {
+    public static int getNumPolygons(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 GeneratorInputHandler.getGeneratorOption(NumberPolygonsOption.OPTION_STR),
                 NumberPolygonsOption.DEFAULT_VALUE
