@@ -153,7 +153,7 @@ public class IslandInputHandler {
         return numLakes;
     }
 
-    private static int getNumAquifers(InputHandler handler) {
+    public static int getNumAquifers(InputHandler handler) {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(AquiferOption.OPTION_STR),
                 AquiferOption.DEFAULT_VALUE
@@ -182,7 +182,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to get the number of rivers from
      * @return The number of rivers inserted by the user. 0 otherwise
      */
-    private static int getNumRivers(InputHandler handler) {
+    public static int getNumRivers(InputHandler handler) {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(RiversOption.OPTION_STR),
                 RiversOption.DEFAULT_VALUE
@@ -212,7 +212,7 @@ public class IslandInputHandler {
      * @param diagonalLength The length from the center to a corner in the mesh
      * @return The {@link Shape} that matches cmd input
      */
-    private static Shape getShapeInput(InputHandler handler, Vertex center, double diagonalLength) {
+    public static Shape getShapeInput(InputHandler handler, Vertex center, double diagonalLength) {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(ShapeOption.OPTION_STR),
                 ShapeOption.DEFAULT_VALUE
@@ -235,7 +235,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to extract the {@link AltimeterProfile} from
      * @return The {@link AltimeterProfile} that matches user input
      */
-    private static AltimeterProfile getAltimeterInput(InputHandler handler) {
+    public static AltimeterProfile getAltimeterInput(InputHandler handler) {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(AltimeterProfileOption.OPTION_STR),
                 AltimeterProfileOption.DEFAULT_VALUE
