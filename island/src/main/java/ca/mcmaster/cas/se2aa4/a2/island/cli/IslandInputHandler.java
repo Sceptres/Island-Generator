@@ -31,7 +31,8 @@ public class IslandInputHandler {
             ShapeOption.OPTION_STR, new ShapeOption(),
             LakesOption.OPTION_STR, new LakesOption(),
             AltimeterProfileOption.OPTION_STR, new AltimeterProfileOption(),
-            AquiferOption.OPTION_STR, new AquiferOption()
+            AquiferOption.OPTION_STR, new AquiferOption(),
+            RiversOption.OPTION_STR, new RiversOption()
 
     );
 
@@ -89,14 +90,15 @@ public class IslandInputHandler {
         double diagonalLength = Math.hypot(meshDimension[0]/2f, meshDimension[1]/2f);
 
         int numAquifers = IslandInputHandler.getNumAquifers(handler);
+        int numRivers = IslandInputHandler.getNumRivers(handler);
         Shape shape = IslandInputHandler.getShapeInput(handler, meshCenter, diagonalLength);
 
         if(mode.equals("lagoon"))
-            generator = new LagoonIslandGenerator(mesh, shape, numAquifers, 20);
+            generator = new LagoonIslandGenerator(mesh, shape, numAquifers, numRivers);
         else if(mode.equals("random")) {
             int numLakes = IslandInputHandler.getNumLakes(handler);
             AltimeterProfile altimeterProfile = IslandInputHandler.getAltimeterInput(handler);
-            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, numLakes, numAquifers, 20);
+            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, numLakes, numAquifers, numRivers);
         } else
             handler.printHelp("Invalid mode: " + mode);
 
@@ -173,6 +175,34 @@ public class IslandInputHandler {
         }
 
         return numAquifers;
+    }
+
+    /**
+     *
+     * @param handler The {@link InputHandler} to get the number of rivers from
+     * @return The number of rivers inserted by the user. 0 otherwise
+     */
+    private static int getNumRivers(InputHandler handler) {
+        String value = handler.getOptionValue(
+                IslandInputHandler.getIslandOption(RiversOption.OPTION_STR),
+                RiversOption.DEFAULT_VALUE
+        );
+
+        int numRivers = -1;
+
+        try {
+            numRivers = Integer.parseInt(value);
+
+            if(numRivers < 0)
+                throw new IllegalArgumentException();
+        } catch(NumberFormatException e) {
+            String message = String.format("Invalid number of rivers %s!", value);
+            handler.printHelp(message);
+        } catch(IllegalArgumentException e) {
+            handler.printHelp("Cannot have a negative number of rivers!");
+        }
+
+        return numRivers;
     }
 
     /**
