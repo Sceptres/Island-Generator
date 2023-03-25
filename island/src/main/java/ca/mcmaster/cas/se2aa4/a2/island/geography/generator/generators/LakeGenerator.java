@@ -62,7 +62,7 @@ public class LakeGenerator implements GeographyGenerator<Lake> {
      * @param lake The {@link Lake} to generate
      */
     private void generateLakePath(Random random, Lake lake) {
-        Tile next = Lake.getNextTile(lake, random);
+        Tile next = this.getNextTile(lake, random);
 
         double num = random.nextDouble(0, 1);
         boolean shouldStop = num > 0.96 || next.getNeighbors().stream().filter(t -> t != next).anyMatch(t ->
@@ -75,5 +75,18 @@ public class LakeGenerator implements GeographyGenerator<Lake> {
             lake.addTile(next);
             generateLakePath(random, lake);
         }
+    }
+
+    /**
+     *
+     * @param lake The {@link Lake} being currently generated
+     * @param random The {@link Random} instance being used to generate the lake
+     * @return The generated {@link Lake}
+     */
+    private Tile getNextTile(Lake lake, Random random) {
+        List<Tile> tiles = lake.getTiles();
+        Tile tile = tiles.get(tiles.size()-1);
+        List<Tile> neighbors = tile.getNeighbors();
+        return neighbors.get(random.nextInt(neighbors.size()));
     }
 }
