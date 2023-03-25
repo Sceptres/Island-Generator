@@ -57,9 +57,11 @@ Island Generator options include:
 6. -l,--lakes <# of lakes>                            The number of lakes to place on the island. Note that lakes can merge.
 7. -s,--shape <shape>                                 The shape to set the island to. Available shapes are circle, oval, and star.
 8. -aq,--aquifers <# of aquifers>                     The number of random aquifers to add to the island.
+9. -r, --rivers <# of rivers>                         The number of rivers to add to the island.
 ```
 mosser@azrael A2 % cd island 
-mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m lagoon 
+mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m lagoon
+mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m random --shape circle --altitude volcano
 mosser@azrael island % ls -lh island.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael island % 
@@ -124,3 +126,4 @@ When you develop features and enrich the product, remember that you have first t
 - | 13 |Island Lake Generation                |Abdallah&Beshoy| 03-3-2023 | 14-3-2023 |  Complete |
 - | 14 |Island Elevation Generation           |Abdallah       | 03-3-2023 | 12-3-2023 |  Complete |
 - | 15 |Island Aquifer Generation             |Abdallah&Beshoy| 16-3-2023 | 20-3-2023 |  Complete |
+- | 15 |Island Aquifer Generation             |Abdallah&Omar  | 20-3-2023 | 25-3-2023 |  Complete |

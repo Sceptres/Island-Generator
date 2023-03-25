@@ -10,38 +10,43 @@ import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.IReceiver;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.HumidityTransmitter;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.IHumidityTransmitter;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.profiles.HumidityProfile;
+import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double>, IElevation, IHumidity, Aquiferable {
+public final class Tile implements Neighborable<Tile>, Positionable<Double>, IElevation, IHumidity, Aquiferable {
 
     private TileType type;
     private boolean aquifer;
     private Configurator configurator;
     private final IReceiver humidityReceiver;
-
     private final IHumidityTransmitter humidityTransmitter;
     private final HumidityProfile humidity;
     private final ElevationProfile elevation;
     private final Polygon polygon;
+    private final List<Path> paths;
     private final List<Tile> neighbors;
 
     /**
      *
-     * @param polygon The {@link Polygon} to create a Tile from
+     * @param polygon The {@link Polygon} that this tile represents
+     * @param paths The list {@link Path} belonging to this tile
+     * @param humidityReceiver Tje {@link IReceiver} of this tile
+     * @param humidityTransmitter The {@link IHumidityTransmitter} of this tile
      */
-    public Tile(Polygon polygon, IReceiver humidityReceiver, IHumidityTransmitter humidityTransmitter) {
+    public Tile(Polygon polygon, List<Path> paths, IReceiver humidityReceiver, IHumidityTransmitter humidityTransmitter) {
         this.polygon = polygon;
         this.neighbors = new Tiles();
+        this.paths = new ArrayList<>(paths);
         this.setType(TileType.LAND_TILE);
         this.humidityReceiver = humidityReceiver;
         this.humidityTransmitter = humidityTransmitter;
@@ -50,8 +55,8 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
         this.aquifer = false;
     }
 
-    public Tile(Polygon polygon) {
-        this(polygon, new HumidityReceiver(0.8f), new HumidityTransmitter(0.2f));
+    public Tile(Polygon polygon, List<Path> paths) {
+        this(polygon, paths, new HumidityReceiver(0.8f), new HumidityTransmitter(0.2f));
     }
 
     /**
@@ -87,9 +92,20 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
         return new Double[]{this.getX(), this.getY()};
     }
 
-    @Override
-    public Polygon getConverted() {
-        return this.polygon;
+    /**
+     *
+     * @return The {@link List} of {@link Path} that belong to this tile
+     */
+    public List<Path> getPaths() {
+        return new ArrayList<>(this.paths);
+    }
+
+    /**
+     *
+     * @return The list of {@link Vertex} that belong to this tile
+     */
+    public List<Vertex> getVertices() {
+        return this.polygon.getVertices();
     }
 
     @Override
@@ -122,6 +138,7 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
     public void setElevation(double elevation) {
         ElevationHandler handler = this.configurator.getElevationHandler();
         handler.takeElevation(this.elevation, elevation);
+        this.paths.forEach(p -> p.setElevation(elevation));
     }
 
     @Override
@@ -154,7 +171,7 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, polygon, neighbors);
+        return Objects.hash(type, polygon);
     }
 
     @Override

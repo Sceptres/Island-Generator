@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.mesh.cli;
 
+import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.options.HelpOption;
 import org.apache.commons.cli.*;
 
@@ -19,7 +20,7 @@ public class InputHandler {
      * @param args The arguments passed in through the cmd
      * @param optionsMap The {@link HashMap} of all the possible options that can be passed in
      */
-    public InputHandler(String[] args, Map<String, ? extends Option> optionsMap) {
+    public InputHandler(String[] args, Map<String, ? extends Option> optionsMap) throws IllegalInputException {
         // Set options
         this.options = new Options();
         optionsMap.forEach((k, v) -> this.options.addOption(v));
@@ -33,12 +34,10 @@ public class InputHandler {
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             this.printHelp();
-            System.exit(1);
         }
 
         if(this.hasOption(HELP_OPTION)) { // Did the user request for help message?
             this.printHelp();
-            System.exit(1);
         }
     }
 
@@ -55,17 +54,17 @@ public class InputHandler {
      * Print the help string to the user then exits the program
      * @param message The error message to display to the user
      */
-    public void printHelp(String message) {
+    public void printHelp(String message) throws IllegalInputException {
         System.out.println(message);
-        this.formatter.printHelp(200, "Mesh Generation", "", options, "");
-        System.exit(1);
+        this.printHelp();
     }
 
     /**
      * Print the help string to the user
      */
-    public void printHelp() {
+    public void printHelp() throws IllegalInputException {
         this.formatter.printHelp(200, "Mesh Generation", "", options, "");
+        throw new IllegalInputException();
     }
 
     /**

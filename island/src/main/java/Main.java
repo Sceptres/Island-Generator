@@ -2,26 +2,30 @@ import ca.mcmaster.cas.se2aa4.a2.island.cli.IslandInputHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.io.MeshReader;
 import ca.mcmaster.cas.se2aa4.a2.island.io.MeshWriter;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
+import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        try {
+            InputHandler handler = IslandInputHandler.getInputHandler(args);
 
-        InputHandler handler = IslandInputHandler.getInputHandler(args);
+            String input = IslandInputHandler.getInputMesh(handler);
+            String output = IslandInputHandler.getOutputFile(handler);
 
-        String input = IslandInputHandler.getInputMesh(handler);
-        String output = IslandInputHandler.getOutputFile(handler);
+            MeshReader meshReader = new MeshReader(input);
+            IslandMesh mesh = meshReader.getMesh();
 
-        MeshReader meshReader = new MeshReader(input);
-        Mesh mesh = meshReader.getMesh();
+            IslandGenerator generator = IslandInputHandler.getIslandMode(handler, mesh);
+            generator.generate();
 
-        IslandGenerator generator = IslandInputHandler.getIslandMode(handler, mesh);
-        generator.generate();
-
-        MeshWriter writer = new MeshWriter();
-        writer.write(mesh, output);
+            MeshWriter writer = new MeshWriter();
+            writer.write(mesh, output);
+        } catch(IllegalInputException e) {
+            System.exit(1);
+        }
     }
 }

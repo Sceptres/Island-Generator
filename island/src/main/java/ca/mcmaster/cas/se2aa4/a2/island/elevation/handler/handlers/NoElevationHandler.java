@@ -1,11 +1,11 @@
 package ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.handlers;
 
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation;
-import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler;
+import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.AbstractElevationHandler;
 
-public class NoElevationHandler implements ElevationHandler {
+public class NoElevationHandler extends AbstractElevationHandler {
     @Override
-    public void takeElevation(IElevation e, double elevation) {
-        e.setElevation(0);
+    protected double calculateElevation(IElevation e, double elevation) {
+        return 0;
     }
 }

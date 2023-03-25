@@ -7,27 +7,16 @@ import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 
 import java.util.List;
-import java.util.Random;
 
 public class Lake extends TiledGeography implements IHumidity {
 
     private final HumidityProfile humidityProfile;
-    /**
-     *
-     * @param random The random instance to use in finding next tile
-     * @return The next {@link Tile} of the lake
-     */
-    public static Tile getNextTile(Lake lake, Random random) {
-        List<Tile> tiles = lake.getTiles();
-        Tile tile = tiles.get(tiles.size()-1);
-        List<Tile> neighbors = tile.getNeighbors();
-        return neighbors.get(random.nextInt(neighbors.size()));
-    }
 
-    public Lake(Tile start, HumidityProfile humidityProfile) {
+    public Lake(Tile start) {
         super(TileType.LAND_WATER_TILE);
         super.addTile(start);
-        this.humidityProfile = humidityProfile;
+        this.humidityProfile = new HumidityProfile();
+        this.humidityProfile.setHumidity(25f);
     }
 
     @Override
@@ -50,6 +39,6 @@ public class Lake extends TiledGeography implements IHumidity {
 
     @Override
     public void giveHumidity(IHumidity humidity) {
-        humidity.setHumidity(this.tiles.size() * 25);
+        humidity.setHumidity(this.tiles.size() * this.getHumidity());
     }
 }

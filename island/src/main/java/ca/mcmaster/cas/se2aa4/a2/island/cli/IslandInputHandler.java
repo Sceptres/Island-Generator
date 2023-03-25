@@ -12,9 +12,11 @@ import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Oval;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Star;
+import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
+import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 import org.apache.commons.cli.Option;
 
 import java.nio.file.Files;
@@ -30,7 +32,8 @@ public class IslandInputHandler {
             ShapeOption.OPTION_STR, new ShapeOption(),
             LakesOption.OPTION_STR, new LakesOption(),
             AltimeterProfileOption.OPTION_STR, new AltimeterProfileOption(),
-            AquiferOption.OPTION_STR, new AquiferOption()
+            AquiferOption.OPTION_STR, new AquiferOption(),
+            RiversOption.OPTION_STR, new RiversOption()
 
     );
 
@@ -51,7 +54,7 @@ public class IslandInputHandler {
      * @param args The arguments passed in through the CMD
      * @return The input handler that has parsed these arguments
      */
-    public static InputHandler getInputHandler(String[] args) {
+    public static InputHandler getInputHandler(String[] args) throws IllegalInputException {
         return new InputHandler(args, ISLAND_OPTIONS);
     }
 
@@ -60,7 +63,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to extract the output file from
      * @return The name of the file to export to
      */
-    public static String getOutputFile(InputHandler handler) {
+    public static String getOutputFile(InputHandler handler) throws IllegalInputException {
         String file = handler.getOptionValue(IslandInputHandler.getIslandOption(OutputOption.OPTION_STR));
 
         if(!file.endsWith(".mesh"))
@@ -75,7 +78,7 @@ public class IslandInputHandler {
      * @param mesh The {@link Mesh} to generate island from
      * @return The {@link IslandGenerator} to use
      */
-    public static IslandGenerator getIslandMode(InputHandler handler, Mesh mesh){
+    public static IslandGenerator getIslandMode(InputHandler handler, IslandMesh mesh) throws IllegalInputException {
         String mode = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(ModeOption.OPTION_STR),
                 ModeOption.DEFAULT_VALUE
@@ -88,14 +91,15 @@ public class IslandInputHandler {
         double diagonalLength = Math.hypot(meshDimension[0]/2f, meshDimension[1]/2f);
 
         int numAquifers = IslandInputHandler.getNumAquifers(handler);
+        int numRivers = IslandInputHandler.getNumRivers(handler);
         Shape shape = IslandInputHandler.getShapeInput(handler, meshCenter, diagonalLength);
 
         if(mode.equals("lagoon"))
-            generator = new LagoonIslandGenerator(mesh, shape, numAquifers);
+            generator = new LagoonIslandGenerator(mesh, shape, numAquifers, numRivers);
         else if(mode.equals("random")) {
             int numLakes = IslandInputHandler.getNumLakes(handler);
             AltimeterProfile altimeterProfile = IslandInputHandler.getAltimeterInput(handler);
-            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, numLakes, numAquifers);
+            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, numLakes, numAquifers, numRivers);
         } else
             handler.printHelp("Invalid mode: " + mode);
 
@@ -108,7 +112,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to get the data from
      * @return The passed in data for the input mesh file path
      */
-    public static String getInputMesh(InputHandler handler) {
+    public static String getInputMesh(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(IslandInputHandler.getIslandOption(InputOption.OPTION_STR));
 
         if(!Files.exists(Path.of(value))) { // Does this file not exist?
@@ -127,7 +131,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to get the lakes input from
      * @return The number of lakes set by the user
      */
-    public static int getNumLakes(InputHandler handler) {
+    public static int getNumLakes(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(LakesOption.OPTION_STR),
                 LakesOption.DEFAULT_VALUE
@@ -137,15 +141,20 @@ public class IslandInputHandler {
 
         try {
             numLakes = Integer.parseInt(value);
+
+            if(numLakes < 0)
+                throw new IllegalArgumentException();
         } catch(NumberFormatException e) {
             String message = String.format("Invalid number %s!", value);
             handler.printHelp(message);
+        } catch (IllegalArgumentException e) {
+            handler.printHelp("Cannot have a negative number of lakes!");
         }
 
         return numLakes;
     }
 
-    private static int getNumAquifers(InputHandler handler) {
+    public static int getNumAquifers(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(AquiferOption.OPTION_STR),
                 AquiferOption.DEFAULT_VALUE
@@ -171,12 +180,40 @@ public class IslandInputHandler {
 
     /**
      *
+     * @param handler The {@link InputHandler} to get the number of rivers from
+     * @return The number of rivers inserted by the user. 0 otherwise
+     */
+    public static int getNumRivers(InputHandler handler) throws IllegalInputException {
+        String value = handler.getOptionValue(
+                IslandInputHandler.getIslandOption(RiversOption.OPTION_STR),
+                RiversOption.DEFAULT_VALUE
+        );
+
+        int numRivers = -1;
+
+        try {
+            numRivers = Integer.parseInt(value);
+
+            if(numRivers < 0)
+                throw new IllegalArgumentException();
+        } catch(NumberFormatException e) {
+            String message = String.format("Invalid number of rivers %s!", value);
+            handler.printHelp(message);
+        } catch(IllegalArgumentException e) {
+            handler.printHelp("Cannot have a negative number of rivers!");
+        }
+
+        return numRivers;
+    }
+
+    /**
+     *
      * @param handler The {@link InputHandler} to extract the data from
      * @param center The center {@link Vertex} of the mesh
      * @param diagonalLength The length from the center to a corner in the mesh
      * @return The {@link Shape} that matches cmd input
      */
-    private static Shape getShapeInput(InputHandler handler, Vertex center, double diagonalLength) {
+    public static Shape getShapeInput(InputHandler handler, Vertex center, double diagonalLength) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(ShapeOption.OPTION_STR),
                 ShapeOption.DEFAULT_VALUE
@@ -199,7 +236,7 @@ public class IslandInputHandler {
      * @param handler The {@link InputHandler} to extract the {@link AltimeterProfile} from
      * @return The {@link AltimeterProfile} that matches user input
      */
-    private static AltimeterProfile getAltimeterInput(InputHandler handler) {
+    public static AltimeterProfile getAltimeterInput(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(AltimeterProfileOption.OPTION_STR),
                 AltimeterProfileOption.DEFAULT_VALUE

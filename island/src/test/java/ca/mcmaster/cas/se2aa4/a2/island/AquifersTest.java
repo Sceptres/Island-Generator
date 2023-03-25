@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island;
 
+import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
@@ -32,10 +33,11 @@ public class AquifersTest {
         Segment s4 = new Segment(v4, v1);
 
         List<Segment> polygonSegments = List.of(s1, s2, s3, s4);
+        List<Path> paths = polygonSegments.stream().map(Path::new).toList();
 
         this.polygon = new Polygon(polygonSegments);
 
-        this.tile = new Tile(this.polygon);
+        this.tile = new Tile(this.polygon, paths);
     }
 
     /**

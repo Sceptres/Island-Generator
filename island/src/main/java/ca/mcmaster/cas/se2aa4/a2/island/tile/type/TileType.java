@@ -1,6 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island.tile.type;
 
-import ca.mcmaster.cas.se2aa4.a2.island.tile.color.TileColorGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.BeachConfigurator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.LandConfigurator;
@@ -32,7 +32,7 @@ public enum TileType {
 
     /**
      *
-     * @return The {@link TileColorGenerator} of this type
+     * @return The {@link ColorGenerator} of this type
      */
     public Configurator getConfigurator() {
         return this.configurator;
