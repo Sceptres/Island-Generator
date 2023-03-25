@@ -138,9 +138,14 @@ public class IslandInputHandler {
 
         try {
             numLakes = Integer.parseInt(value);
+
+            if(numLakes < 0)
+                throw new IllegalArgumentException();
         } catch(NumberFormatException e) {
             String message = String.format("Invalid number %s!", value);
             handler.printHelp(message);
+        } catch (IllegalArgumentException e) {
+            handler.printHelp("Cannot have a negative number of lakes!");
         }
 
         return numLakes;
