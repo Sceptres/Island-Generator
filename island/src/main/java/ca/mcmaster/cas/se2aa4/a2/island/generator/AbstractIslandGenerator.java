@@ -84,4 +84,12 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
             tiles = tiles.stream().filter(t -> !t.hasAquifer()).toList();
         }
     }
+
+    private void generateHumidity(Land land, double soilAbsorption){
+
+        List<Lake> lakes = land.getLakes();
+
+
+
+    }
 }

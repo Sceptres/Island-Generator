@@ -29,6 +29,10 @@ public class Land extends TiledGeography {
         super.addTile(tile);
     }
 
+    public List<Lake> getLakes(){
+        return new ArrayList<>(this.lakes);
+    }
+
     /**
      *
      * @param lake The {@link Lake} to add to the land

@@ -6,6 +6,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.geography.Lake;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.profiles.HumidityProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
@@ -39,7 +40,7 @@ public class RandomIslandGenerator extends AbstractIslandGenerator {
             int randIdx = random.nextInt(0, tiles.size());
             Tile lakeCenter = tiles.get(randIdx);
 
-            Lake lake = new Lake(lakeCenter);
+            Lake lake = new Lake(lakeCenter, new HumidityProfile());
             this.generateLakePath(random, lake);
             land.addLake(lake);
 

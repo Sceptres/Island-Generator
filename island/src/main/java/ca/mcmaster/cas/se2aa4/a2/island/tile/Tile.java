@@ -7,6 +7,8 @@ import ca.mcmaster.cas.se2aa4.a2.island.geography.Aquiferable;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.HumidityReceiver;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.IReceiver;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.HumidityTransmitter;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.IHumidityTransmitter;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.profiles.HumidityProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
@@ -25,6 +27,8 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
     private boolean aquifer;
     private Configurator configurator;
     private final IReceiver humidityReceiver;
+
+    private final IHumidityTransmitter humidityTransmitter;
     private final HumidityProfile humidity;
     private final ElevationProfile elevation;
     private final Polygon polygon;
@@ -34,18 +38,19 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
      *
      * @param polygon The {@link Polygon} to create a Tile from
      */
-    public Tile(Polygon polygon, IReceiver humidityReceiver) {
+    public Tile(Polygon polygon, IReceiver humidityReceiver, IHumidityTransmitter humidityTransmitter) {
         this.polygon = polygon;
         this.neighbors = new Tiles();
         this.setType(TileType.LAND_TILE);
         this.humidityReceiver = humidityReceiver;
+        this.humidityTransmitter = humidityTransmitter;
         this.humidity = new HumidityProfile();
         this.elevation = new ElevationProfile();
         this.aquifer = false;
     }
 
     public Tile(Polygon polygon) {
-        this(polygon, new HumidityReceiver(1));
+        this(polygon, new HumidityReceiver(0.8f), new HumidityTransmitter(0.2f));
     }
 
     /**
@@ -157,7 +162,7 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
 
     @Override
     public void giveHumidity(IHumidity h) {
-        float humidity = this.configurator.getHumidityTransmitter().giveHumidity(this);
+        float humidity = this.humidityTransmitter.giveHumidity(this);
         h.setHumidity(humidity);
     }
 }

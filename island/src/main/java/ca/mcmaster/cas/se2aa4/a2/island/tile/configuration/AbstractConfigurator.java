@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.island.tile.configuration;
 
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.HumidityHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.IHumidityTransmitter;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.color.TileColorGenerator;
 
@@ -11,12 +12,16 @@ public class AbstractConfigurator implements Configurator {
     private final ElevationHandler elevationHandler;
     private final TileColorGenerator colorGenerator;
 
+    private final HumidityHandler humidityHandler;
+
     protected AbstractConfigurator(
             TileColorGenerator colorGenerator,
-            ElevationHandler elevationHandler
+            ElevationHandler elevationHandler,
+            HumidityHandler humidityHandler
     ) {
         this.colorGenerator = colorGenerator;
         this.elevationHandler = elevationHandler;
+        this.humidityHandler = humidityHandler;
     }
 
     @Override
@@ -28,6 +33,9 @@ public class AbstractConfigurator implements Configurator {
     public ElevationHandler getElevationHandler() {
         return this.elevationHandler;
     }
+
+    @Override
+    public HumidityHandler getHumidityHandler(){ return this.humidityHandler; }
 
     @Override
     public Color apply() {
