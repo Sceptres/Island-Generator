@@ -5,7 +5,6 @@ import ca.mcmaster.cas.se2aa4.a2.island.path.type.PathType;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,24 +64,6 @@ public class Land extends TiledGeography {
      */
     public List<River> getRivers() {
         return new ArrayList<>(this.rivers);
-    }
-
-    /**
-     *
-     * @return All the unused springs on the land
-     */
-    public List<Vertex> getSprings() {
-        List<Vertex> usedSprings = this.rivers.stream()
-                .flatMap(r -> r.getVertices().stream())
-                .distinct()
-                .toList();
-        return this.tiles.stream()
-                .filter(t -> t.getType().getGroup() == TileGroup.LAND)
-                .flatMap(t -> t.getVertices().stream())
-                .filter(v -> !usedSprings.contains(v))
-                .distinct()
-                .toList();
-
     }
 
     /**
