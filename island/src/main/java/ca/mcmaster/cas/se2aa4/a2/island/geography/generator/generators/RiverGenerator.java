@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island.geography.generator.generators;
 
+import ca.mcmaster.cas.se2aa4.a2.island.geography.Lake;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.River;
@@ -7,10 +8,10 @@ import ca.mcmaster.cas.se2aa4.a2.island.geography.generator.GeographyGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RiverGenerator implements GeographyGenerator<River> {
     private final Land land;
@@ -28,47 +29,54 @@ public class RiverGenerator implements GeographyGenerator<River> {
         List<River> generatedRivers = new ArrayList<>();
 
         for (int i = 0; i < num; i++) {
-            List<Vertex> springs = land.getSprings();
+            List<Vertex> springs = this.getSprings(generatedRivers);
 
             float flow = random.nextFloat(1f, 1.5f);
             int randIdx = random.nextInt(springs.size()-1);
             Vertex start = springs.get(randIdx);
 
-            River river = this.generateRiver(start, flow);
-            generatedRivers.add(river);
+            this.generateRiver(generatedRivers, start, flow);
         }
 
         List<River> removableRivers = this.findRemovableRivers(generatedRivers);
         generatedRivers.removeAll(removableRivers);
 
-        land.getRivers().forEach(river -> {
+        generatedRivers.forEach(river -> {
             Vertex endVertex = river.getEnd();
             List<Path> riverPaths = river.getRiverPath();
 
             Path lastPath = riverPaths.stream().filter(p -> p.hasVertex(endVertex)).findFirst().get();
 
-            Optional<Tile> oceanTile = land.getTiles().stream()
-                    .filter(t -> t.getVertices().contains(endVertex) && !t.getPaths().contains(lastPath))
+            Optional<Tile> waterTile = this.land.getTiles().stream()
+                    .filter(t -> {
+                        boolean hasEndVertex = t.getVertices().contains(endVertex);
+                        boolean noLastPath = !t.getPaths().contains(lastPath);
+                        boolean isLand = t.getType().getGroup() == TileGroup.LAND;
+                        return hasEndVertex && noLastPath && isLand;
+                    })
                     .findFirst();
-            if (oceanTile.isPresent()) {
-                Tile tile = oceanTile.get();
-                tile.setType(TileType.LAND_WATER_TILE);
+            if (waterTile.isPresent()) {
+                Tile tile = waterTile.get();
+                Lake lake = new Lake(tile);
+                lake.setElevation(lastPath.getElevation());
+                this.land.addLake(lake);
             }
         });
 
         return generatedRivers;
     }
 
+
     /**
      *
-     * @return A single {@link River}
+     * @param rivers The already existing {@link River}
+     * @param start The start {@link Vertex} of the river
+     * @param flow The flow of the river
      */
-    private River generateRiver(Vertex start, float flow) {
+    private void generateRiver(List<River> rivers, Vertex start, float flow) {
         River river = new River(start, flow);
-        land.addRiver(river);
-        this.generateRiverPath(river, this.land, this.ocean, start);
-
-        return river;
+        rivers.add(river);
+        this.generateRiverPath(rivers, river, start);
     }
 
     /**
@@ -80,18 +88,19 @@ public class RiverGenerator implements GeographyGenerator<River> {
         List<River> mergedRivers = new ArrayList<>();
 
         for(River river : generatedRivers) {
-            List<River> intersectingRivers = generatedRivers.stream()
-                    .filter(r -> r != river && river.intersect(r))
-                    .toList();
-            for(River river1 : intersectingRivers) {
-                river.merge(river1);
-                mergedRivers.add(river1);
-            }
-
             List<Path> riverPaths = river.getRiverPath();
 
             if(riverPaths.size() == 0) {
                 mergedRivers.add(river);
+                continue;
+            }
+
+            List<River> intersectingRivers = generatedRivers.stream()
+                    .filter(r -> r != river && river.intersect(r) && !mergedRivers.contains(r))
+                    .toList();
+            for(River river1 : intersectingRivers) {
+                river.merge(river1);
+                mergedRivers.add(river1);
             }
         }
 
@@ -100,23 +109,21 @@ public class RiverGenerator implements GeographyGenerator<River> {
 
     /**
      *
+     * @param rivers The list of rivers generated so far
      * @param river The {@link River} we are generating path for
-     * @param land The {@link Land} that this river belongs to
-     * @param ocean The {@link Ocean} of this ocean
      * @param start The {@link Vertex} to start the river at
      */
-    private void generateRiverPath(River river, Land land, Ocean ocean, Vertex start) {
-        List<Tile> landTiles = land.getTiles();
-        List<Tile> oceanTiles = ocean.getTiles();
+    private void generateRiverPath(List<River> rivers, River river, Vertex start) {
+        List<Tile> landTiles = this.land.getTiles();
+        List<Tile> oceanTiles = this.ocean.getTiles();
         List<Tile> tiles = new ArrayList<>();
         tiles.addAll(landTiles);
         tiles.addAll(oceanTiles);
 
-        List<Path> paths = land.getPaths();
-        List<Vertex> possibleSprings = land.getSprings();
+        List<Path> paths = this.land.getPaths();
 
         Optional<Path> newPath = paths.stream()
-                .filter(p -> p.hasVertex(start) && (possibleSprings.contains(p.getV1()) || possibleSprings.contains(p.getV2())))
+                .filter(p -> p.hasVertex(start))
                 .min(Comparator.comparingDouble(Path::getElevation));
 
         if (newPath.isPresent()) {
@@ -133,18 +140,18 @@ public class RiverGenerator implements GeographyGenerator<River> {
 
             boolean reachedWater = tiles.stream()
                     .filter(t -> t.getVertices().contains(next))
-                    .anyMatch(t -> t.getNeighbors().stream().anyMatch(t1 -> t1.getType().getGroup() == TileGroup.WATER));
+                    .anyMatch(t -> t.getType().getGroup() == TileGroup.WATER);
 
-            boolean hasIntersection = land.getRivers().stream()
+            boolean hasIntersection = rivers.stream()
                     .filter(r -> !r.equals(river))
-                    .anyMatch(river::intersect);
+                    .anyMatch(r -> r.intersect(river));
 
             boolean isLooping = this.isLooping(river, path);
 
             if(hasIntersection || isLooping || isLowestElevation || reachedWater)
                 return;
 
-            generateRiverPath(river, land, ocean, next);
+            generateRiverPath(rivers, river, next);
         }
     }
 
@@ -182,6 +189,28 @@ public class RiverGenerator implements GeographyGenerator<River> {
         tilePaths.retainAll(river.getRiverPath());
         int numPaths = tilePaths.size();
 
-        return numPaths > 1;
+        return numPaths > 2;
+    }
+
+    /**
+     *
+     * @param rivers The list of already existing rivers
+     * @return A list with all the available springs
+     */
+    private List<Vertex> getSprings(List<River> rivers) {
+        List<Vertex> usedSprings = rivers.stream()
+                .flatMap(r -> r.getVertices().stream())
+                .distinct()
+                .toList();
+
+        List<Vertex> springs =  this.land.getTiles().stream()
+                .filter(t -> t.getType().getGroup() == TileGroup.LAND)
+                .filter(t -> t.getNeighbors().stream().noneMatch(t1 -> t1.getType().getGroup() == TileGroup.WATER))
+                .flatMap(t -> t.getVertices().stream())
+                .distinct()
+                .collect(Collectors.toList());
+
+        springs.removeAll(usedSprings);
+        return springs;
     }
 }
