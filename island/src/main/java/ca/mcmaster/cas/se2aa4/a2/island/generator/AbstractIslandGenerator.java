@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.island.generator;
 
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile;
+import ca.mcmaster.cas.se2aa4.a2.island.geography.Aquiferable;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Lake;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
@@ -9,8 +10,10 @@ import ca.mcmaster.cas.se2aa4.a2.island.neighborhood.NeighborhoodRelation;
 import ca.mcmaster.cas.se2aa4.a2.island.neighborhood.TileNeighborhood;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -46,6 +49,7 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
         this.generateElevation(this.land);
         this.generateAquifers(this.land, this.numAquifers);
         this.generateLakes(this.land, this.numLakes);
+        this.generateHumidity(this.land);
 
     }
 
@@ -85,10 +89,17 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
         }
     }
 
-    private void generateHumidity(Land land, double soilAbsorption){
+    private void generateHumidity(Land land){
 
         List<Lake> lakes = land.getLakes();
 
+        lakes.forEach(lake -> {
+            lake.getNeighbors().forEach(lake::giveHumidity);
+        });
+
+        land.getTiles().stream().filter(t -> t.getType().getGroup() != TileGroup.WATER).forEach(tile -> {
+            tile.getNeighbors().forEach(tile::giveHumidity);
+        });
 
 
     }

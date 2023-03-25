@@ -11,7 +11,6 @@ public class AbstractConfigurator implements Configurator {
 
     private final ElevationHandler elevationHandler;
     private final TileColorGenerator colorGenerator;
-
     private final HumidityHandler humidityHandler;
 
     protected AbstractConfigurator(

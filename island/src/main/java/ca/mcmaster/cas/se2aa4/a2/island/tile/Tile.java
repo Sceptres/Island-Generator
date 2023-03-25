@@ -17,6 +17,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -130,12 +131,18 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
 
     @Override
     public void putAquifer() {
-        this.aquifer = true;
+        if(!this.aquifer) {
+            this.aquifer = true;
+            this.setHumidity(this.getHumidity() + 100);
+        }
     }
 
     @Override
     public void removeAquifer() {
-        this.aquifer = false;
+        if(this.aquifer) {
+            this.aquifer = false;
+            this.setHumidity(this.getHumidity() - 100);
+        }
     }
 
     @Override
@@ -157,7 +164,9 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
 
     @Override
     public void setHumidity(float humidity) {
-        this.humidityReceiver.receiveHumidity(this.humidity, humidity);
+        this.configurator.getHumidityHandler().handleHumidity(this.humidity, this.humidityReceiver, humidity);
+        int red = (int) ( (this.getHumidity() * (1/500)) * 255);
+        this.polygon.setColor(new Color(red,0,0));
     }
 
     @Override
