@@ -14,7 +14,10 @@ import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class River extends TiledGeography {
 
@@ -153,11 +156,17 @@ public class River extends TiledGeography {
         // Linear graph so there can only be one path
         GraphPath<Vertex, DefaultEdge> graphPath = graphPaths.get(0);
 
+        boolean sameFlow = this.start.contains(riverEnd);
+
         graphPath.getEdgeList().forEach(e -> {
             Vertex v1 = this.riverGraph.getEdgeSource(e);
             Vertex v2 = this.riverGraph.getEdgeTarget(e);
             Path path = this.riverPath.stream().filter(pth -> pth.hasVertex(v1) && pth.hasVertex(v2)).findFirst().get();
-            path.addWidth(river.flow);
+
+            if(!sameFlow)
+                path.addWidth(river.flow);
+            else
+                path.setWidth(this.flow);
         });
     }
 
