@@ -40,8 +40,8 @@ public class GraphicRenderer {
         mesh.getSegments().forEach(segment -> {
             if(this.isDebug) {
                 segment.setColor(Color.BLACK);
-                segment.render(canvas);
             }
+            segment.render(canvas);
         });
 
         // Render vertices

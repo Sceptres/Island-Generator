@@ -1,8 +1,8 @@
-package ca.mcmaster.cas.se2aa4.a2.island.tile.color;
+package ca.mcmaster.cas.se2aa4.a2.island.color;
 
 import java.awt.*;
 
-public interface TileColorGenerator {
+public interface ColorGenerator {
     /**
      *
      * @return The {@link Color} belonging to this tile

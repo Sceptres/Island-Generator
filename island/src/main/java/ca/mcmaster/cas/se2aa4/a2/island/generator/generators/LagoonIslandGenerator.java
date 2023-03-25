@@ -6,15 +6,15 @@ import ca.mcmaster.cas.se2aa4.a2.island.geography.Lake;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
+import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 
 import java.util.List;
 
 public class LagoonIslandGenerator extends AbstractIslandGenerator {
-    public LagoonIslandGenerator(Mesh mesh, Shape shape,int numAquifers) {
-        super(mesh, shape, new LagoonAltimeter(), 1, numAquifers);
+    public LagoonIslandGenerator(IslandMesh mesh, Shape shape, int numAquifers, int numRivers) {
+        super(mesh, shape, new LagoonAltimeter(), 1, numAquifers, numRivers);
     }
 
     @Override

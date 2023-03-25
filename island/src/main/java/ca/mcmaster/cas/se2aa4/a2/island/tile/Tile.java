@@ -4,23 +4,25 @@ import ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.profiles.ElevationProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Aquiferable;
+import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
-import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Positionable<Double>, IElevation, Aquiferable {
+public final class Tile implements Neighborable<Tile>, Positionable<Double>, IElevation, Aquiferable {
 
     private TileType type;
     private Configurator configurator;
     private ElevationProfile elevation;
     private final Polygon polygon;
+    private final List<Path> paths;
     private final List<Tile> neighbors;
     private boolean aquifer;
 
@@ -28,22 +30,13 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
      *
      * @param polygon The {@link Polygon} to create a Tile from
      */
-    public Tile(Polygon polygon) {
+    public Tile(Polygon polygon, List<Path> paths) {
         this.polygon = polygon;
         this.neighbors = new Tiles();
         this.setType(TileType.LAND_TILE);
+        this.paths = new ArrayList<>(paths);
         this.elevation = new ElevationProfile();
         this.aquifer = false;
-    }
-
-    /**
-     *
-     * @param polygon The {@link Polygon} to create the Tile from
-     * @param type The {@link TileType} of the Tile
-     */
-    public Tile(Polygon polygon, TileType type) {
-        this(polygon);
-        this.setType(type);
     }
 
     /**
@@ -79,9 +72,20 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
         return new Double[]{this.getX(), this.getY()};
     }
 
-    @Override
-    public Polygon getConverted() {
-        return this.polygon;
+    /**
+     *
+     * @return The {@link List} of {@link Path} that belong to this tile
+     */
+    public List<Path> getPaths() {
+        return new ArrayList<>(this.paths);
+    }
+
+    /**
+     *
+     * @return The list of {@link Vertex} that belong to this tile
+     */
+    public List<Vertex> getVertices() {
+        return this.polygon.getVertices();
     }
 
     @Override
@@ -114,6 +118,7 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
     public void setElevation(double elevation) {
         ElevationHandler handler = this.configurator.getElevationHandler();
         handler.takeElevation(this.elevation, elevation);
+        this.paths.forEach(p -> p.setElevation(elevation));
     }
 
     @Override
@@ -140,7 +145,7 @@ public final class Tile implements Neighborable<Tile>, Converter<Polygon>, Posit
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, polygon, neighbors);
+        return Objects.hash(type, polygon);
     }
 
 }

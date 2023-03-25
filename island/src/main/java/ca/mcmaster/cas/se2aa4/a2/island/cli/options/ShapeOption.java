@@ -10,7 +10,7 @@ public class ShapeOption extends Option {
 
     public ShapeOption() {
         super("shp", OPTION_STR, true, DESCRIPTION);
-        super.setArgName("shape-widthxheight");
+        super.setArgName("shape");
         super.setArgs(1);
         super.setRequired(false);
     }
