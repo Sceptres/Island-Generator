@@ -6,4 +6,5 @@ target
 *.mesh
 *.iml
 *.svg
+*.DS_Store
 run
