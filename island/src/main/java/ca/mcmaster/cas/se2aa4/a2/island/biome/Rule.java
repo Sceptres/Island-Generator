@@ -60,11 +60,11 @@ public class Rule {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Rule rule)) return false;
-        return lowerHumidity == rule.lowerHumidity && upperHumidity == rule.upperHumidity && lowerTemperature == rule.lowerTemperature && upperTemperature == rule.upperTemperature && type == rule.type;
+        return lowerHumidity == rule.lowerHumidity && upperHumidity == rule.upperHumidity && lowerTemperature == rule.lowerTemperature && upperTemperature == rule.upperTemperature;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, lowerHumidity, upperHumidity, lowerTemperature, upperTemperature);
+        return Objects.hash(lowerHumidity, upperHumidity, lowerTemperature, upperTemperature);
     }
 }
