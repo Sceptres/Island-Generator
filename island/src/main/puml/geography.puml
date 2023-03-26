@@ -1,0 +1,111 @@
+@startuml
+interface ca.mcmaster.cas.se2aa4.a2.island.geography.Aquiferable {
+~ boolean hasAquifer()
+~ void putAquifer()
+~ void removeAquifer()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.geography.generator.generators.LakeGenerator {
+- Land land
++ <<Create>> LakeGenerator(Land)
++ List<Lake> generate(Random,int)
+- Lake generateLake(Tile,Random)
+- void generateLakePath(Random,Lake)
+- Tile getNextTile(Lake,Random)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.geography.Land {
+- List<Lake> lakes
+- List<River> rivers
++ <<Create>> Land()
++ void addTile(Tile)
++ void addTile(Tile,TileType)
++ void addLake(Lake)
++ List<Lake> getLakes()
++ void addRiver(River)
++ List<River> getRivers()
++ List<Path> getPaths()
++ List<Tile> getNeighbors()
+}
+abstract class ca.mcmaster.cas.se2aa4.a2.island.geography.TiledGeography {
+# TileType type
+# List<Tile> tiles
+# ElevationProfile elevation
+- Configurator configurator
+# <<Create>> TiledGeography(TileType)
++ List<Tile> getTiles()
++ void addTile(Tile)
++ void addAllTiles(List<Tile>)
++ double getElevation()
++ void setElevation(double)
++ {abstract}List<Tile> getNeighbors()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.geography.Lake {
+- HumidityProfile humidityProfile
++ <<Create>> Lake(Tile)
++ List<Tile> getNeighbors()
++ float getHumidity()
++ void setHumidity(float)
++ void giveHumidity(IHumidity)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean {
++ <<Create>> Ocean()
++ List<Tile> getNeighbors()
++ float getHumidity()
++ void setHumidity(float)
++ void giveHumidity(IHumidity)
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.geography.generator.GeographyGenerator {
+~ List<T> generate(Random,int)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.geography.generator.generators.RiverGenerator {
+- Land land
+- Ocean ocean
++ <<Create>> RiverGenerator(Land,Ocean)
++ List<River> generate(Random,int)
+- void generateRiver(List<River>,Vertex,float)
+- List<River> findRemovableRivers(List<River>)
+- void generateRiverPath(List<River>,River,Vertex)
+- boolean isAtLowest(River,Path,Vertex)
+- boolean isLooping(River,Path)
+- List<Vertex> getSprings(List<River>)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.geography.River {
+- Vertex end
+- float flow
+- List<Vertex> start
+- Set<Tile> tiles
+- Set<Path> riverPath
+- DefaultDirectedGraph<Vertex,DefaultEdge> riverGraph
+- ElevationHandler elevationHandler
+- HumidityProfile humidityProfile
++ <<Create>> River(Vertex,float)
++ List<Vertex> getStartVertices()
++ Vertex getEnd()
++ void setEnd(Vertex)
++ List<Path> getRiverPath()
++ List<Tile> getTiles()
++ void addTile(Tile)
++ void addAllTiles(List<Tile>)
++ List<Tile> getNeighbors()
++ void setElevation(double)
++ List<Vertex> getVertices()
++ void addPath(Path,Vertex,List<Tile>)
++ void merge(River)
++ boolean intersect(Vertex)
++ boolean intersect(River)
++ float getHumidity()
++ void setHumidity(float)
++ void giveHumidity(IHumidity)
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.island.geography.generator.GeographyGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.geography.generator.generators.LakeGenerator
+ca.mcmaster.cas.se2aa4.a2.island.geography.TiledGeography <|-- ca.mcmaster.cas.se2aa4.a2.island.geography.Land
+ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation <|.. ca.mcmaster.cas.se2aa4.a2.island.geography.TiledGeography
+ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity <|.. ca.mcmaster.cas.se2aa4.a2.island.geography.Lake
+ca.mcmaster.cas.se2aa4.a2.island.geography.TiledGeography <|-- ca.mcmaster.cas.se2aa4.a2.island.geography.Lake
+ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity <|.. ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean
+ca.mcmaster.cas.se2aa4.a2.island.geography.TiledGeography <|-- ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean
+ca.mcmaster.cas.se2aa4.a2.island.geography.generator.GeographyGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.geography.generator.generators.RiverGenerator
+ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity <|.. ca.mcmaster.cas.se2aa4.a2.island.geography.River
+ca.mcmaster.cas.se2aa4.a2.island.geography.TiledGeography <|-- ca.mcmaster.cas.se2aa4.a2.island.geography.River
+@enduml

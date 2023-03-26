@@ -1,0 +1,73 @@
+@startuml
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TropicalRainForestConfigurator {
++ <<Create>> TropicalRainForestConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.LandWaterConfigurator {
++ <<Create>> LandWaterConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator {
+- ElevationHandler elevationHandler
+- ColorGenerator colorGenerator
+- HumidityHandler humidityHandler
+# <<Create>> AbstractConfigurator(ColorGenerator,ElevationHandler,HumidityHandler)
++ ColorGenerator getColorGenerator()
++ ElevationHandler getElevationHandler()
++ HumidityHandler getHumidityHandler()
++ Color apply()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TropicalSeasonalForestConfigurator {
++ <<Create>> TropicalSeasonalForestConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.IceConfigurator {
++ <<Create>> IceConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.SnowConfigurator {
++ <<Create>> SnowConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TaigaConfigurator {
++ <<Create>> TaigaConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TemperateDeciduousForestConfigurator {
++ <<Create>> TemperateDeciduousForestConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TemperateGrasslandConfigurator {
++ <<Create>> TemperateGrasslandConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.SubtropicalDesertConfigurator {
++ <<Create>> SubtropicalDesertConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.OceanConfigurator {
++ <<Create>> OceanConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TemperateRainForestConfigurator {
++ <<Create>> TemperateRainForestConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.BeachConfigurator {
++ <<Create>> BeachConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.LandConfigurator {
++ <<Create>> LandConfigurator()
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator {
+~ ColorGenerator getColorGenerator()
+~ ElevationHandler getElevationHandler()
+~ HumidityHandler getHumidityHandler()
+~ Color apply()
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TropicalRainForestConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.LandWaterConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator <|.. ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TropicalSeasonalForestConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.IceConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.SnowConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TaigaConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TemperateDeciduousForestConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TemperateGrasslandConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.SubtropicalDesertConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.OceanConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.TemperateRainForestConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.BeachConfigurator
+ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.AbstractConfigurator <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.LandConfigurator
+@enduml

@@ -1,0 +1,11 @@
+@startuml
+interface ca.mcmaster.cas.se2aa4.a2.island.neighborhood.NeighborhoodRelation {
+~ void calculateNeighbors(List<Tile>)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.neighborhood.TileNeighborhood {
++ void calculateNeighbors(List<Tile>)
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.island.neighborhood.NeighborhoodRelation <|.. ca.mcmaster.cas.se2aa4.a2.island.neighborhood.TileNeighborhood
+@enduml

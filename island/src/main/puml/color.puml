@@ -1,0 +1,63 @@
+@startuml
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TropicalSeasonalForestColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TropicalRainForestColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.IceColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TemperateRainForestColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.SubtropicalDesertColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.LandColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TaigaColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.OceanColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TemperateGrasslandColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TemperateDeciduousForestColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.paths.ClearColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.paths.RiverColorGenerator {
++ Color generateColor()
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator {
+~ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.BeachColorGenerator {
++ Color generateColor()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.LandWaterColorGenerator {
++ Color generateColor()
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TropicalSeasonalForestColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TropicalRainForestColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.IceColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TemperateRainForestColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.SubtropicalDesertColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.LandColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TaigaColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.OceanColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TemperateGrasslandColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.TemperateDeciduousForestColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.paths.ClearColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.paths.RiverColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.BeachColorGenerator
+ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.color.colors.tiles.LandWaterColorGenerator
+@enduml

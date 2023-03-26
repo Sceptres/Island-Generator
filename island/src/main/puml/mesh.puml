@@ -1,0 +1,17 @@
+@startuml
+class ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh {
+- Mesh mesh
+- List<Tile> tiles
+- List<Path> paths
++ <<Create>> IslandMesh(Mesh,SoilAbsorptionProfile)
+- {static} List<Tile> createTiles(Mesh,List<Path>,SoilAbsorptionProfile)
+- {static} List<Path> createPaths(Mesh)
++ List<Path> getPaths()
++ List<Tile> getTiles()
++ int[] getDimension()
++ Mesh getConverted()
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter <|.. ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh
+@enduml

@@ -1,0 +1,96 @@
+@startuml
+class ca.mcmaster.cas.se2aa4.a2.island.cli.options.InputOption {
++ {static} String OPTION_STR
+- {static} String DESCRIPTION
++ <<Create>> InputOption()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.cli.options.SeedOption {
++ {static} String OPTION_STR
+- {static} String DESCRIPTION
++ {static} String DEFAULT_VALUE
++ <<Create>> SeedOption()
+- {static} long generateSeed()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.cli.options.AquiferOption {
++ {static} String OPTION_STR
+- {static} String DESCRIPTION
++ {static} String DEFAULT_VALUE
++ <<Create>> AquiferOption()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.cli.options.ModeOption {
++ {static} String OPTION_STR
+- {static} String DESCRIPTION
++ {static} String DEFAULT_VALUE
++ <<Create>> ModeOption()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.cli.options.OutputOption {
++ {static} String OPTION_STR
+- {static} String DESCRIPTION
++ <<Create>> OutputOption()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.cli.options.ShapeOption {
++ {static} String OPTION_STR
++ {static} String DEFAULT_VALUE
+- {static} String DESCRIPTION
++ <<Create>> ShapeOption()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.cli.options.LakesOption {
++ {static} String OPTION_STR
+- {static} String DESCRIPTION
++ {static} String DEFAULT_VALUE
++ <<Create>> LakesOption()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.cli.options.AltimeterProfileOption {
++ {static} String OPTION_STR
+- {static} String DESCRIPTION
++ {static} String DEFAULT_VALUE
++ <<Create>> AltimeterProfileOption()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.cli.IslandInputHandler {
+- {static} Map<String,Option> ISLAND_OPTIONS
++ {static} Option getIslandOption(String)
++ {static} InputHandler getInputHandler(String[])
++ {static} String getOutputFile(InputHandler)
++ {static} IslandGenerator getIslandMode(InputHandler,IslandMesh)
++ {static} String getInputMesh(InputHandler)
++ {static} int getNumLakes(InputHandler)
++ {static} int getNumAquifers(InputHandler)
++ {static} long getSeed(InputHandler)
++ {static} int getNumRivers(InputHandler)
++ {static} Shape getShapeInput(InputHandler,Vertex,double)
++ {static} AltimeterProfile getAltimeterInput(InputHandler)
++ {static} SoilAbsorptionProfile getSoilAbsorptionProfile(InputHandler)
++ {static} Biome getBiomeOption(InputHandler)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.cli.options.BiomeOption {
++ {static} String OPTION_STR
++ {static} String DEFAULT_VALUE
+- {static} String DESCRIPTION
++ <<Create>> BiomeOption()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.cli.options.RiversOption {
++ {static} String OPTION_STR
+- {static} String DESCRIPTION
++ {static} String DEFAULT_VALUE
++ <<Create>> RiversOption()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.cli.options.SoilAbsorptionProfileOption {
++ {static} String OPTION_STR
++ {static} String DEFAULT_VALUE
+- {static} String DESCRIPTION
++ <<Create>> SoilAbsorptionProfileOption()
+}
+
+
+org.apache.commons.cli.Option <|-- ca.mcmaster.cas.se2aa4.a2.island.cli.options.InputOption
+org.apache.commons.cli.Option <|-- ca.mcmaster.cas.se2aa4.a2.island.cli.options.SeedOption
+org.apache.commons.cli.Option <|-- ca.mcmaster.cas.se2aa4.a2.island.cli.options.AquiferOption
+ca.mcmaster.cas.se2aa4.a2.island.cli.options.Option <|-- ca.mcmaster.cas.se2aa4.a2.island.cli.options.ModeOption
+org.apache.commons.cli.Option <|-- ca.mcmaster.cas.se2aa4.a2.island.cli.options.OutputOption
+org.apache.commons.cli.Option <|-- ca.mcmaster.cas.se2aa4.a2.island.cli.options.ShapeOption
+org.apache.commons.cli.Option <|-- ca.mcmaster.cas.se2aa4.a2.island.cli.options.LakesOption
+org.apache.commons.cli.Option <|-- ca.mcmaster.cas.se2aa4.a2.island.cli.options.AltimeterProfileOption
+org.apache.commons.cli.Option <|-- ca.mcmaster.cas.se2aa4.a2.island.cli.options.BiomeOption
+org.apache.commons.cli.Option <|-- ca.mcmaster.cas.se2aa4.a2.island.cli.options.RiversOption
+org.apache.commons.cli.Option <|-- ca.mcmaster.cas.se2aa4.a2.island.cli.options.SoilAbsorptionProfileOption
+@enduml

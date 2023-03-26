@@ -1,0 +1,66 @@
+@startuml
+class ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.profiles.WetSoilAbsorption {
++ <<Create>> WetSoilAbsorption()
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity {
+~ float getHumidity()
+~ void setHumidity(float)
+~ void giveHumidity(IHumidity)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.humidity.profiles.HumidityProfile {
+- float humidity
++ <<Create>> HumidityProfile()
++ float getHumidity()
++ void setHumidity(float)
++ void giveHumidity(IHumidity)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.profiles.DrySoilAbsorption {
++ <<Create>> DrySoilAbsorption()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.NoHumidityHandler {
++ void handleHumidity(IHumidity,IHumidityReceiver,float)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.NormalHumidityHandler {
++ void handleHumidity(IHumidity,IHumidityReceiver,float)
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.IHumidityReceiver {
+~ void receiveHumidity(IHumidity,float)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.HumidityTransmitter {
+- float ratio
++ <<Create>> HumidityTransmitter(float)
++ float giveHumidity(IHumidity)
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.HumidityHandler {
+~ void handleHumidity(IHumidity,IHumidityReceiver,float)
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.IHumidityTransmitter {
+~ float giveHumidity(IHumidity)
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile {
+~ IHumidityReceiver getHumidityReceiver()
+~ IHumidityTransmitter getHumidityTransmitter()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.HumidityReceiver {
+- float ratio
++ <<Create>> HumidityReceiver(float)
++ void receiveHumidity(IHumidity,float)
+}
+abstract class ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.AbstractSoilAbsorption {
+- IHumidityReceiver humidityReceiver
+- IHumidityTransmitter humidityTransmitter
+# <<Create>> AbstractSoilAbsorption(IHumidityReceiver,IHumidityTransmitter)
++ IHumidityReceiver getHumidityReceiver()
++ IHumidityTransmitter getHumidityTransmitter()
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.AbstractSoilAbsorption <|-- ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.profiles.WetSoilAbsorption
+ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity <|.. ca.mcmaster.cas.se2aa4.a2.island.humidity.profiles.HumidityProfile
+ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.AbstractSoilAbsorption <|-- ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.profiles.DrySoilAbsorption
+ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.HumidityHandler <|.. ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.NoHumidityHandler
+ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.HumidityHandler <|.. ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.NormalHumidityHandler
+ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.IHumidityTransmitter <|.. ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.HumidityTransmitter
+ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.IHumidityReceiver <|.. ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.HumidityReceiver
+ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile <|.. ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.AbstractSoilAbsorption
+@enduml

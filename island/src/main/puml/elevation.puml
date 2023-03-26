@@ -1,0 +1,51 @@
+@startuml
+class ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.VolcanoAltimeter {
++ double generateElevation(Random,Shape,Positionable<Double>)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.LagoonAltimeter {
++ double generateElevation(Random,Shape,Positionable<Double>)
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation {
+~ double getElevation()
+~ void setElevation(double)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.HillyAltimeter {
++ double generateElevation(Random,Shape,Positionable<Double>)
+}
+abstract class ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.AbstractElevationHandler {
+- {static} DecimalFormat f
++ void takeElevation(IElevation,double)
+# {abstract}double calculateElevation(IElevation,double)
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile {
+~ double generateElevation(Random,Shape,Positionable<Double>)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.handlers.PathElevationHandler {
+# double calculateElevation(IElevation,double)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.handlers.NormalElevationHandler {
+# double calculateElevation(IElevation,double)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.handlers.NoElevationHandler {
+# double calculateElevation(IElevation,double)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.elevation.profiles.ElevationProfile {
+- double elevation
++ <<Create>> ElevationProfile()
++ double getElevation()
++ void setElevation(double)
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler {
+~ void takeElevation(IElevation,double)
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile <|.. ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.VolcanoAltimeter
+ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile <|.. ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.LagoonAltimeter
+ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile <|.. ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.HillyAltimeter
+ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler <|.. ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.AbstractElevationHandler
+ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.AbstractElevationHandler <|-- ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.handlers.PathElevationHandler
+ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.AbstractElevationHandler <|-- ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.handlers.NormalElevationHandler
+ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.AbstractElevationHandler <|-- ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.handlers.NoElevationHandler
+ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation <|.. ca.mcmaster.cas.se2aa4.a2.island.elevation.profiles.ElevationProfile
+@enduml

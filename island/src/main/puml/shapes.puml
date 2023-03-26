@@ -1,0 +1,36 @@
+@startuml
+class ca.mcmaster.cas.se2aa4.a2.island.geometry.AbstractShape {
+# java.awt.Shape shape
+# <<Create>> AbstractShape(java.awt.Shape)
++ boolean contains(T)
++ double getWidth()
++ double getHeight()
++ Double getX()
++ Double getY()
++ Double[] getPosition()
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape {
+~ boolean contains(T)
+~ double getWidth()
+~ double getHeight()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Star {
++ <<Create>> Star(double,double,int,Vertex)
+- {static} Shape createStar(double,double,int,Vertex)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle {
++ <<Create>> Circle(double,Vertex)
+- {static} Shape createCircle(double,Vertex)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Oval {
++ <<Create>> Oval(double,double,Vertex)
+- {static} Shape createOval(double,double,Vertex)
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape <|.. ca.mcmaster.cas.se2aa4.a2.island.geometry.AbstractShape
+ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable <|-- ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape
+ca.mcmaster.cas.se2aa4.a2.island.geometry.AbstractShape <|-- ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Star
+ca.mcmaster.cas.se2aa4.a2.island.geometry.AbstractShape <|-- ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle
+ca.mcmaster.cas.se2aa4.a2.island.geometry.AbstractShape <|-- ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Oval
+@enduml

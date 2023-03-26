@@ -1,0 +1,84 @@
+@startuml
+class ca.mcmaster.cas.se2aa4.a2.island.tile.Tile {
+- TileType type
+- boolean aquifer
+- Configurator configurator
+- SoilAbsorptionProfile soilAbsorptionProfile
+- HumidityProfile humidity
+- ElevationProfile elevation
+- Polygon polygon
+- List<Path> paths
+- List<Tile> neighbors
++ <<Create>> Tile(Polygon,List<Path>,SoilAbsorptionProfile)
++ <<Create>> Tile(Polygon,List<Path>)
++ void setType(TileType)
++ TileType getType()
++ Double getX()
++ Double getY()
++ Double[] getPosition()
++ List<Path> getPaths()
++ List<Vertex> getVertices()
++ boolean isNeighbor(Tile)
++ List<Tile> getNeighbors()
++ void addNeighbor(Tile)
++ void addNeighbors(List<Tile>)
++ double getElevation()
++ void setElevation(double)
++ boolean hasAquifer()
++ void putAquifer()
++ void removeAquifer()
++ float getHumidity()
++ void setHumidity(float)
++ void giveHumidity(IHumidity)
++ boolean equals(Object)
++ int hashCode()
+}
+enum ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType {
++  TROPICAL_SEASONAL_FOREST
++  TROPICAL_RAIN_FOREST
++  TEMPERATE_RAIN_FOREST
++  TEMPERATE_DECIDUOUS_FOREST
++  TEMPERATE_GRASSLAND
++  TAIGA
++  SUBTROPICAL_DESERT
++  BEACH
++  ICE
++  SNOW
++  LAND
++  LAND_WATER
++  OCEAN
+- TileGroup group
+- Configurator configurator
+~ <<Create>> TileType(TileGroup,Configurator)
++ TileGroup getGroup()
++ Configurator getConfigurator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.tile.TileColors {
++ {static} Color OCEAN
++ {static} Color SUBTROPICAL_DESERT
++ {static} Color TROPICAL_SEASONAL_FOREST
++ {static} Color TROPICAL_RAIN_FOREST
++ {static} Color TEMPERATE_RAIN_FOREST
++ {static} Color TEMPERATE_DECIDUOUS_FOREST
++ {static} Color TEMPERATE_GRASSLAND
++ {static} Color TAIGA
++ {static} Color BEACH
++ {static} Color ICE_COLOR
++ {static} Color REGULAR
++ {static} Color LAND_WATER
+}
+enum ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup {
++  WATER
++  LAND
++  NONE
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.mesh.adt.datastructures.UniqueList <|-- ca.mcmaster.cas.se2aa4.a2.island.tile.Tiles
+ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable <|.. ca.mcmaster.cas.se2aa4.a2.island.tile.Tile
+ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable <|.. ca.mcmaster.cas.se2aa4.a2.island.tile.Tile
+ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation <|.. ca.mcmaster.cas.se2aa4.a2.island.tile.Tile
+ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity <|.. ca.mcmaster.cas.se2aa4.a2.island.tile.Tile
+ca.mcmaster.cas.se2aa4.a2.island.geography.Aquiferable <|.. ca.mcmaster.cas.se2aa4.a2.island.tile.Tile
+ca.mcmaster.cas.se2aa4.a2.island.tile.Tile *--> "1" ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType
+@enduml

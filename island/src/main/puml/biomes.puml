@@ -1,0 +1,39 @@
+@startuml
+class ca.mcmaster.cas.se2aa4.a2.island.biome.Rule {
+- TileType type
+- int lowerHumidity
+- int upperHumidity
+- int lowerTemperature
+- int upperTemperature
+- BiFunction<Float,Double,Boolean> ruleFunction
++ <<Create>> Rule(int,int,int,int,TileType)
++ TileType getType()
++ boolean matches(float,double)
++ String toString()
++ boolean equals(Object)
++ int hashCode()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.biome.biomes.TropicalBiome {
++ <<Create>> TropicalBiome()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.biome.biomes.TemperateBiome {
++ <<Create>> TemperateBiome()
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.biome.Biome {
+~ void takeTile(Tile)
+}
+abstract class ca.mcmaster.cas.se2aa4.a2.island.biome.AbstractBiome {
+- List<Rule> biomeRules
+# <<Create>> AbstractBiome()
+# void addRule(Rule)
++ void takeTile(Tile)
+- boolean checkHumidity(float)
+- boolean checkTemperature(double)
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.island.biome.AbstractBiome <|-- ca.mcmaster.cas.se2aa4.a2.island.biome.biomes.TropicalBiome
+ca.mcmaster.cas.se2aa4.a2.island.biome.AbstractBiome <|-- ca.mcmaster.cas.se2aa4.a2.island.biome.biomes.TemperateBiome
+ca.mcmaster.cas.se2aa4.a2.island.biome.Biome <|.. ca.mcmaster.cas.se2aa4.a2.island.biome.AbstractBiome
+ca.mcmaster.cas.se2aa4.a2.island.biome.AbstractBiome *--> "0..n\n{ordered}" ca.mcmaster.cas.se2aa4.a2.island.biome.Rule
+@enduml

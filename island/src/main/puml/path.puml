@@ -1,0 +1,38 @@
+@startuml
+enum ca.mcmaster.cas.se2aa4.a2.island.path.type.PathType {
++  RIVER
++  NONE
+- ColorGenerator colorGenerator
+~ <<Create>> PathType(ColorGenerator)
++ ColorGenerator getColorGenerator()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.path.Path {
+- PathType type
+- Segment segment
+- ElevationProfile elevationProfile
+- ElevationHandler elevationHandler
++ <<Create>> Path(Segment)
++ Vertex getV1()
++ Vertex getV2()
++ float getWidth()
++ void setWidth(float)
++ void addWidth(float)
++ PathType getType()
++ void setType(PathType)
++ double getElevation()
++ void setElevation(double)
++ boolean isConnected(Path)
++ boolean isConnected(Path,Vertex)
++ boolean hasVertex(Vertex)
++ boolean equals(Object)
++ int hashCode()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.path.PathColor {
++ {static} Color RIVER_COLOR
++ {static} Color TRANSPARENT_COLOR
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation <|.. ca.mcmaster.cas.se2aa4.a2.island.path.Path
+ca.mcmaster.cas.se2aa4.a2.island.path.Path *--> "1" ca.mcmaster.cas.se2aa4.a2.island.path.type.PathType
+@enduml

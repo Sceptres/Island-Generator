@@ -1,0 +1,44 @@
+@startuml
+abstract class ca.mcmaster.cas.se2aa4.a2.island.generator.AbstractIslandGenerator {
+- Land land
+- Ocean ocean
+- Random rand
+- long seed
+- int numLakes
+- int numRivers
+- int numAquifers
+- Shape shape
+- Biome biome
+- AltimeterProfile altimeterProfile
+# IslandMesh mesh
+# <<Create>> AbstractIslandGenerator(IslandMesh,Shape,AltimeterProfile,Biome,long,int,int,int)
++ long getSeed()
++ void generate()
+# {abstract}void generateIsland(List<Tile>,Ocean,Land,Shape)
+# {abstract}void generateLakes(Random,Land,int)
+- void generateRivers(Random,Land,Ocean,int)
+- void generateElevation(Random,Land)
+- void generateAquifers(Random,Land,int)
+- void generateHumidity(Land)
+- void biomeHandling(Land,Biome)
+}
+class ca.mcmaster.cas.se2aa4.a2.island.generator.generators.LagoonIslandGenerator {
++ <<Create>> LagoonIslandGenerator(IslandMesh,Shape,Biome,long,int,int)
+# void generateIsland(List<Tile>,Ocean,Land,Shape)
+# void generateLakes(Random,Land,int)
+}
+interface ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator {
+~ long getSeed()
+~ void generate()
+}
+class ca.mcmaster.cas.se2aa4.a2.island.generator.generators.RandomIslandGenerator {
++ <<Create>> RandomIslandGenerator(IslandMesh,Shape,Biome,AltimeterProfile,long,int,int,int)
+# void generateIsland(List<Tile>,Ocean,Land,Shape)
+# void generateLakes(Random,Land,int)
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator <|.. ca.mcmaster.cas.se2aa4.a2.island.generator.AbstractIslandGenerator
+ca.mcmaster.cas.se2aa4.a2.island.generator.AbstractIslandGenerator <|-- ca.mcmaster.cas.se2aa4.a2.island.generator.generators.LagoonIslandGenerator
+ca.mcmaster.cas.se2aa4.a2.island.generator.AbstractIslandGenerator <|-- ca.mcmaster.cas.se2aa4.a2.island.generator.generators.RandomIslandGenerator
+@enduml
