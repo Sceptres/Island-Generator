@@ -1,6 +1,5 @@
 package ca.mcmaster.cas.se2aa4.a2.island.geography.generator.generators;
 
-import ca.mcmaster.cas.se2aa4.a2.island.geography.Lake;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.River;
@@ -38,28 +37,6 @@ public class RiverGenerator implements GeographyGenerator<River> {
 
         List<River> removableRivers = this.findRemovableRivers(generatedRivers);
         generatedRivers.removeAll(removableRivers);
-
-        generatedRivers.forEach(river -> {
-            Vertex endVertex = river.getEnd();
-            List<Path> riverPaths = river.getRiverPath();
-
-            Path lastPath = riverPaths.stream().filter(p -> p.hasVertex(endVertex)).findFirst().get();
-
-            Optional<Tile> waterTile = this.land.getTiles().stream()
-                    .filter(t -> {
-                        boolean hasEndVertex = t.getVertices().contains(endVertex);
-                        boolean noLastPath = !t.getPaths().contains(lastPath);
-                        boolean isLand = t.getType().getGroup() == TileGroup.LAND;
-                        return hasEndVertex && noLastPath && isLand;
-                    })
-                    .findFirst();
-            if (waterTile.isPresent()) {
-                Tile tile = waterTile.get();
-                Lake lake = new Lake(tile);
-                lake.setElevation(lastPath.getElevation());
-                this.land.addLake(lake);
-            }
-        });
 
         return generatedRivers;
     }
