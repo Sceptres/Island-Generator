@@ -18,7 +18,6 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -56,7 +55,7 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
     }
 
     public Tile(Polygon polygon, List<Path> paths) {
-        this(polygon, paths, new HumidityReceiver(0.8f), new HumidityTransmitter(0.2f));
+        this(polygon, paths, new HumidityReceiver(0.85f), new HumidityTransmitter(0.2f));
     }
 
     /**
@@ -150,7 +149,7 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
     public void putAquifer() {
         if(!this.aquifer) {
             this.aquifer = true;
-            this.setHumidity(this.getHumidity() + 100);
+            this.setHumidity(this.getHumidity() + 500);
         }
     }
 
@@ -158,20 +157,8 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
     public void removeAquifer() {
         if(this.aquifer) {
             this.aquifer = false;
-            this.setHumidity(this.getHumidity() - 100);
+            this.setHumidity(this.getHumidity() - 500);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Tile tile)) return false;
-        return type == tile.type && Objects.equals(polygon, tile.polygon) && Objects.equals(neighbors, tile.neighbors);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(type, polygon);
     }
 
     @Override
@@ -182,13 +169,26 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
     @Override
     public void setHumidity(float humidity) {
         this.configurator.getHumidityHandler().handleHumidity(this.humidity, this.humidityReceiver, humidity);
-        int red = (int) ( (this.getHumidity() * (1/500)) * 255);
-        this.polygon.setColor(new Color(red,0,0));
     }
 
     @Override
     public void giveHumidity(IHumidity h) {
-        float humidity = this.humidityTransmitter.giveHumidity(this);
-        h.setHumidity(humidity);
+        if(!this.equals(h)) {
+            float humidity = this.humidityTransmitter.giveHumidity(this);
+            float oldHumidity = h.getHumidity();
+            h.setHumidity(oldHumidity + humidity);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tile tile)) return false;
+        return type == tile.type && Objects.equals(polygon, tile.polygon);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, polygon);
     }
 }
