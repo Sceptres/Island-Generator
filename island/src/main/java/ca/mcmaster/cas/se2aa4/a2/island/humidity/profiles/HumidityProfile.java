@@ -6,6 +6,10 @@ public class HumidityProfile implements IHumidity {
 
     private float humidity;
 
+    public HumidityProfile() {
+        this.humidity = 0;
+    }
+
 
     @Override
     public float getHumidity() {
