@@ -17,7 +17,7 @@ public class SeedOption extends Option {
     }
 
     public SeedOption() {
-        super(OPTION_STR.substring(0, 1), OPTION_STR, true, DESCRIPTION);
+        super("sed", OPTION_STR, true, DESCRIPTION);
         super.setRequired(false);
         super.setArgs(1);
         super.setArgName("seed");
