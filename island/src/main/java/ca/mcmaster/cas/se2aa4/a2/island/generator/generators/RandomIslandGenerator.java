@@ -11,6 +11,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
 
 import java.util.List;
+import java.util.Random;
 
 public class RandomIslandGenerator extends AbstractIslandGenerator {
 
@@ -18,11 +19,12 @@ public class RandomIslandGenerator extends AbstractIslandGenerator {
             IslandMesh mesh,
             Shape shape,
             AltimeterProfile profile,
+            long seed,
             int numLakes,
             int numAquifers,
             int numRivers
     ) {
-        super(mesh, shape, profile, numLakes, numAquifers, numRivers);
+        super(mesh, shape, profile, seed, numLakes, numAquifers, numRivers);
     }
 
     @Override
@@ -35,9 +37,9 @@ public class RandomIslandGenerator extends AbstractIslandGenerator {
     }
 
     @Override
-    protected void generateLakes(Land land, int numLakes) {
+    protected void generateLakes(Random rand, Land land, int numLakes) {
         LakeGenerator generator = new LakeGenerator(land);
-        List<Lake> generatedLakes = generator.generate(numLakes);
+        List<Lake> generatedLakes = generator.generate(rand, numLakes);
         generatedLakes.forEach(land::addLake);
     }
 }
