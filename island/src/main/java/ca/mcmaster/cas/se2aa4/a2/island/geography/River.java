@@ -45,7 +45,7 @@ public class River extends TiledGeography implements IHumidity {
         this.elevationHandler = new NoElevationHandler();
         this.humidityProfile = new HumidityProfile();
 
-        this.humidityProfile.setHumidity(500);
+        this.humidityProfile.setHumidity(250);
     }
 
     /**

@@ -6,8 +6,15 @@ import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.*;
 
 public enum TileType {
     TROPICAL_SEASONAL_FOREST(TileGroup.LAND, new TropicalSeasonalForestConfigurator()),
+    TROPICAL_RAIN_FOREST(TileGroup.LAND, new TropicalRainForestConfigurator()),
+    TEMPERATE_RAIN_FOREST(TileGroup.LAND, new TemperateRainForestConfigurator()),
+    TEMPERATE_DECIDUOUS_FOREST(TileGroup.LAND, new TemperateDeciduousForestConfigurator()),
+    TEMPERATE_GRASSLAND(TileGroup.LAND, new TemperateGrasslandConfigurator()),
+    TAIGA(TileGroup.LAND, new TaigaConfigurator()),
     SUBTROPICAL_DESERT(TileGroup.LAND, new SubtropicalDesertConfigurator()),
+    BEACH(TileGroup.LAND, new BeachConfigurator()),
     ICE(TileGroup.LAND, new IceConfigurator()),
+    SNOW(TileGroup.LAND, new SnowConfigurator()),
     LAND(TileGroup.LAND, new LandConfigurator()),
     LAND_WATER(TileGroup.WATER, new LandWaterConfigurator()),
     OCEAN(TileGroup.WATER, new OceanConfigurator());

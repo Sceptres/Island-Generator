@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island;
 
+import ca.mcmaster.cas.se2aa4.a2.island.biome.Biome;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.IslandInputHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.ModeOption;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile;
@@ -282,6 +283,30 @@ public class InputHandlingTest {
             handler.set(IslandInputHandler.getInputHandler(input));
             IslandInputHandler.getSoilAbsorptionProfile(handler.get());
             assertEquals("Invalid soil absorption profile!", outContent.toString());
+        });
+    }
+
+    @Test
+    public void biomeOptionTest(){
+        input[4] = "--biome";
+        input[5] = "tropical";
+
+        AtomicReference<InputHandler> handler = new AtomicReference<>();
+
+        assertDoesNotThrow(() -> {
+            Biome biome;
+
+            handler.set(IslandInputHandler.getInputHandler(input));
+            biome = IslandInputHandler.getBiomeOption(handler.get());
+            assertInstanceOf(Biome.class, biome);
+
+        });
+
+        assertThrows(Exception.class,() -> {
+            input[5] = "wrong input";
+            handler.set(IslandInputHandler.getInputHandler(input));
+            IslandInputHandler.getBiomeOption(handler.get());
+            assertEquals("Invalid biome option!", outContent.toString());
         });
     }
 }

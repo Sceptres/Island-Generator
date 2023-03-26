@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island.generator;
 
+import ca.mcmaster.cas.se2aa4.a2.island.biome.Biome;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
@@ -23,6 +24,7 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
     private final int numRivers;
     private final int numAquifers;
     private final Shape shape;
+    private final Biome biome;
     private final AltimeterProfile altimeterProfile;
     protected final IslandMesh mesh;
 
@@ -30,6 +32,7 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
             IslandMesh mesh,
             Shape shape,
             AltimeterProfile altimeterProfile,
+            Biome biome,
             long seed,
             int numLakes,
             int numAquifers,
@@ -41,6 +44,7 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
         this.rand = new Random(seed);
         this.mesh = mesh;
         this.shape = shape;
+        this.biome = biome;
         this.altimeterProfile = altimeterProfile;
         this.numLakes = numLakes;
         this.numRivers = numRivers;
@@ -62,6 +66,7 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
         this.generateLakes(this.rand, this.land, this.numLakes);
         this.generateRivers(this.rand, this.land, this.ocean, this.numRivers);
         this.generateHumidity(this.land);
+        this.biomeHandling(this.land, this.biome);
     }
 
     /**
@@ -139,5 +144,14 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
 
         // Add (its really remove) humidity from ocean
         ocean.getNeighbors().forEach(ocean::giveHumidity);
+    }
+
+    /**
+     *
+     * @param land The {@link Land} that the {@link Biome} will act upon
+     * @param biome The {@link Biome} of the island
+     */
+    private void biomeHandling(Land land, Biome biome) {
+        land.getTiles().forEach(biome::takeTile);
     }
 }

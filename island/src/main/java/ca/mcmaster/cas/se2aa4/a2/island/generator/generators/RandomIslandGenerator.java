@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island.generator.generators;
 
+import ca.mcmaster.cas.se2aa4.a2.island.biome.Biome;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.AbstractIslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Lake;
@@ -18,13 +19,14 @@ public class RandomIslandGenerator extends AbstractIslandGenerator {
     public RandomIslandGenerator(
             IslandMesh mesh,
             Shape shape,
+            Biome biome,
             AltimeterProfile profile,
             long seed,
             int numLakes,
             int numAquifers,
             int numRivers
     ) {
-        super(mesh, shape, profile, seed, numLakes, numAquifers, numRivers);
+        super(mesh, shape, profile, biome, seed, numLakes, numAquifers, numRivers);
     }
 
     @Override
