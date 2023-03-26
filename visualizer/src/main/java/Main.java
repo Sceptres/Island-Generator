@@ -4,7 +4,6 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer;
-import ca.mcmaster.cas.se2aa4.a2.visualizer.MeshDump;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.SVGCanvas;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.cli.VisualizerInputHandler;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.cli.options.DebugOption;
@@ -40,9 +39,6 @@ public class Main {
             renderer.render(mesh, canvas);
             // Storing the result in an SVG file
             SVGCanvas.write(canvas, output);
-            // Dump the mesh to stdout
-            MeshDump dumper = new MeshDump();
-            dumper.dump(aMesh);
         } catch(IllegalInputException e) {
             System.exit(1);
         }
