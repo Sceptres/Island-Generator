@@ -33,7 +33,8 @@ public class IslandInputHandler {
             LakesOption.OPTION_STR, new LakesOption(),
             AltimeterProfileOption.OPTION_STR, new AltimeterProfileOption(),
             AquiferOption.OPTION_STR, new AquiferOption(),
-            RiversOption.OPTION_STR, new RiversOption()
+            RiversOption.OPTION_STR, new RiversOption(),
+            SeedOption.OPTION_STR, new SeedOption()
 
     );
 
@@ -57,6 +58,7 @@ public class IslandInputHandler {
     public static InputHandler getInputHandler(String[] args) throws IllegalInputException {
         return new InputHandler(args, ISLAND_OPTIONS);
     }
+
 
     /**
      *
@@ -176,6 +178,31 @@ public class IslandInputHandler {
         }
 
         return numAquifers;
+    }
+
+    /**
+     *
+     * @param input The {@link InputHandler} to get the seed input from
+     * @return The seed by the user
+     * @throws IllegalInputException when input is not a number
+     */
+    public static long getSeed(InputHandler input) throws IllegalInputException {
+        String value = input.getOptionValue(
+                IslandInputHandler.getIslandOption(SeedOption.OPTION_STR),
+                SeedOption.DEFAULT_VALUE
+        );
+
+        long seed = -1;
+
+        try {
+            seed = Long.parseLong(value);
+        } catch(NumberFormatException e) {
+            String message = String.format("Invalid seed %s!!", value);
+            input.printHelp(message);
+        }
+
+        return seed;
+
     }
 
     /**
