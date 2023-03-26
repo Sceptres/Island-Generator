@@ -2,6 +2,8 @@ package ca.mcmaster.cas.se2aa4.a2.island.geography;
 
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.handlers.NoElevationHandler;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.profiles.HumidityProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
 import ca.mcmaster.cas.se2aa4.a2.island.path.type.PathType;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
@@ -19,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class River extends TiledGeography {
+public class River extends TiledGeography implements IHumidity {
 
     private Vertex end;
     private final float flow;
@@ -27,7 +29,8 @@ public class River extends TiledGeography {
     private final Set<Tile> tiles;
     private final Set<Path> riverPath;
     private final DefaultDirectedGraph<Vertex, DefaultEdge> riverGraph;
-    private final ElevationHandler handler;
+    private final ElevationHandler elevationHandler;
+    private final HumidityProfile humidityProfile;
 
     public River(Vertex start, float flow){
         super(TileType.LAND_WATER_TILE);
@@ -39,7 +42,10 @@ public class River extends TiledGeography {
         this.tiles = new HashSet<>();
         this.riverPath = new HashSet<>();
         this.riverGraph = new DefaultDirectedGraph<>(DefaultEdge.class);
-        this.handler = new NoElevationHandler();
+        this.elevationHandler = new NoElevationHandler();
+        this.humidityProfile = new HumidityProfile();
+
+        this.humidityProfile.setHumidity(500);
     }
 
     /**
@@ -96,7 +102,7 @@ public class River extends TiledGeography {
 
     @Override
     public void setElevation(double elevation) {
-        this.handler.takeElevation(super.elevation, elevation);
+        this.elevationHandler.takeElevation(super.elevation, elevation);
     }
 
     /**
@@ -178,4 +184,18 @@ public class River extends TiledGeography {
         return this.intersect(river.end);
     }
 
+    @Override
+    public float getHumidity() {
+        return this.humidityProfile.getHumidity();
+    }
+
+    @Override
+    public void setHumidity(float humidity) {}
+
+    @Override
+    public void giveHumidity(IHumidity h) {
+        float riverHumidity = this.getHumidity();
+        float oldHumidity = h.getHumidity();
+        h.setHumidity(oldHumidity+riverHumidity);
+    }
 }

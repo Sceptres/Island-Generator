@@ -8,7 +8,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import java.io.IOException;
 
 public class MeshReader {
-    private final IslandMesh mesh;
+    private final Mesh mesh;
 
     /**
      *
@@ -19,15 +19,14 @@ public class MeshReader {
         MeshFactory factory = new MeshFactory();
 
         Structs.Mesh mesh = factory.read(filename);
-        Mesh adtMesh = new Mesh(mesh);
-        this.mesh = new IslandMesh(adtMesh);
+        this.mesh = new Mesh(mesh);
     }
 
     /**
      *
      * @return {@link MeshReader#mesh} getter
      */
-    public IslandMesh getMesh() {
+    public Mesh getMesh() {
         return this.mesh;
     }
 }

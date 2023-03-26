@@ -4,39 +4,55 @@ import ca.mcmaster.cas.se2aa4.a2.island.elevation.IElevation;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.profiles.ElevationProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Aquiferable;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.profiles.HumidityProfile;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.profiles.WetSoilAbsorption;
 import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Tile implements Neighborable<Tile>, Positionable<Double>, IElevation, Aquiferable {
+public final class Tile implements Neighborable<Tile>, Positionable<Double>, IElevation, IHumidity, Aquiferable {
 
     private TileType type;
+    private boolean aquifer;
     private Configurator configurator;
-    private ElevationProfile elevation;
+    private final SoilAbsorptionProfile soilAbsorptionProfile;
+    private final HumidityProfile humidity;
+    private final ElevationProfile elevation;
     private final Polygon polygon;
     private final List<Path> paths;
     private final List<Tile> neighbors;
-    private boolean aquifer;
 
     /**
      *
-     * @param polygon The {@link Polygon} to create a Tile from
+     * @param polygon The {@link Polygon} that this tile represents
+     * @param paths The list {@link Path} belonging to this tile
+     * @param soilAbsorptionProfile The {@link SoilAbsorptionProfile} of this tile
      */
-    public Tile(Polygon polygon, List<Path> paths) {
+    public Tile(Polygon polygon, List<Path> paths, SoilAbsorptionProfile soilAbsorptionProfile) {
         this.polygon = polygon;
         this.neighbors = new Tiles();
-        this.setType(TileType.LAND_TILE);
         this.paths = new ArrayList<>(paths);
+        this.setType(TileType.LAND_TILE);
+        this.soilAbsorptionProfile = soilAbsorptionProfile;
+        this.humidity = new HumidityProfile();
         this.elevation = new ElevationProfile();
         this.aquifer = false;
+    }
+
+    public Tile(Polygon polygon, List<Path> paths) {
+        this(polygon, paths, new WetSoilAbsorption());
     }
 
     /**
@@ -128,24 +144,52 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
 
     @Override
     public void putAquifer() {
-        this.aquifer = true;
+        if(!this.aquifer) {
+            this.aquifer = true;
+            this.setHumidity(this.getHumidity() + 500);
+        }
     }
 
     @Override
     public void removeAquifer() {
-        this.aquifer = false;
+        if(this.aquifer) {
+            this.aquifer = false;
+            this.setHumidity(this.getHumidity() - 500);
+        }
+    }
+
+    @Override
+    public float getHumidity() {
+        return this.humidity.getHumidity();
+    }
+
+    @Override
+    public void setHumidity(float humidity) {
+        this.configurator.getHumidityHandler().handleHumidity(this.humidity, this.soilAbsorptionProfile.getHumidityReceiver(), humidity);
+        if(this.type.getGroup() == TileGroup.LAND) {
+            int green = (int) ((this.getHumidity()/500) * 255);
+            this.polygon.setColor(new Color(0, green, 0));
+        }
+    }
+
+    @Override
+    public void giveHumidity(IHumidity h) {
+        if(!this.equals(h)) {
+            float humidity = this.soilAbsorptionProfile.getHumidityTransmitter().giveHumidity(this);
+            float oldHumidity = h.getHumidity();
+            h.setHumidity(oldHumidity + humidity);
+        }
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Tile tile)) return false;
-        return type == tile.type && Objects.equals(polygon, tile.polygon) && Objects.equals(neighbors, tile.neighbors);
+        return type == tile.type && Objects.equals(polygon, tile.polygon);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(type, polygon);
     }
-
 }

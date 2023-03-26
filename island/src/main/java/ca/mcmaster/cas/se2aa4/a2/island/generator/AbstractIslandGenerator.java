@@ -8,6 +8,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.geography.generator.generators.RiverGene
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
 
 import java.util.List;
 import java.util.Random;
@@ -50,7 +51,7 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
         this.generateAquifers(this.land, this.numAquifers);
         this.generateLakes(this.land, this.numLakes);
         this.generateRivers(this.land, this.ocean, this.numRivers);
-
+        this.generateHumidity(this.land);
     }
 
     /**
@@ -89,6 +90,11 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
         });
     }
 
+    /**
+     *
+     * @param land The {@link Land} to generate aquifers for
+     * @param numAquifers The number of aquifers to generate
+     */
     private void generateAquifers(Land land, int numAquifers) {
         Random random = new Random();
 
@@ -101,5 +107,29 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
 
             tiles = tiles.stream().filter(t -> !t.hasAquifer()).toList();
         }
+    }
+
+    /**
+     *
+     * @param land The {@link Land} to generate humidity for
+     */
+    private void generateHumidity(Land land){
+        // Add humidity from the lakes
+        land.getLakes().forEach(lake -> {
+            lake.getNeighbors().forEach(lake::giveHumidity);
+        });
+
+        // Add humidity from the rivers
+        land.getRivers().forEach(r -> {
+            r.getNeighbors().forEach(r::giveHumidity);
+        });
+
+        // Soil absorption (tiles spread humidity amongst themselves)
+        land.getTiles().stream().filter(t -> t.getType().getGroup() != TileGroup.WATER).forEach(tile -> {
+            tile.getNeighbors().forEach(tile::giveHumidity);
+        });
+
+        // Add (its really remove) humidity from ocean
+        ocean.getNeighbors().forEach(ocean::giveHumidity);
     }
 }

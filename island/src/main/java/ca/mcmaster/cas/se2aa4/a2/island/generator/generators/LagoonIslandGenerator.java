@@ -34,7 +34,7 @@ public class LagoonIslandGenerator extends AbstractIslandGenerator {
         List<Tile> mainLandTiles = land.getTiles();
         List<Tile> lakeTiles = mainLandTiles.stream().filter(t -> t.getElevation() < 0.2).toList();
         Lake lake = new Lake(lakeTiles.get(0));
-        lake.addAllTiles(lakeTiles.subList(0, lakeTiles.size()));
+        lake.addAllTiles(lakeTiles.subList(1, lakeTiles.size()));
         lake.setElevation(0.2);
         land.addLake(lake);
 

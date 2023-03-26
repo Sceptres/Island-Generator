@@ -13,7 +13,7 @@ public class MeshWriter {
      * @param filename The file to write the mesh to
      * @throws IOException If there was an issue write to the disk
      */
-    public void write(IslandMesh mesh, String filename) throws IOException {
+    public void write(Mesh mesh, String filename) throws IOException {
         MeshFactory factory = new MeshFactory();
         factory.write(mesh.getConverted(), filename);
     }
