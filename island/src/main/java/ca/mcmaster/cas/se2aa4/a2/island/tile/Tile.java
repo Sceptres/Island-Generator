@@ -166,10 +166,6 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
     @Override
     public void setHumidity(float humidity) {
         this.configurator.getHumidityHandler().handleHumidity(this.humidity, this.soilAbsorptionProfile.getHumidityReceiver(), humidity);
-        if(this.type.getGroup() == TileGroup.LAND) {
-            int green = (int) ((this.getHumidity()/500) * 255);
-            this.polygon.setColor(new Color(0, green, 0));
-        }
     }
 
     @Override
