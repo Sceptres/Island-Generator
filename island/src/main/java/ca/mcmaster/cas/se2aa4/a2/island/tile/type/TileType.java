@@ -9,6 +9,7 @@ public enum TileType {
     TROPICAL_RAIN_FOREST(TileGroup.LAND, new TropicalRainForestConfigurator()),
     TEMPERATE_RAIN_FOREST(TileGroup.LAND, new TemperateRainForestConfigurator()),
     TEMPERATE_DECIDUOUS_FOREST(TileGroup.LAND, new TemperateDeciduousForestConfigurator()),
+    TEMPERATE_GRASSLAND(TileGroup.LAND, new TemperateGrasslandConfigurator()),
     SUBTROPICAL_DESERT(TileGroup.LAND, new SubtropicalDesertConfigurator()),
     BEACH(TileGroup.LAND, new BeachConfigurator()),
     ICE(TileGroup.LAND, new IceConfigurator()),
