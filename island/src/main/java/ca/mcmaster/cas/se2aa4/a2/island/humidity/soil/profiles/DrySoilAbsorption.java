@@ -6,6 +6,6 @@ import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.AbstractSoilAbsorption;
 
 public class DrySoilAbsorption extends AbstractSoilAbsorption {
     public DrySoilAbsorption() {
-        super(new HumidityReceiver(0.5f), new HumidityTransmitter(0.85f));
+        super(new HumidityReceiver(0.35f), new HumidityTransmitter(0.85f));
     }
 }
