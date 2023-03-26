@@ -1,5 +1,6 @@
 import ca.mcmaster.cas.se2aa4.a2.island.cli.IslandInputHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.io.MeshReader;
 import ca.mcmaster.cas.se2aa4.a2.island.io.MeshWriter;
 import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
@@ -15,15 +16,16 @@ public class Main {
 
             String input = IslandInputHandler.getInputMesh(handler);
             String output = IslandInputHandler.getOutputFile(handler);
+            SoilAbsorptionProfile soilAbsorptionProfile = IslandInputHandler.getSoilAbsorptionProfile(handler);
 
             MeshReader meshReader = new MeshReader(input);
-            IslandMesh mesh = meshReader.getMesh();
+            IslandMesh mesh = new IslandMesh(meshReader.getMesh(), soilAbsorptionProfile);
 
             IslandGenerator generator = IslandInputHandler.getIslandMode(handler, mesh);
             generator.generate();
 
             MeshWriter writer = new MeshWriter();
-            writer.write(mesh, output);
+            writer.write(mesh.getConverted(), output);
         } catch(IllegalInputException e) {
             System.exit(1);
         }

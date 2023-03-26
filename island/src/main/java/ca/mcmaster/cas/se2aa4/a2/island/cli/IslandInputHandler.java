@@ -12,6 +12,9 @@ import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Oval;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Star;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.profiles.DrySoilAbsorption;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.profiles.WetSoilAbsorption;
 import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
@@ -33,7 +36,8 @@ public class IslandInputHandler {
             LakesOption.OPTION_STR, new LakesOption(),
             AltimeterProfileOption.OPTION_STR, new AltimeterProfileOption(),
             AquiferOption.OPTION_STR, new AquiferOption(),
-            RiversOption.OPTION_STR, new RiversOption()
+            RiversOption.OPTION_STR, new RiversOption(),
+            SoilAbsorptionProfileOption.OPTION_STR, new SoilAbsorptionProfileOption()
 
     );
 
@@ -53,6 +57,7 @@ public class IslandInputHandler {
      *
      * @param args The arguments passed in through the CMD
      * @return The input handler that has parsed these arguments
+     * @throws IllegalInputException if the input is inappropriate
      */
     public static InputHandler getInputHandler(String[] args) throws IllegalInputException {
         return new InputHandler(args, ISLAND_OPTIONS);
@@ -60,8 +65,9 @@ public class IslandInputHandler {
 
     /**
      *
-     * @param handler The {@link InputHandler} to extract the output file from
+     * @param handler The {@link InputHandler} to extract the output file from the user's input
      * @return The name of the file to export to
+     * @throws IllegalInputException if the input is inappropriate
      */
     public static String getOutputFile(InputHandler handler) throws IllegalInputException {
         String file = handler.getOptionValue(IslandInputHandler.getIslandOption(OutputOption.OPTION_STR));
@@ -74,9 +80,10 @@ public class IslandInputHandler {
 
     /**
      *
-     * @param handler The {@link InputHandler} to retrieve generation mode from
+     * @param handler The {@link InputHandler} to retrieve generation mode from the user's input
      * @param mesh The {@link Mesh} to generate island from
      * @return The {@link IslandGenerator} to use
+     * @throws IllegalInputException if the input is inappropriate
      */
     public static IslandGenerator getIslandMode(InputHandler handler, IslandMesh mesh) throws IllegalInputException {
         String mode = handler.getOptionValue(
@@ -109,8 +116,9 @@ public class IslandInputHandler {
 
     /**
      *
-     * @param handler The {@link InputHandler} to get the data from
+     * @param handler The {@link InputHandler} to get the data from the user's input
      * @return The passed in data for the input mesh file path
+     * @throws IllegalInputException if the input is inappropriate
      */
     public static String getInputMesh(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(IslandInputHandler.getIslandOption(InputOption.OPTION_STR));
@@ -128,8 +136,9 @@ public class IslandInputHandler {
 
     /**
      *
-     * @param handler The {@link InputHandler} to get the lakes input from
+     * @param handler The {@link InputHandler} to get the number of lakes input from the user's input
      * @return The number of lakes set by the user
+     * @throws IllegalInputException if the input is inappropriate
      */
     public static int getNumLakes(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
@@ -154,6 +163,12 @@ public class IslandInputHandler {
         return numLakes;
     }
 
+    /**
+     *
+     * @param handler The {@link InputHandler} to get the number of aquifers input from the user's input
+     * @return The number of aquifers set by the user
+     * @throws IllegalInputException if the input is inappropriate
+     */
     public static int getNumAquifers(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
                 IslandInputHandler.getIslandOption(AquiferOption.OPTION_STR),
@@ -180,8 +195,9 @@ public class IslandInputHandler {
 
     /**
      *
-     * @param handler The {@link InputHandler} to get the number of rivers from
+     * @param handler The {@link InputHandler} to get the number of rivers from the user's input
      * @return The number of rivers inserted by the user. 0 otherwise
+     * @throws IllegalInputException if the input is inappropriate
      */
     public static int getNumRivers(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
@@ -208,10 +224,11 @@ public class IslandInputHandler {
 
     /**
      *
-     * @param handler The {@link InputHandler} to extract the data from
+     * @param handler The {@link InputHandler} to extract the data from the user's input
      * @param center The center {@link Vertex} of the mesh
      * @param diagonalLength The length from the center to a corner in the mesh
      * @return The {@link Shape} that matches cmd input
+     * @throws IllegalInputException if the input is inappropriate
      */
     public static Shape getShapeInput(InputHandler handler, Vertex center, double diagonalLength) throws IllegalInputException {
         String value = handler.getOptionValue(
@@ -233,8 +250,9 @@ public class IslandInputHandler {
 
     /**
      *
-     * @param handler The {@link InputHandler} to extract the {@link AltimeterProfile} from
+     * @param handler The {@link InputHandler} to extract the {@link AltimeterProfile} from the user's input
      * @return The {@link AltimeterProfile} that matches user input
+     * @throws IllegalInputException if the input is inappropriate
      */
     public static AltimeterProfile getAltimeterInput(InputHandler handler) throws IllegalInputException {
         String value = handler.getOptionValue(
@@ -252,5 +270,28 @@ public class IslandInputHandler {
         }
 
         return profile;
+    }
+
+    /**
+     *
+     * @param handler The {@link InputHandler} to extract the {@link SoilAbsorptionProfile} from the user's input
+     * @return The {@link SoilAbsorptionProfile} that matches the user input
+     * @throws IllegalInputException if the input is inappropriate
+     */
+    public static SoilAbsorptionProfile getSoilAbsorptionProfile(InputHandler handler) throws IllegalInputException{
+        String value = handler.getOptionValue(
+                IslandInputHandler.getIslandOption(SoilAbsorptionProfileOption.OPTION_STR),
+                SoilAbsorptionProfileOption.DEFAULT_VALUE
+        );
+
+        SoilAbsorptionProfile soilAbsorptionProfile = null;
+
+        switch (value){
+            case "wet" -> soilAbsorptionProfile = new WetSoilAbsorption();
+            case "dry" -> soilAbsorptionProfile = new DrySoilAbsorption();
+            default ->  handler.printHelp("Invalid soil absorption profile!");
+        }
+
+        return soilAbsorptionProfile;
     }
 }

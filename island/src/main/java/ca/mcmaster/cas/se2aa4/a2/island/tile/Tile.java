@@ -10,14 +10,18 @@ import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.IHumidityRece
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.HumidityTransmitter;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.IHumidityTransmitter;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.profiles.HumidityProfile;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.profiles.WetSoilAbsorption;
 import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.polygon.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Neighborable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,8 +31,7 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
     private TileType type;
     private boolean aquifer;
     private Configurator configurator;
-    private final IHumidityReceiver humidityReceiver;
-    private final IHumidityTransmitter humidityTransmitter;
+    private final SoilAbsorptionProfile soilAbsorptionProfile;
     private final HumidityProfile humidity;
     private final ElevationProfile elevation;
     private final Polygon polygon;
@@ -39,23 +42,21 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
      *
      * @param polygon The {@link Polygon} that this tile represents
      * @param paths The list {@link Path} belonging to this tile
-     * @param humidityReceiver Tje {@link IHumidityReceiver} of this tile
-     * @param humidityTransmitter The {@link IHumidityTransmitter} of this tile
+     * @param soilAbsorptionProfile The {@link SoilAbsorptionProfile} of this tile
      */
-    public Tile(Polygon polygon, List<Path> paths, IHumidityReceiver humidityReceiver, IHumidityTransmitter humidityTransmitter) {
+    public Tile(Polygon polygon, List<Path> paths, SoilAbsorptionProfile soilAbsorptionProfile) {
         this.polygon = polygon;
         this.neighbors = new Tiles();
         this.paths = new ArrayList<>(paths);
         this.setType(TileType.LAND_TILE);
-        this.humidityReceiver = humidityReceiver;
-        this.humidityTransmitter = humidityTransmitter;
+        this.soilAbsorptionProfile = soilAbsorptionProfile;
         this.humidity = new HumidityProfile();
         this.elevation = new ElevationProfile();
         this.aquifer = false;
     }
 
     public Tile(Polygon polygon, List<Path> paths) {
-        this(polygon, paths, new HumidityReceiver(0.85f), new HumidityTransmitter(0.2f));
+        this(polygon, paths, new WetSoilAbsorption());
     }
 
     /**
@@ -168,13 +169,17 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
 
     @Override
     public void setHumidity(float humidity) {
-        this.configurator.getHumidityHandler().handleHumidity(this.humidity, this.humidityReceiver, humidity);
+        this.configurator.getHumidityHandler().handleHumidity(this.humidity, this.soilAbsorptionProfile.getHumidityReceiver(), humidity);
+        if(this.type.getGroup() == TileGroup.LAND) {
+            int green = (int) ((this.getHumidity()/500) * 255);
+            this.polygon.setColor(new Color(0, green, 0));
+        }
     }
 
     @Override
     public void giveHumidity(IHumidity h) {
         if(!this.equals(h)) {
-            float humidity = this.humidityTransmitter.giveHumidity(this);
+            float humidity = this.soilAbsorptionProfile.getHumidityTransmitter().giveHumidity(this);
             float oldHumidity = h.getHumidity();
             h.setHumidity(oldHumidity + humidity);
         }
