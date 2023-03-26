@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.island.cli;
 
 import ca.mcmaster.cas.se2aa4.a2.island.biome.Biome;
+import ca.mcmaster.cas.se2aa4.a2.island.biome.biomes.TemperateBiome;
 import ca.mcmaster.cas.se2aa4.a2.island.biome.biomes.TropicalBiome;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.*;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile;
@@ -24,7 +25,6 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 import org.apache.commons.cli.Option;
 
-import javax.swing.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
@@ -343,6 +343,7 @@ public class IslandInputHandler {
 
         switch (value){
             case "tropical" -> biome = new TropicalBiome();
+            case "temperate" -> biome = new TemperateBiome();
             default -> handler.printHelp("Invalid biome option!");
         }
 
