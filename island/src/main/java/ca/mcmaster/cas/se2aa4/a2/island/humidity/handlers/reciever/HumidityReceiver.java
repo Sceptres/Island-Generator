@@ -2,7 +2,7 @@ package ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever;
 
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity;
 
-public class HumidityReceiver implements IReceiver {
+public class HumidityReceiver implements IHumidityReceiver {
     private final float ratio;
 
     public HumidityReceiver(float ratio){

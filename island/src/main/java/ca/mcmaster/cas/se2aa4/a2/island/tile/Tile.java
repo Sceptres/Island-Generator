@@ -6,7 +6,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.elevation.profiles.ElevationProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Aquiferable;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.IHumidity;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.HumidityReceiver;
-import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.IReceiver;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.reciever.IHumidityReceiver;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.HumidityTransmitter;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.transmitter.IHumidityTransmitter;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.profiles.HumidityProfile;
@@ -27,7 +27,7 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
     private TileType type;
     private boolean aquifer;
     private Configurator configurator;
-    private final IReceiver humidityReceiver;
+    private final IHumidityReceiver humidityReceiver;
     private final IHumidityTransmitter humidityTransmitter;
     private final HumidityProfile humidity;
     private final ElevationProfile elevation;
@@ -39,10 +39,10 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
      *
      * @param polygon The {@link Polygon} that this tile represents
      * @param paths The list {@link Path} belonging to this tile
-     * @param humidityReceiver Tje {@link IReceiver} of this tile
+     * @param humidityReceiver Tje {@link IHumidityReceiver} of this tile
      * @param humidityTransmitter The {@link IHumidityTransmitter} of this tile
      */
-    public Tile(Polygon polygon, List<Path> paths, IReceiver humidityReceiver, IHumidityTransmitter humidityTransmitter) {
+    public Tile(Polygon polygon, List<Path> paths, IHumidityReceiver humidityReceiver, IHumidityTransmitter humidityTransmitter) {
         this.polygon = polygon;
         this.neighbors = new Tiles();
         this.paths = new ArrayList<>(paths);
