@@ -1,7 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.island.tile.configuration;
 
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.handler.ElevationHandler;
-import ca.mcmaster.cas.se2aa4.a2.island.humidity.HumidityHandler;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.handlers.HumidityHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator;
 
 import java.awt.*;
