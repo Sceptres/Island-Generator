@@ -1,5 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.island.cli;
 
+import ca.mcmaster.cas.se2aa4.a2.island.biome.Biome;
+import ca.mcmaster.cas.se2aa4.a2.island.biome.biomes.TropicalBiome;
 import ca.mcmaster.cas.se2aa4.a2.island.cli.options.*;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.HillyAltimeter;
@@ -22,24 +24,25 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 import org.apache.commons.cli.Option;
 
+import javax.swing.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
 
 public class IslandInputHandler {
-    private final static Map<String, Option> ISLAND_OPTIONS = Map.of(
-            ModeOption.OPTION_STR,  new ModeOption(),
-            InputOption.OPTION_STR, new InputOption(),
-            OutputOption.OPTION_STR, new OutputOption(),
-            ShapeOption.OPTION_STR, new ShapeOption(),
-            LakesOption.OPTION_STR, new LakesOption(),
-            AltimeterProfileOption.OPTION_STR, new AltimeterProfileOption(),
-            AquiferOption.OPTION_STR, new AquiferOption(),
-            RiversOption.OPTION_STR, new RiversOption(),
-            SeedOption.OPTION_STR, new SeedOption(),
-            SoilAbsorptionProfileOption.OPTION_STR, new SoilAbsorptionProfileOption()
-
+    private final static Map<String, Option> ISLAND_OPTIONS = Map.ofEntries(
+            Map.entry(ModeOption.OPTION_STR,  new ModeOption()),
+            Map.entry(InputOption.OPTION_STR, new InputOption()),
+            Map.entry(OutputOption.OPTION_STR, new OutputOption()),
+            Map.entry(ShapeOption.OPTION_STR, new ShapeOption()),
+            Map.entry(LakesOption.OPTION_STR, new LakesOption()),
+            Map.entry(AltimeterProfileOption.OPTION_STR, new AltimeterProfileOption()),
+            Map.entry(AquiferOption.OPTION_STR, new AquiferOption()),
+            Map.entry(RiversOption.OPTION_STR, new RiversOption()),
+            Map.entry(SeedOption.OPTION_STR, new SeedOption()),
+            Map.entry(SoilAbsorptionProfileOption.OPTION_STR, new SoilAbsorptionProfileOption()),
+            Map.entry(BiomeOption.OPTION_STR, new BiomeOption())
     );
 
     /**
@@ -103,13 +106,14 @@ public class IslandInputHandler {
         int numRivers = IslandInputHandler.getNumRivers(handler);
         long seed = IslandInputHandler.getSeed(handler);
         Shape shape = IslandInputHandler.getShapeInput(handler, meshCenter, diagonalLength);
+        Biome biome = IslandInputHandler.getBiomeOption(handler);
 
         if(mode.equals("lagoon"))
-            generator = new LagoonIslandGenerator(mesh, shape, seed, numAquifers, numRivers);
+            generator = new LagoonIslandGenerator(mesh, shape, biome, seed, numAquifers, numRivers);
         else if(mode.equals("random")) {
             int numLakes = IslandInputHandler.getNumLakes(handler);
             AltimeterProfile altimeterProfile = IslandInputHandler.getAltimeterInput(handler);
-            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, seed, numLakes, numAquifers, numRivers);
+            generator = new RandomIslandGenerator(mesh, shape, biome, altimeterProfile, seed, numLakes, numAquifers, numRivers);
         } else
             handler.printHelp("Invalid mode: " + mode);
 
@@ -321,5 +325,27 @@ public class IslandInputHandler {
         }
 
         return soilAbsorptionProfile;
+    }
+
+    /**
+     *
+     * @param handler The {@link InputHandler} to extract the {@link Biome} from the user's input
+     * @return The {@link Biome} that matches the user input
+     * @throws IllegalInputException if the input is inappropriate
+     */
+    public static Biome getBiomeOption(InputHandler handler) throws IllegalInputException{
+        String value = handler.getOptionValue(
+                IslandInputHandler.getIslandOption(BiomeOption.OPTION_STR),
+                BiomeOption.DEFAULT_VALUE
+        );
+
+        Biome biome = null;
+
+        switch (value){
+            case "tropical" -> biome = new TropicalBiome();
+            default -> handler.printHelp("Invalid biome option!");
+        }
+
+        return biome;
     }
 }
