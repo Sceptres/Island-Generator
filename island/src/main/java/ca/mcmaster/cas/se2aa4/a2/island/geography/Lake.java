@@ -16,7 +16,7 @@ public class Lake extends TiledGeography implements IHumidity {
         super(TileType.LAND_WATER_TILE);
         super.addTile(start);
         this.humidityProfile = new HumidityProfile();
-        this.humidityProfile.setHumidity(25f);
+        this.humidityProfile.setHumidity(500f);
     }
 
     @Override
@@ -39,6 +39,8 @@ public class Lake extends TiledGeography implements IHumidity {
 
     @Override
     public void giveHumidity(IHumidity humidity) {
-        humidity.setHumidity(this.tiles.size() * this.getHumidity());
+        float oldHumidity = humidity.getHumidity();
+        float lakeHumidity = this.getHumidity();
+        humidity.setHumidity(oldHumidity+lakeHumidity);
     }
 }
