@@ -33,7 +33,7 @@ public class River extends TiledGeography implements IHumidity {
     private final HumidityProfile humidityProfile;
 
     public River(Vertex start, float flow){
-        super(TileType.LAND_WATER_TILE);
+        super(TileType.LAND_WATER);
         this.start = new UniqueList<>();
         this.start.add(start);
 

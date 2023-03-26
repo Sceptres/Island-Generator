@@ -2,16 +2,15 @@ package ca.mcmaster.cas.se2aa4.a2.island.tile.type;
 
 import ca.mcmaster.cas.se2aa4.a2.island.color.ColorGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.Configurator;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.BeachConfigurator;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.LandConfigurator;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.LandWaterConfigurator;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.OceanConfigurator;
+import ca.mcmaster.cas.se2aa4.a2.island.tile.configuration.configurators.*;
 
 public enum TileType {
-    BEACH_TILE(TileGroup.LAND, new BeachConfigurator()),
-    LAND_TILE(TileGroup.LAND, new LandConfigurator()),
-    LAND_WATER_TILE(TileGroup.WATER, new LandWaterConfigurator()),
-    OCEAN_TILE(TileGroup.WATER, new OceanConfigurator());
+    TROPICAL_SEASONAL_FOREST(TileGroup.LAND, new TropicalSeasonalForestConfigurator()),
+    SUBTROPICAL_DESERT(TileGroup.LAND, new SubtropicalDesertConfigurator()),
+    ICE(TileGroup.LAND, new IceConfigurator()),
+    LAND(TileGroup.LAND, new LandConfigurator()),
+    LAND_WATER(TileGroup.WATER, new LandWaterConfigurator()),
+    OCEAN(TileGroup.WATER, new OceanConfigurator());
 
 
     private final TileGroup group;

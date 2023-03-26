@@ -65,7 +65,7 @@ public class LakeGenerator implements GeographyGenerator<Lake> {
         double num = random.nextDouble(0, 1);
         boolean shouldStop = num > 0.96 || next.getNeighbors().stream().filter(t -> t != next).anyMatch(t ->
                 t.getNeighbors().stream().anyMatch(t1 ->
-                        t1.getType() == TileType.OCEAN_TILE
+                        t1.getType() == TileType.OCEAN
                 )
         );
 

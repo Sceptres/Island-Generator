@@ -47,13 +47,13 @@ public class TileTest {
 
     @Test
     public void tileTypeTest() {
-        TileType type = TileType.BEACH_TILE;
+        TileType type = TileType.SUBTROPICAL_DESERT;
 
         this.tile.setType(type);
         assertEquals(this.tile.getType(), type);
         assertEquals(this.polygon.getColor(), type.getConfigurator().getColorGenerator().generateColor());
 
-        type = TileType.OCEAN_TILE;
+        type = TileType.OCEAN;
 
         this.tile.setType(type);
         assertEquals(this.tile.getType(), type);

@@ -42,7 +42,7 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
         this.polygon = polygon;
         this.neighbors = new Tiles();
         this.paths = new ArrayList<>(paths);
-        this.setType(TileType.LAND_TILE);
+        this.setType(TileType.LAND);
         this.soilAbsorptionProfile = soilAbsorptionProfile;
         this.humidity = new HumidityProfile();
         this.elevation = new ElevationProfile();

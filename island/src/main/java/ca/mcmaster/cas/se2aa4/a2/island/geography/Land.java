@@ -14,7 +14,7 @@ public class Land extends TiledGeography {
     private final List<River> rivers;
 
     public Land() {
-        super(TileType.LAND_TILE);
+        super(TileType.LAND);
         this.lakes = new ArrayList<>();
         this.rivers = new ArrayList<>();
     }
@@ -83,7 +83,7 @@ public class Land extends TiledGeography {
     public List<Tile> getNeighbors() {
         return super.tiles.stream()
                 .flatMap(t -> t.getNeighbors().stream())
-                .filter(t -> t.getType() == TileType.OCEAN_TILE)
+                .filter(t -> t.getType() == TileType.OCEAN)
                 .toList();
     }
 }

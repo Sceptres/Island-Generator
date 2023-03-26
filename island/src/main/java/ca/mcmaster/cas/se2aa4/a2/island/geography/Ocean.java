@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Ocean extends TiledGeography implements IHumidity {
     public Ocean() {
-        super(TileType.OCEAN_TILE);
+        super(TileType.OCEAN);
     }
 
     @Override

@@ -8,7 +8,11 @@ import java.awt.Color;
 public class TileColors {
     public static Color OCEAN = new Color(5,64,96);
 
-    public static Color BEACH = new Color(252,255,202);
+    public static Color SUBTROPICAL_DESERT = new Color(249,148,24);
+
+    public static Color TROPICAL_SEASONAL_FOREST = new Color(155, 224, 35);
+
+    public static Color ICE_COLOR = new Color(165, 242, 243);
 
     public static Color REGULAR = new Color(255,255,255);
 
