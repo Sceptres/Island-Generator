@@ -23,9 +23,7 @@ public class RiverGenerator implements GeographyGenerator<River> {
     }
 
     @Override
-    public List<River> generate(int num) {
-        Random random = new Random();
-
+    public List<River> generate(Random random, int num) {
         List<River> generatedRivers = new ArrayList<>();
 
         for (int i = 0; i < num; i++) {
