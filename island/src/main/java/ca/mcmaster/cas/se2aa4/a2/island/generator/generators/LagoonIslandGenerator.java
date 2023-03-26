@@ -8,7 +8,6 @@ import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 
 import java.util.List;
 import java.util.Random;
@@ -25,9 +24,6 @@ public class LagoonIslandGenerator extends AbstractIslandGenerator {
 
         List<Tile> landTiles = tiles.stream().filter(shape::contains).toList();
         land.addAllTiles(landTiles);
-        land.getTiles().stream().filter(t ->
-                t.getNeighbors().stream().anyMatch(t1 -> t1.getType() == TileType.OCEAN_TILE)
-        ).forEach(t -> t.setType(TileType.BEACH_TILE));
     }
 
     @Override
@@ -38,7 +34,5 @@ public class LagoonIslandGenerator extends AbstractIslandGenerator {
         lake.addAllTiles(lakeTiles.subList(1, lakeTiles.size()));
         lake.setElevation(0.2);
         land.addLake(lake);
-
-        lake.getNeighbors().forEach(t -> t.setType(TileType.BEACH_TILE));
     }
 }
