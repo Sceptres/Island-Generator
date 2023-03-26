@@ -89,4 +89,5 @@ public class LakeGenerator implements GeographyGenerator<Lake> {
         List<Tile> neighbors = tile.getNeighbors();
         return neighbors.get(random.nextInt(neighbors.size()));
     }
+
 }
