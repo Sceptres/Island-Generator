@@ -60,6 +60,7 @@ Island Generator options include:
 9. -r, --rivers <# of rivers>                         The number of rivers to add to the island.
 10. -s, --soil <absorption>                           The soil absorption profile to set for this island. Only `wet` and `dry`. Wet is the default.
 11. -sed, --seed <seed>                               The seed of the island to generate. Generator will generate a random one if none are given.
+12. -b, --biomes <biomes>                             The biomes of the island to generate. Generator will generate a `tropical` island if none is given.
 ```
 mosser@azrael A2 % cd island 
 mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m lagoon
@@ -128,6 +129,8 @@ When you develop features and enrich the product, remember that you have first t
 - | 13 |Island Lake Generation                |Abdallah&Beshoy| 03-3-2023 | 14-3-2023 |  Complete |
 - | 14 |Island Elevation Generation           |Abdallah       | 03-3-2023 | 12-3-2023 |  Complete |
 - | 15 |Island Aquifer Generation             |Abdallah&Beshoy| 16-3-2023 | 20-3-2023 |  Complete |
-- | 16 |Island Aquifer Generation             |Abdallah&Omar  | 20-3-2023 | 25-3-2023 |  Complete |
-- | 17 |Island Aquifer Generation             |Abdallah&Omar  | 23-3-2023 | 26-3-2023 |  Complete |
-- | 18 |Island Seeded Generation              |Abdallah&Beshoy| 26-3-2023 | 26-3-2023 |  Complete |
+- | 16 |Island River Generation               |Abdallah&Omar  | 20-3-2023 | 25-3-2023 |  Complete |
+- | 17 |Island Humidity Generation            |Abdallah&Omar  | 20-3-2023 | 26-3-2023 |  Complete |
+- | 18 |Island Soil Absorption                |Abdallah&Omar  | 23-3-2023 | 26-3-2023 |  Complete |
+- | 19 |Island Seeded Generation              |Abdallah&Beshoy| 23-3-2023 | 26-3-2023 |  Complete |
+- | 20 |Island Biomes and Whittaker Diagrams  |Abdallah&Omar  | 23-3-2023 | 26-3-2023 |  Complete |
