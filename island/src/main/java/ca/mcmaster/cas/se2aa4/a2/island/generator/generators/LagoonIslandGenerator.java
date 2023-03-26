@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island.generator.generators;
 
+import ca.mcmaster.cas.se2aa4.a2.island.biome.Biome;
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.LagoonAltimeter;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.AbstractIslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Lake;
@@ -13,8 +14,8 @@ import java.util.List;
 import java.util.Random;
 
 public class LagoonIslandGenerator extends AbstractIslandGenerator {
-    public LagoonIslandGenerator(IslandMesh mesh, Shape shape, long seed, int numAquifers, int numRivers) {
-        super(mesh, shape, new LagoonAltimeter(), seed, 1, numAquifers, numRivers);
+    public LagoonIslandGenerator(IslandMesh mesh, Shape shape, Biome biome, long seed, int numAquifers, int numRivers) {
+        super(mesh, shape, new LagoonAltimeter(), biome, seed, 1, numAquifers, numRivers);
     }
 
     @Override
