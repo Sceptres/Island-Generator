@@ -180,12 +180,6 @@ public class RiverGenerator implements GeographyGenerator<River> {
      * @param path The current {@link Path} to check loop
      * @return True if the river is looping around the current tile. False otherwise.
      */
-    /**
-     *
-     * @param river The {@link River} to check
-     * @param path The current {@link Path} to check loop
-     * @return True if the river is looping around the current tile. False otherwise.
-     */
     private boolean isLooping(River river, Path path) {
         Optional<Tile> currentTile = river.getTiles().stream()
                 .filter(t -> t.getPaths().contains(path) && t.getElevation() == path.getElevation())
