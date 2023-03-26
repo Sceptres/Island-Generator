@@ -4,9 +4,11 @@ import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Positionable;
 
+import java.util.Random;
+
 public class VolcanoAltimeter implements AltimeterProfile {
     @Override
-    public double generateElevation(Shape shape, Positionable<Double> pos) {
+    public double generateElevation(Random random, Shape shape, Positionable<Double> pos) {
         double midX = shape.getX();
         double midY = shape.getY();
         double maxDist = Math.hypot(shape.getWidth()/2, shape.getHeight()/2);

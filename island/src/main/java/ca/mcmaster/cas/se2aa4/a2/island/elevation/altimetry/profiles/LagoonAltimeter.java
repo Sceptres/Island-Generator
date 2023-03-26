@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class LagoonAltimeter implements AltimeterProfile {
     @Override
-    public double generateElevation(Shape shape, Positionable<Double> pos) {
+    public double generateElevation(Random random, Shape shape, Positionable<Double> pos) {
         Random rand = new Random();
 
         Vertex meshCenter = new Vertex(shape.getX(), shape.getY());
