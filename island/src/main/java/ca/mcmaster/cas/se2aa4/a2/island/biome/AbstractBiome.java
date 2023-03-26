@@ -34,6 +34,11 @@ public abstract class AbstractBiome implements Biome {
             float humidity = tile.getHumidity();
             double temperature = 50 - (50 * tile.getElevation());
 
+            if(!this.checkHumidity(humidity) && !this.checkTemperature(temperature))
+                throw new IllegalArgumentException(
+                        "Humidity must be in the range [0, 500]. Temperature must be in the range [0, 50]"
+                );
+
             Optional<Rule> ruleOptional = this.biomeRules.stream()
                     .filter(r -> r.matches(humidity, temperature))
                     .findFirst();
@@ -51,5 +56,23 @@ public abstract class AbstractBiome implements Biome {
                 throw new IllegalStateException(message);
             }
         }
+    }
+
+    /**
+     *
+     * @param humidity The humidity to check
+     * @return True if the humidity is in the range [0, 500]. False otherwise.
+     */
+    private boolean checkHumidity(float humidity) {
+        return 0 <= humidity && humidity <= 500;
+    }
+
+    /**
+     *
+     * @param temperature The temperature to check
+     * @return True if the temperature lies in the range [0, 50]. False otherwise.
+     */
+    private boolean checkTemperature(double temperature) {
+        return 0 <= temperature && temperature <= 50;
     }
 }
