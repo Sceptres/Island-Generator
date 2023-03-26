@@ -26,6 +26,8 @@ public class Main {
 
             MeshWriter writer = new MeshWriter();
             writer.write(mesh.getConverted(), output);
+
+            System.out.printf("Island Seed: %d\n", generator.getSeed());
         } catch(IllegalInputException e) {
             System.exit(1);
         }

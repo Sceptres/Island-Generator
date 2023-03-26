@@ -37,6 +37,7 @@ public class IslandInputHandler {
             AltimeterProfileOption.OPTION_STR, new AltimeterProfileOption(),
             AquiferOption.OPTION_STR, new AquiferOption(),
             RiversOption.OPTION_STR, new RiversOption(),
+            SeedOption.OPTION_STR, new SeedOption(),
             SoilAbsorptionProfileOption.OPTION_STR, new SoilAbsorptionProfileOption()
 
     );
@@ -62,6 +63,7 @@ public class IslandInputHandler {
     public static InputHandler getInputHandler(String[] args) throws IllegalInputException {
         return new InputHandler(args, ISLAND_OPTIONS);
     }
+
 
     /**
      *
@@ -99,14 +101,15 @@ public class IslandInputHandler {
 
         int numAquifers = IslandInputHandler.getNumAquifers(handler);
         int numRivers = IslandInputHandler.getNumRivers(handler);
+        long seed = IslandInputHandler.getSeed(handler);
         Shape shape = IslandInputHandler.getShapeInput(handler, meshCenter, diagonalLength);
 
         if(mode.equals("lagoon"))
-            generator = new LagoonIslandGenerator(mesh, shape, numAquifers, numRivers);
+            generator = new LagoonIslandGenerator(mesh, shape, seed, numAquifers, numRivers);
         else if(mode.equals("random")) {
             int numLakes = IslandInputHandler.getNumLakes(handler);
             AltimeterProfile altimeterProfile = IslandInputHandler.getAltimeterInput(handler);
-            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, numLakes, numAquifers, numRivers);
+            generator = new RandomIslandGenerator(mesh, shape, altimeterProfile, seed, numLakes, numAquifers, numRivers);
         } else
             handler.printHelp("Invalid mode: " + mode);
 
@@ -191,6 +194,31 @@ public class IslandInputHandler {
         }
 
         return numAquifers;
+    }
+
+    /**
+     *
+     * @param input The {@link InputHandler} to get the seed input from
+     * @return The seed by the user
+     * @throws IllegalInputException when input is not a number
+     */
+    public static long getSeed(InputHandler input) throws IllegalInputException {
+        String value = input.getOptionValue(
+                IslandInputHandler.getIslandOption(SeedOption.OPTION_STR),
+                SeedOption.DEFAULT_VALUE
+        );
+
+        long seed = -1;
+
+        try {
+            seed = Long.parseLong(value);
+        } catch(NumberFormatException e) {
+            String message = String.format("Invalid seed %s!!", value);
+            input.printHelp(message);
+        }
+
+        return seed;
+
     }
 
     /**

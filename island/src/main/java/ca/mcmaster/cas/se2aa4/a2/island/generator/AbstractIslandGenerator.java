@@ -17,6 +17,8 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
 
     private final Land land;
     private final Ocean ocean;
+    private final Random rand;
+    private final long seed;
     private final int numLakes;
     private final int numRivers;
     private final int numAquifers;
@@ -28,12 +30,15 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
             IslandMesh mesh,
             Shape shape,
             AltimeterProfile altimeterProfile,
+            long seed,
             int numLakes,
             int numAquifers,
             int numRivers
     ) {
         this.land = new Land();
         this.ocean = new Ocean();
+        this.seed = seed;
+        this.rand = new Random(seed);
         this.mesh = mesh;
         this.shape = shape;
         this.altimeterProfile = altimeterProfile;
@@ -43,14 +48,19 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
     }
 
     @Override
+    public long getSeed() {
+        return this.seed;
+    }
+
+    @Override
     public final void generate() {
         List<Tile> tiles = this.mesh.getTiles();
 
         this.generateIsland(tiles, this.ocean, this.land, this.shape);
-        this.generateElevation(this.land);
-        this.generateAquifers(this.land, this.numAquifers);
-        this.generateLakes(this.land, this.numLakes);
-        this.generateRivers(this.land, this.ocean, this.numRivers);
+        this.generateElevation(this.rand, this.land);
+        this.generateAquifers(this.rand, this.land, this.numAquifers);
+        this.generateLakes(this.rand, this.land, this.numLakes);
+        this.generateRivers(this.rand, this.land, this.ocean, this.numRivers);
         this.generateHumidity(this.land);
     }
 
@@ -66,7 +76,7 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
      *
      * @param land All the land {@link Tile} since lakes can only be in land
      */
-    protected abstract void generateLakes(Land land, int numLakes);
+    protected abstract void generateLakes(Random rand, Land land, int numLakes);
 
     /**
      *
@@ -74,18 +84,18 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
      * @param ocean The {@link Ocean} of the island
      * @param numRivers The number of {@link River} to generate
      */
-    private void generateRivers(Land land, Ocean ocean, int numRivers) {
+    private void generateRivers(Random rand, Land land, Ocean ocean, int numRivers) {
         RiverGenerator riverGenerator = new RiverGenerator(land, ocean);
-        List<River> rivers = riverGenerator.generate(numRivers);
+        List<River> rivers = riverGenerator.generate(rand, numRivers);
         rivers.forEach(land::addRiver);
     }
 
     /**
      * Sets the elevation of land tiles. Ocean tiles are left at 0.
      */
-    private void generateElevation(Land land) {
+    private void generateElevation(Random rand, Land land) {
         land.getTiles().forEach(t -> {
-            double elevation = this.altimeterProfile.generateElevation(this.shape, t);
+            double elevation = this.altimeterProfile.generateElevation(rand, this.shape, t);
             t.setElevation(elevation);
         });
     }
@@ -95,13 +105,11 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
      * @param land The {@link Land} to generate aquifers for
      * @param numAquifers The number of aquifers to generate
      */
-    private void generateAquifers(Land land, int numAquifers) {
-        Random random = new Random();
-
+    private void generateAquifers(Random rand, Land land, int numAquifers) {
         List<Tile> tiles = land.getTiles();
 
         for(int i=0; i < numAquifers; i++) {
-            int randIdx = random.nextInt(0, tiles.size());
+            int randIdx = rand.nextInt(0, tiles.size());
             Tile aquifer_tile = tiles.get(randIdx);
             aquifer_tile.putAquifer();
 

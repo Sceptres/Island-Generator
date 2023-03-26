@@ -19,9 +19,7 @@ public class LakeGenerator implements GeographyGenerator<Lake> {
     }
 
     @Override
-    public List<Lake> generate(int num) {
-        Random random = new Random();
-
+    public List<Lake> generate(Random random, int num) {
         List<Tile> tiles = land.getTiles();
         List<Lake> generatedLakes = new ArrayList<>();
 

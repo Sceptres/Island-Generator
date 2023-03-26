@@ -11,10 +11,11 @@ import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileType;
 
 import java.util.List;
+import java.util.Random;
 
 public class LagoonIslandGenerator extends AbstractIslandGenerator {
-    public LagoonIslandGenerator(IslandMesh mesh, Shape shape, int numAquifers, int numRivers) {
-        super(mesh, shape, new LagoonAltimeter(), 1, numAquifers, numRivers);
+    public LagoonIslandGenerator(IslandMesh mesh, Shape shape, long seed, int numAquifers, int numRivers) {
+        super(mesh, shape, new LagoonAltimeter(), seed, 1, numAquifers, numRivers);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class LagoonIslandGenerator extends AbstractIslandGenerator {
     }
 
     @Override
-    protected void generateLakes(Land land, int numLakes) {
+    protected void generateLakes(Random random, Land land, int numLakes) {
         List<Tile> mainLandTiles = land.getTiles();
         List<Tile> lakeTiles = mainLandTiles.stream().filter(t -> t.getElevation() < 0.2).toList();
         Lake lake = new Lake(lakeTiles.get(0));
