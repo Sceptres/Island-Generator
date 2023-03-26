@@ -14,6 +14,8 @@ public class TileColors {
 
     public static final Color TROPICAL_RAIN_FOREST = new Color(8,249,54);
 
+    public static final Color BEACH = new Color(252,255,202);
+
     public static final Color ICE_COLOR = new Color(165, 242, 243);
 
     public static final Color REGULAR = new Color(255,255,255);
