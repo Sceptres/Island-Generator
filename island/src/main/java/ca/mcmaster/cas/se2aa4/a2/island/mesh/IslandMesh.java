@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.island.mesh;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.neighborhood.NeighborhoodRelation;
 import ca.mcmaster.cas.se2aa4.a2.island.neighborhood.TileNeighborhood;
 import ca.mcmaster.cas.se2aa4.a2.island.path.Path;
@@ -12,7 +13,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.services.Converter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IslandMesh implements Converter<Structs.Mesh> {
+public class IslandMesh implements Converter<Mesh> {
     private final Mesh mesh;
     private final List<Tile> tiles;
     private final List<Path> paths;
@@ -23,13 +24,13 @@ public class IslandMesh implements Converter<Structs.Mesh> {
      * @param paths All the paths in the mesh to tie to the tiles
      * @return All the {@link Tile} in the mesh
      */
-    private static List<Tile> createTiles(Mesh mesh, List<Path> paths) {
+    private static List<Tile> createTiles(Mesh mesh, List<Path> paths, SoilAbsorptionProfile soilAbsorptionProfile) {
         List<Polygon> polygons = mesh.getPolygons();
         List<Tile> tiles = new ArrayList<>();
 
         for(Polygon polygon : polygons) {
             List<Path> tilePaths = polygon.getConverted().getSegmentIdxsList().stream().map(paths::get).toList();
-            Tile tile = new Tile(polygon, tilePaths);
+            Tile tile = new Tile(polygon, tilePaths, soilAbsorptionProfile);
             tiles.add(tile);
         }
 
@@ -49,10 +50,10 @@ public class IslandMesh implements Converter<Structs.Mesh> {
      *
      * @param mesh The {@link Mesh} to read from
      */
-    public IslandMesh(Mesh mesh) {
+    public IslandMesh(Mesh mesh, SoilAbsorptionProfile soilAbsorptionProfile) {
         this.mesh = mesh;
         this.paths = IslandMesh.createPaths(mesh);
-        this.tiles = IslandMesh.createTiles(mesh, this.paths);
+        this.tiles = IslandMesh.createTiles(mesh, this.paths, soilAbsorptionProfile);
 
         NeighborhoodRelation relation = new TileNeighborhood();
         relation.calculateNeighbors(this.tiles);
@@ -83,7 +84,7 @@ public class IslandMesh implements Converter<Structs.Mesh> {
     }
 
     @Override
-    public Structs.Mesh getConverted() {
-        return this.mesh.getConverted();
+    public Mesh getConverted() {
+        return this.mesh;
     }
 }

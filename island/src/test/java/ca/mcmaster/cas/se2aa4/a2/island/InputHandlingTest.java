@@ -8,6 +8,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.VolcanoAlti
 import ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle;
+import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 import org.junit.jupiter.api.AfterAll;
@@ -257,6 +258,30 @@ public class InputHandlingTest {
             handler.set(IslandInputHandler.getInputHandler(input));
             IslandInputHandler.getShapeInput(handler.get(), new Vertex(0,0) ,100);
             assertEquals("Invalid shape!", outContent.toString());
+        });
+    }
+
+    @Test
+    public void soilAbsorptionProfileOptionTest(){
+        input[4] = "--soil";
+        input[5] = "wet";
+
+        AtomicReference<InputHandler> handler = new AtomicReference<>();
+
+        assertDoesNotThrow(() -> {
+            SoilAbsorptionProfile soilAbsorptionProfile;
+
+            handler.set(IslandInputHandler.getInputHandler(input));
+            soilAbsorptionProfile = IslandInputHandler.getSoilAbsorptionProfile(handler.get());
+            assertInstanceOf(SoilAbsorptionProfile.class, soilAbsorptionProfile);
+
+        });
+
+        assertThrows(Exception.class,() -> {
+            input[5] = "wrong input";
+            handler.set(IslandInputHandler.getInputHandler(input));
+            IslandInputHandler.getSoilAbsorptionProfile(handler.get());
+            assertEquals("Invalid soil absorption profile!", outContent.toString());
         });
     }
 }
