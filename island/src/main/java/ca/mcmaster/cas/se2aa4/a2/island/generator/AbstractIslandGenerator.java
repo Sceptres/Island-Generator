@@ -124,12 +124,12 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
             r.getNeighbors().forEach(r::giveHumidity);
         });
 
-        // Add (its really remove) humidity from ocean
-        ocean.getNeighbors().forEach(ocean::giveHumidity);
-
         // Soil absorption (tiles spread humidity amongst themselves)
         land.getTiles().stream().filter(t -> t.getType().getGroup() != TileGroup.WATER).forEach(tile -> {
             tile.getNeighbors().forEach(tile::giveHumidity);
         });
+
+        // Add (its really remove) humidity from ocean
+        ocean.getNeighbors().forEach(ocean::giveHumidity);
     }
 }
