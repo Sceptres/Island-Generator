@@ -14,6 +14,14 @@ public class TileColors {
 
     public static final Color TROPICAL_RAIN_FOREST = new Color(20,155,20);
 
+    public static final Color TEMPERATE_RAIN_FOREST = new Color(80, 200, 80);
+
+    public static final Color TEMPERATE_DECIDUOUS_FOREST = new Color(43, 176, 83);
+
+    public static final Color TEMPERATE_GRASSLAND = new Color(231, 202, 5);
+
+    public static final Color TAIGA = new Color(5, 102, 33);
+
     public static final Color BEACH = new Color(252,255,202);
 
     public static final Color ICE_COLOR = new Color(165, 242, 243);
