@@ -1,7 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.island.generator;
 
 import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.AltimeterProfile;
-import ca.mcmaster.cas.se2aa4.a2.island.geography.Lake;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.Ocean;
 import ca.mcmaster.cas.se2aa4.a2.island.geography.River;
@@ -53,7 +52,6 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
         this.generateLakes(this.land, this.numLakes);
         this.generateRivers(this.land, this.ocean, this.numRivers);
         this.generateHumidity(this.land);
-
     }
 
     /**
@@ -92,6 +90,11 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
         });
     }
 
+    /**
+     *
+     * @param land The {@link Land} to generate aquifers for
+     * @param numAquifers The number of aquifers to generate
+     */
     private void generateAquifers(Land land, int numAquifers) {
         Random random = new Random();
 
@@ -106,18 +109,27 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
         }
     }
 
+    /**
+     *
+     * @param land The {@link Land} to generate humidity for
+     */
     private void generateHumidity(Land land){
-
-        List<Lake> lakes = land.getLakes();
-
-        lakes.forEach(lake -> {
+        // Add humidity from the lakes
+        land.getLakes().forEach(lake -> {
             lake.getNeighbors().forEach(lake::giveHumidity);
         });
 
+        // Add humidity from the rivers
+        land.getRivers().forEach(r -> {
+            r.getNeighbors().forEach(r::giveHumidity);
+        });
+
+        // Add (its really remove) humidity from ocean
+        ocean.getNeighbors().forEach(ocean::giveHumidity);
+
+        // Soil absorption (tiles spread humidity amongst themselves)
         land.getTiles().stream().filter(t -> t.getType().getGroup() != TileGroup.WATER).forEach(tile -> {
             tile.getNeighbors().forEach(tile::giveHumidity);
         });
-
-
     }
 }
