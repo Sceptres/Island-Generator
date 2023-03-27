@@ -1,0 +1,22 @@
+@startuml
+@startuml
+participant Main
+activate Main
+activate MeshReader
+Main -> MeshReader: meshReader.getMesh()
+MeshReader --> Main
+activate IslandGenerator
+Main -> Main: getIslandMode()
+Main -> IslandGenerator: generate()
+IslandGenerator -> IslandGenerator: generateIsland()
+IslandGenerator -> IslandGenerator: generateElevation()
+IslandGenerator -> IslandGenerator: generateAquifers()
+IslandGenerator -> IslandGenerator: generateLakes()
+IslandGenerator -> IslandGenerator: generateRivers()
+IslandGenerator -> IslandGenerator: generateHumidity()
+IslandGenerator -> IslandGenerator: biomeHandling()
+IslandGenerator --> Main
+activate MeshWriter
+Main -> MeshWriter: MeshWriter.getMesh()
+MeshWriter --> Main
+@enduml
