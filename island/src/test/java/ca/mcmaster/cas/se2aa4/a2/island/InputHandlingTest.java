@@ -9,6 +9,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.elevation.altimetry.profiles.VolcanoAlti
 import ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle;
+import ca.mcmaster.cas.se2aa4.a2.island.hook.Hook;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
@@ -307,6 +308,30 @@ public class InputHandlingTest {
             handler.set(IslandInputHandler.getInputHandler(input));
             IslandInputHandler.getBiomeOption(handler.get());
             assertEquals("Invalid biome option!", outContent.toString());
+        });
+    }
+
+    @Test
+    public void hookOptionTest(){
+        input[4] = "--hook";
+        input[5] = "moisture";
+
+        AtomicReference<InputHandler> handler = new AtomicReference<>();
+
+        assertDoesNotThrow(() -> {
+            Hook hook;
+
+            handler.set(IslandInputHandler.getInputHandler(input));
+            hook = IslandInputHandler.getHook(handler.get());
+            assertInstanceOf(Hook.class, hook);
+
+        });
+
+        assertThrows(Exception.class,() -> {
+            input[5] = "wrong input";
+            handler.set(IslandInputHandler.getInputHandler(input));
+            IslandInputHandler.getHook(handler.get());
+            assertEquals("Not a valid hook wrong input!", outContent.toString());
         });
     }
 }

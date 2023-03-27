@@ -1,5 +1,7 @@
 import ca.mcmaster.cas.se2aa4.a2.island.cli.IslandInputHandler;
 import ca.mcmaster.cas.se2aa4.a2.island.generator.IslandGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.hook.Hook;
+import ca.mcmaster.cas.se2aa4.a2.island.hook.hooks.HeatMap;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.io.MeshReader;
 import ca.mcmaster.cas.se2aa4.a2.island.io.MeshWriter;
@@ -23,6 +25,9 @@ public class Main {
 
             IslandGenerator generator = IslandInputHandler.getIslandMode(handler, mesh);
             generator.generate();
+
+            Hook heatMap = IslandInputHandler.getHook(handler);
+            heatMap.apply(mesh.getTiles());
 
             MeshWriter writer = new MeshWriter();
             writer.write(mesh.getConverted(), output);

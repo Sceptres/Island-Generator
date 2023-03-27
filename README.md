@@ -60,11 +60,14 @@ Island Generator options include:
 9. -r, --rivers <# of rivers>                         The number of rivers to add to the island.
 10. -s, --soil <absorption>                           The soil absorption profile to set for this island. Only `wet` and `dry`. Wet is the default.
 11. -sed, --seed <seed>                               The seed of the island to generate. Generator will generate a random one if none are given.
-12. -b, --biomes <biomes>                             The biomes of the island to generate. Generator will generate a `tropical` island if none is given.
+12. -b, --biomes <biomes>                             The biomes of the island to generate. Options are `tropical` and `temperate`. Generator will generate a `tropical` island if none is given.
+13. -H, --hook  <hook>                                Sets the hook to run after the generation of the island. Current options are `moisture` and `elevation`.
 ```
 mosser@azrael A2 % cd island 
 mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m lagoon
-mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m random --shape circle --altitude volcano
+mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m random --shape circle --altitude volcano --biomes tropical # Generates a volcanic tropical island in the shape of a circle
+mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m random --hook moisture # Moisture heatmap
+mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m random --hook elevation # Elevation heatmap
 mosser@azrael island % ls -lh island.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael island % 
@@ -133,4 +136,5 @@ When you develop features and enrich the product, remember that you have first t
 - | 17 |Island Humidity Generation            |Abdallah&Omar  | 20-3-2023 | 26-3-2023 |  Complete |
 - | 18 |Island Soil Absorption                |Abdallah&Omar  | 23-3-2023 | 26-3-2023 |  Complete |
 - | 19 |Island Seeded Generation              |Abdallah&Beshoy| 23-3-2023 | 26-3-2023 |  Complete |
-- | 20 |Island Biomes and Whittaker Diagrams  |Abdallah&Omar  | 23-3-2023 | 26-3-2023 |  Complete |
+- | 20 |Island Biomes and Whittaker Diagrams  |Abdallah&Omar  | 26-3-2023 | 26-3-2023 |  Complete |
+- | 21 |Island moisture and elevation heatmaps|Omar           | 26-3-2023 | 26-3-2023 |  Complete |
