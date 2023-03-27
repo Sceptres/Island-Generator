@@ -15,6 +15,10 @@ import ca.mcmaster.cas.se2aa4.a2.island.geometry.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Circle;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Oval;
 import ca.mcmaster.cas.se2aa4.a2.island.geometry.shapes.Star;
+import ca.mcmaster.cas.se2aa4.a2.island.hook.Hook;
+import ca.mcmaster.cas.se2aa4.a2.island.hook.hooks.ElevationMap;
+import ca.mcmaster.cas.se2aa4.a2.island.hook.hooks.EmptyHook;
+import ca.mcmaster.cas.se2aa4.a2.island.hook.hooks.HeatMap;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.profiles.DrySoilAbsorption;
 import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.profiles.WetSoilAbsorption;
@@ -42,7 +46,8 @@ public class IslandInputHandler {
             Map.entry(RiversOption.OPTION_STR, new RiversOption()),
             Map.entry(SeedOption.OPTION_STR, new SeedOption()),
             Map.entry(SoilAbsorptionProfileOption.OPTION_STR, new SoilAbsorptionProfileOption()),
-            Map.entry(BiomeOption.OPTION_STR, new BiomeOption())
+            Map.entry(BiomeOption.OPTION_STR, new BiomeOption()),
+            Map.entry(HookOption.OPTION_STR, new HookOption())
     );
 
     /**
@@ -348,5 +353,31 @@ public class IslandInputHandler {
         }
 
         return biome;
+    }
+
+    /**
+     *
+     * @param handler The {@link InputHandler} to check heat map option from
+     * @return An {@link HeatMap} hook if the user has enabled it. {@link EmptyHook} otherwise.
+     */
+    public static Hook getHook(InputHandler handler) throws IllegalInputException {
+        String value = handler.getOptionValue(
+                IslandInputHandler.getIslandOption(HookOption.OPTION_STR),
+                HookOption.DEFAULT_VALUE
+        );
+
+        Hook hook = null;
+
+        switch(value) {
+            case "moisture"     -> hook = new HeatMap();
+            case "elevation"    -> hook = new ElevationMap();
+            case "none"         -> hook = new EmptyHook();
+            default -> {
+                String message = String.format("Not a valid hook %s!", value);
+                handler.printHelp(message);
+            }
+        }
+
+        return hook;
     }
 }

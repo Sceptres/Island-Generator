@@ -71,6 +71,14 @@ public final class Tile implements Neighborable<Tile>, Positionable<Double>, IEl
         return this.type;
     }
 
+    /**
+     *
+     * @return The {@link Polygon} of this tile
+     */
+    public Polygon getPolygon() {
+        return this.polygon;
+    }
+
     @Override
     public Double getX() {
         return this.polygon.getCentroid().getX();

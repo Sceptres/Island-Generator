@@ -44,6 +44,14 @@ public final class Path implements IElevation {
 
     /**
      *
+     * @return The {@link Segment} of this path
+     */
+    public Segment getSegment() {
+        return this.segment;
+    }
+
+    /**
+     *
      * @return The width of this path
      */
     public float getWidth() {
