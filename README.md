@@ -4,6 +4,10 @@
   - Abdallah Alqashqish [alqashqa@mcmaster.ca]
   - Beshoy Hezky [hezkyb@mcmaster.ca]
 
+## Demonstration video on how to run
+[Click here](https://youtu.be/me1kyuyN1I4?si=LPFMNuWlZcN8KAbW)
+
+
 ## How to run the program
 ### Installation instructions
 This product is handled by Maven, as a multi-module project.
